@@ -1,5 +1,6 @@
 'use client';
 
+import { ConsoleWarningProvider } from '@/components/console-warn';
 import { NextUIProvider } from '@nextui-org/react';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
@@ -11,11 +12,13 @@ export function Providers({ children }: { children: ReactNode }) {
 
   return (
     <SessionProvider>
-      <NextUIProvider navigate={router.push}>
-        <ThemeProvider attribute='class' defaultTheme='dark'>
-          {children}
-        </ThemeProvider>
-      </NextUIProvider>
+      <ConsoleWarningProvider>
+        <NextUIProvider navigate={router.push}>
+          <ThemeProvider attribute='class' defaultTheme='dark'>
+            {children}
+          </ThemeProvider>
+        </NextUIProvider>
+      </ConsoleWarningProvider>
     </SessionProvider>
   );
 }
