@@ -5,3 +5,9 @@
 body {
   @apply bg-background text-foreground
 }
+
+iconify-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+}
