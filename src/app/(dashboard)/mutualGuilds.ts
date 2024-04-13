@@ -4,10 +4,13 @@ import { getUserGuilds, hasPermission } from '@/lib/discord';
 import prisma from '@/lib/prisma';
 import type { RESTAPIPartialCurrentUserGuild } from 'discord-api-types/v10';
 
-export async function getMutualGuilds(
-  token: string,
-): Promise<RESTAPIPartialCurrentUserGuild[]> {
-  const userGuilds = await getUserGuilds(token);
+export async function getMutualGuilds(): Promise<
+  RESTAPIPartialCurrentUserGuild[]
+> {
+  const session = await auth();
+  if (!session?.accessToken) return [];
+
+  const userGuilds = await getUserGuilds(session.accessToken);
 
   const userManagedGuildIds = userGuilds
     .filter((guild) =>
