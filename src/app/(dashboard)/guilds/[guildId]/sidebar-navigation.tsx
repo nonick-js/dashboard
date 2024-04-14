@@ -28,7 +28,7 @@ export function SidebarNavigation() {
               <Link
                 href={`/guilds/${guildId}${href}`}
                 className={cn(
-                  'flex w-full items-center justify-between rounded-md px-3 py-[9px] text-sm transition ease-in-out hover:bg-zinc-400/20',
+                  'flex w-full items-center justify-between rounded-md px-3 py-[9px] text-sm transition ease-in-out hover:bg-zinc-400/15',
                   { 'bg-zinc-400/20': `/${segment || ''}` === href },
                 )}
               >
