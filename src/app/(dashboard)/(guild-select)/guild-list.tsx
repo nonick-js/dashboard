@@ -83,7 +83,7 @@ export function GridItem({ guild }: { guild: RESTAPIPartialCurrentUserGuild }) {
     <Link
       className='col-span-10 sm:col-span-5 lg:col-span-2'
       key={guild.id}
-      href={`/guild/${guild.id}`}
+      href={`/guilds/${guild.id}`}
       passHref
     >
       <Card className='overflow-hidden h-full' fullWidth isPressable>
