@@ -8,7 +8,7 @@ export async function Sidebar() {
 
   return (
     <ScrollArea className='w-[300px] max-md:hidden'>
-      <div className='flex flex-col gap-6 pr-6'>
+      <div className='flex flex-col gap-4 pr-6'>
         <SidebarGuildSelect mutualGuilds={mutualGuilds} />
         <SidebarNavigation />
       </div>
