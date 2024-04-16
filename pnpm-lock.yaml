@@ -35,6 +35,9 @@ dependencies:
   next-auth:
     specifier: 5.0.0-beta.16
     version: 5.0.0-beta.16(next@14.2.1)(react@18.2.0)
+  next-nprogress-bar:
+    specifier: ^2.3.11
+    version: 2.3.11
   next-themes:
     specifier: ^0.3.0
     version: 0.3.0(react-dom@18.2.0)(react@18.2.0)
@@ -3792,6 +3795,12 @@ packages:
       '@auth/core': 0.28.1
       next: 14.2.1(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
+    dev: false
+
+  /next-nprogress-bar@2.3.11:
+    resolution: {integrity: sha512-OjSvsQwgSWa2qBMYO478QreGG9Jt82tr4wTQptmiyzNqqjzHCyKZNkhANnzPrjuFAoelIvmruJuakODofSnvTQ==}
+    dependencies:
+      nprogress: 0.2.0
     dev: false
 
   /next-themes@0.3.0(react-dom@18.2.0)(react@18.2.0):
