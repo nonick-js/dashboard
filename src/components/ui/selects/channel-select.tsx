@@ -92,6 +92,7 @@ function SingleSelectItem({ channel }: { channel?: GuildChannel | null }) {
       <Icon
         // biome-ignore lint/style/noNonNullAssertion: <explanation>
         icon={channelTypeIcons.get(channel?.type!) || 'solar:hashtag-chat-bold'}
+        className='text-[18px]'
       />
       <span className='text-foreground'>{channel?.name}</span>
     </div>
