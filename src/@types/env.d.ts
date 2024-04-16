@@ -1,11 +1,15 @@
 declare namespace NodeJS {
   interface ProcessEnv extends Env {
-    NEXT_PUBLIC_DISCORD_ID: string;
-    NEXT_PUBLIC_DISCORD_PERMISSION: string;
-    NEXT_PUBLIC_BASEURL: string;
+    readonly NEXT_PUBLIC_DISCORD_ID: string;
+    readonly NEXT_PUBLIC_DISCORD_PERMISSION: string;
+    readonly NEXT_PUBLIC_BASEURL: string;
 
-    // prisma
+    // discord
+    readonly DISCORD_TOKEN: string;
+
+    // mongoose
     readonly DATABASE_URL: string;
+    readonly DATABASE_NAME: string;
 
     // next-auth
     readonly AUTH_SECRET: string;
