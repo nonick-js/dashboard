@@ -7,7 +7,7 @@ export async function Sidebar() {
   const mutualGuilds = await getMutualGuilds();
 
   return (
-    <ScrollShadow className='w-[280px] max-md:hidden' hideScrollBar>
+    <ScrollShadow className='w-[280px] max-lg:hidden' hideScrollBar>
       <div className='flex flex-col gap-4'>
         <SidebarGuildSelect mutualGuilds={mutualGuilds} />
         <SidebarNavigation />
