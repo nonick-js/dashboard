@@ -8,14 +8,14 @@ import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import LoadingPage from '../../loading';
 
+export const metadata: Metadata = {
+  title: 'サーバー内通報',
+};
+
 const Form = dynamic(() => import('./form'), {
   ssr: false,
   loading: () => <LoadingPage />,
 });
-
-export const metadata: Metadata = {
-  title: 'サーバー内通報',
-};
 
 export default async function Page({ params: { guildId } }: { params: { guildId: string } }) {
   await dbConnect();

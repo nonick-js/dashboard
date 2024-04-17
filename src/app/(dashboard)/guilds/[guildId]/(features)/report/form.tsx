@@ -44,7 +44,7 @@ export default function ReportConfigForm(props: Props) {
   const form = useForm<z.infer<typeof ReportConfig>>({
     resolver: zodResolver(ReportConfig),
     defaultValues: props.config ?? {
-      guildId: guildId,
+      guildId,
       channel: '',
       includeModerator: false,
       progressButton: true,
@@ -69,7 +69,7 @@ export default function ReportConfigForm(props: Props) {
         <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-6'>
           <RequireConfig />
           <GeneralConfig />
-          <NotificationSetting />
+          <NotificationConfig />
           <FormValueViewer />
           <SubmitButton />
         </form>
@@ -148,7 +148,7 @@ function GeneralConfig() {
   );
 }
 
-function NotificationSetting() {
+function NotificationConfig() {
   const { roles } = useContext(FormContext);
   const form = useFormContext<z.infer<typeof ReportConfig>>();
   const { mention } = useWatch<z.infer<typeof ReportConfig>>();
