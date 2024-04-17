@@ -51,3 +51,11 @@ export async function getRoles(guildId: string) {
 export function hasPermission(target: string, permission: number) {
   return (Number.parseInt(target) & permission) === permission;
 }
+
+export async function isGuildAdmin(guildId: string, token: string) {
+  const guilds = await getUserGuilds(token);
+  const targetGuild = guilds.find((guild) => guild.id === guildId);
+  return targetGuild
+    ? hasPermission(targetGuild?.permissions, Discord.Permissions.ManageGuild)
+    : false;
+}

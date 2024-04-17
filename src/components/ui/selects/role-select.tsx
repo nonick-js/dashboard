@@ -2,22 +2,14 @@
 
 import { FormSelectClassNames } from '@/components/form';
 import { Chip } from '@nextui-org/chip';
-import {
-  Select,
-  SelectItem,
-  type SelectProps,
-  type SelectedItems,
-} from '@nextui-org/select';
+import { Select, SelectItem, type SelectProps, type SelectedItems } from '@nextui-org/select';
 import type { APIRole } from 'discord-api-types/v10';
 
 export type Props = {
   roles: APIRole[];
   filter?: (role: APIRole) => boolean;
   selectionMode?: keyof typeof FormSelectClassNames;
-} & Omit<
-  SelectProps,
-  'children' | 'renderValue' | 'items' | 'placeholder' | 'selectionMode'
->;
+} & Omit<SelectProps, 'children' | 'renderValue' | 'items' | 'placeholder' | 'selectionMode'>;
 
 export function RoleSelect({
   classNames,
@@ -74,9 +66,7 @@ function SingleSelectItem({ role }: { role?: APIRole | null }) {
         <div
           className='h-2 w-2 rounded-full'
           style={{
-            backgroundColor: role?.color
-              ? `#${role.color.toString(16)}`
-              : 'GrayText',
+            backgroundColor: role?.color ? `#${role.color.toString(16)}` : 'GrayText',
           }}
         />
       </div>

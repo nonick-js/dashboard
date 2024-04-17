@@ -16,3 +16,7 @@ export function intersect<T, S>(
 export function zeroPadding(num: number, length: number): string {
   return `${num}`.padStart(length, '0');
 }
+
+export function convertPlainObject<T>(obj: T): T {
+  return obj ? JSON.parse(JSON.stringify(obj)) : null;
+}

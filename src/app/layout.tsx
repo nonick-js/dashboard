@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/toaster';
 import metadataConfig from '@/config/metadata';
 import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
@@ -40,7 +41,10 @@ export default function RootLayout({
   return (
     <html lang='ja'>
       <body className={notoSansJP.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <main>{children}</main>
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );

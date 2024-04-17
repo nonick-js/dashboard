@@ -3,6 +3,7 @@ declare namespace NodeJS {
     readonly NEXT_PUBLIC_DISCORD_ID: string;
     readonly NEXT_PUBLIC_DISCORD_PERMISSION: string;
     readonly NEXT_PUBLIC_BASEURL: string;
+    readonly NEXT_PUBLIC_DEV_MODE?: 0 | 1;
 
     // discord
     readonly DISCORD_TOKEN: string;

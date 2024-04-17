@@ -4,12 +4,7 @@ import type { GuildChannel } from '@/@types/discord';
 import { FormSelectClassNames } from '@/components/form';
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
 import { Chip } from '@nextui-org/chip';
-import {
-  Select,
-  SelectItem,
-  type SelectProps,
-  type SelectedItems,
-} from '@nextui-org/select';
+import { Select, SelectItem, type SelectProps, type SelectedItems } from '@nextui-org/select';
 import { ChannelType } from 'discord-api-types/v10';
 
 const channelTypeIcons = new Map<ChannelType, string>([
@@ -29,10 +24,7 @@ type Props = {
   channels: GuildChannel[];
   types?: ChannelType[];
   selectionMode?: keyof typeof FormSelectClassNames;
-} & Omit<
-  SelectProps,
-  'children' | 'renderValue' | 'items' | 'placeholder' | 'selectionMode'
->;
+} & Omit<SelectProps, 'children' | 'renderValue' | 'items' | 'placeholder' | 'selectionMode'>;
 
 export function ChannelSelect({
   classNames,
@@ -74,11 +66,7 @@ export function ChannelSelect({
       {...props}
     >
       {(channel) => (
-        <SelectItem
-          key={channel.id}
-          value={channel.id}
-          textValue={channel.name}
-        >
+        <SelectItem key={channel.id} value={channel.id} textValue={channel.name}>
           <SingleSelectItem channel={channel} />
         </SelectItem>
       )}
