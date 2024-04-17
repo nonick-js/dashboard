@@ -26,7 +26,8 @@
     "formatter": {
       "semicolons": "always",
       "quoteStyle": "single",
-      "jsxQuoteStyle": "single"
+      "jsxQuoteStyle": "single",
+      "lineWidth": 100
     }
   }
 }
