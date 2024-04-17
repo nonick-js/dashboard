@@ -1,9 +1,9 @@
-import { Spinner } from '@nextui-org/spinner';
+import { CircularProgress } from '@nextui-org/progress';
 
 export default function LoadingPage() {
   return (
     <div className='flex w-full justify-center items-center'>
-      <Spinner color='primary' size='md' />
+      <CircularProgress color='primary' size='md' />
     </div>
   );
 }
