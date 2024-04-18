@@ -52,14 +52,24 @@ export function FormLabelLayout({
 }
 
 export function FormLabel({
+  id,
   title,
   description,
   isDisabled,
   isRequired,
-}: { title: string; description?: string; isDisabled?: boolean; isRequired?: boolean }) {
+}: {
+  id?: string;
+  title: string;
+  description?: string;
+  isDisabled?: boolean;
+  isRequired?: boolean;
+}) {
   return (
     <div className={cn('flex flex-col max-sm:gap-1 text-sm', { 'opacity-disabled': isDisabled })}>
-      <p className={cn({ "after:content-['*'] after:text-danger after:ml-0.5": isRequired })}>
+      <p
+        id={id}
+        className={cn({ "after:content-['*'] after:text-danger after:ml-0.5": isRequired })}
+      >
         {title}
       </p>
       {description && <p className='max-sm:text-xs text-default-500'>{description}</p>}
@@ -99,15 +109,3 @@ export function FormValueViewer() {
   const form = useFormContext();
   return <pre>{JSON.stringify(form.watch(), null, 2)}</pre>;
 }
-
-export const FormSwitchClassNames = {
-  base: 'max-w-none flex-row-reverse justify-between gap-3',
-  label: 'text-sm',
-};
-
-export const FormSelectClassNames = {
-  multiple: { trigger: 'min-h-unit-12 py-2' },
-  single: {
-    base: 'md:items-center md:justify-between md:max-w-xs',
-  },
-};

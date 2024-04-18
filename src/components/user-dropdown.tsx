@@ -35,31 +35,20 @@ export function UserDropdown() {
     return (
       <Dropdown isOpen={open} onOpenChange={setOpen}>
         <DropdownTrigger>
-          <Avatar
-            className='cursor-pointer'
-            size='sm'
-            src={nullToUndefined(session?.user?.image)}
-            showFallback
-          />
+          <Avatar as='button' size='sm' src={nullToUndefined(session?.user?.image)} showFallback />
         </DropdownTrigger>
         <DropdownMenu variant='flat' aria-label='ユーザーメニュー'>
           <DropdownSection showDivider>
             <DropdownItem key='profile' className='h-14 gap-2'>
-              <p className='font-semibold text-foreground'>
-                @{session?.user?.name}
-              </p>
-              <p className='font-semibold text-default-500'>
-                Discordアカウント
-              </p>
+              <p className='font-semibold text-foreground'>@{session?.user?.name}</p>
+              <p className='font-semibold text-default-500'>Discordアカウント</p>
             </DropdownItem>
           </DropdownSection>
           <DropdownItem
             key='dashboard'
             href='/'
             className='text-foreground'
-            startContent={
-              <Icon icon='solar:server-2-bold' className='text-[20px]' />
-            }
+            startContent={<Icon icon='solar:server-2-bold' className='text-[20px]' />}
           >
             サーバー選択
           </DropdownItem>
@@ -67,9 +56,7 @@ export function UserDropdown() {
             key='logout'
             className='text-danger'
             color='danger'
-            startContent={
-              <Icon icon='solar:logout-2-bold' className='text-[20px]' />
-            }
+            startContent={<Icon icon='solar:logout-2-bold' className='text-[20px]' />}
             onClick={() => signOut({ callbackUrl: '/' })}
           >
             ログアウト
@@ -81,20 +68,12 @@ export function UserDropdown() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger>
-        <Avatar
-          size='sm'
-          src={nullToUndefined(session?.user?.image)}
-          showFallback
-        />
+        <Avatar size='sm' src={nullToUndefined(session?.user?.image)} showFallback />
       </DrawerTrigger>
       <DrawerContent>
         <div className='flex flex-col gap-4 px-3 py-6 mx-auto w-full max-w-sm'>
           <div className='px-4 py-3 flex items-center gap-3 bg-content2 rounded-xl shadow-md'>
-            <Avatar
-              size='md'
-              src={nullToUndefined(session?.user?.image)}
-              showFallback
-            />
+            <Avatar size='md' src={nullToUndefined(session?.user?.image)} showFallback />
             <div>
               <p className='text-sm font-bold'>@{session?.user?.name}</p>
               <p className='text-sm text-default-500'>Discordアカウント</p>
@@ -104,9 +83,7 @@ export function UserDropdown() {
             <Link href='/dashboard' passHref>
               <Button
                 className='w-full justify-start'
-                startContent={
-                  <Icon icon='solar:server-2-bold' className='text-[20px]' />
-                }
+                startContent={<Icon icon='solar:server-2-bold' className='text-[20px]' />}
                 variant='light'
               >
                 サーバー選択
@@ -115,9 +92,7 @@ export function UserDropdown() {
             <Button
               className='w-full justify-start'
               onClick={() => signOut({ callbackUrl: '/' })}
-              startContent={
-                <Icon icon='solar:logout-2-bold' className='text-[20px]' />
-              }
+              startContent={<Icon icon='solar:logout-2-bold' className='text-[20px]' />}
               color='danger'
               variant='light'
             >

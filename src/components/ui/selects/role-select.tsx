@@ -1,63 +1,67 @@
 'use client';
 
-import { FormSelectClassNames } from '@/components/form';
 import { Chip } from '@nextui-org/chip';
 import { Select, SelectItem, type SelectProps, type SelectedItems } from '@nextui-org/select';
 import type { APIRole } from 'discord-api-types/v10';
+import React from 'react';
 
 export type Props = {
   roles: APIRole[];
   filter?: (role: APIRole) => boolean;
-  selectionMode?: keyof typeof FormSelectClassNames;
+  selectionMode?: keyof typeof ClassNames;
 } & Omit<SelectProps, 'children' | 'renderValue' | 'items' | 'placeholder' | 'selectionMode'>;
 
-export function RoleSelect({
-  classNames,
-  roles,
-  filter,
-  isRequired,
-  selectionMode = 'single',
-  ...props
-}: Props) {
-  const sortedRoles = roles
-    .filter((role) => (filter ? filter(role) : true))
-    .sort((a, b) => (a.position < b.position ? 1 : -1));
+const ClassNames = {
+  multiple: { trigger: 'min-h-unit-12 py-2' },
+  single: {
+    base: 'md:items-center md:justify-between md:max-w-xs',
+  },
+};
 
-  function renderValue(items: SelectedItems<APIRole>) {
+export const RoleSelect = React.forwardRef<HTMLSelectElement, Props>(
+  (
+    { classNames, variant = 'bordered', roles, filter, selectionMode = 'single', ...props },
+    ref,
+  ) => {
+    const sortedRoles = roles
+      .filter((role) => (filter ? filter(role) : true))
+      .sort((a, b) => (a.position < b.position ? 1 : -1));
+
+    const renderValue = (items: SelectedItems<APIRole>) => {
+      return (
+        <div className='flex flex-wrap gap-1'>
+          {items.map((item) =>
+            selectionMode === 'multiple' ? (
+              <MultipleSelectItem role={item.data} key={item.key} />
+            ) : (
+              <SingleSelectItem role={item.data} key={item.key} />
+            ),
+          )}
+        </div>
+      );
+    };
+
     return (
-      <div className='flex flex-wrap gap-1'>
-        {items.map((item) =>
-          selectionMode === 'multiple' ? (
-            <MultipleSelectItem role={item.data} key={item.key} />
-          ) : (
-            <SingleSelectItem role={item.data} key={item.key} />
-          ),
+      <Select
+        ref={ref}
+        classNames={classNames ?? ClassNames[selectionMode]}
+        items={sortedRoles}
+        variant={variant}
+        placeholder='ロールを選択'
+        renderValue={renderValue}
+        selectionMode={selectionMode}
+        isMultiline={selectionMode === 'multiple'}
+        {...props}
+      >
+        {(role) => (
+          <SelectItem key={role.id} value={role.id} textValue={role.name}>
+            <SingleSelectItem role={role} />
+          </SelectItem>
         )}
-      </div>
+      </Select>
     );
-  }
-
-  return (
-    <Select
-      classNames={classNames ?? FormSelectClassNames[selectionMode]}
-      items={sortedRoles}
-      variant='bordered'
-      placeholder='ロールを選択'
-      renderValue={renderValue}
-      selectionMode={selectionMode}
-      isMultiline={selectionMode === 'multiple'}
-      isRequired={isRequired}
-      disallowEmptySelection={isRequired}
-      {...props}
-    >
-      {(role) => (
-        <SelectItem key={role.id} value={role.id} textValue={role.name}>
-          <SingleSelectItem role={role} />
-        </SelectItem>
-      )}
-    </Select>
-  );
-}
+  },
+);
 
 function SingleSelectItem({ role }: { role?: APIRole | null }) {
   return (

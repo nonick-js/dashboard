@@ -1,11 +1,11 @@
 'use client';
 
 import type { GuildChannel } from '@/@types/discord';
-import { FormSelectClassNames } from '@/components/form';
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
 import { Chip } from '@nextui-org/chip';
 import { Select, SelectItem, type SelectProps, type SelectedItems } from '@nextui-org/select';
 import { ChannelType } from 'discord-api-types/v10';
+import React from 'react';
 
 const channelTypeIcons = new Map<ChannelType, string>([
   [ChannelType.GuildAnnouncement, 'solar:mailbox-bold'],
@@ -22,57 +22,62 @@ const channelTypeIcons = new Map<ChannelType, string>([
 
 type Props = {
   channels: GuildChannel[];
-  types?: ChannelType[];
-  selectionMode?: keyof typeof FormSelectClassNames;
+  types?: { allow?: ChannelType[]; ignore?: ChannelType[] };
+  selectionMode?: keyof typeof ClassNames;
 } & Omit<SelectProps, 'children' | 'renderValue' | 'items' | 'placeholder' | 'selectionMode'>;
 
-export function ChannelSelect({
-  classNames,
-  channels,
-  types,
-  isRequired,
-  selectionMode = 'single',
-  ...props
-}: Props) {
-  const sortedChannels = channels
-    .filter((channel) => (types ? types.includes(channel.type) : true))
-    .sort((a, b) => a.position - b.position);
+const ClassNames = {
+  multiple: { trigger: 'min-h-unit-12 py-2' },
+  single: {
+    base: 'md:items-center md:justify-between md:max-w-xs',
+  },
+};
 
-  function renderValue(items: SelectedItems<GuildChannel>) {
+export const ChannelSelect = React.forwardRef<HTMLSelectElement, Props>(
+  (
+    { classNames, variant = 'bordered', channels, types, selectionMode = 'single', ...props },
+    ref,
+  ) => {
+    const sortedChannels = channels
+      .filter((channel) => (types?.allow ? types?.allow.includes(channel.type) : true))
+      .filter((channel) => (types?.ignore ? !types?.ignore.includes(channel.type) : true))
+      .sort((a, b) => a.position - b.position);
+
+    const renderValue = (items: SelectedItems<GuildChannel>) => {
+      return (
+        <div className='flex flex-wrap items-center gap-1'>
+          {items.map((item) =>
+            selectionMode === 'multiple' ? (
+              <MultipleSelectItem channel={item.data} key={item.key} />
+            ) : (
+              <SingleSelectItem channel={item.data} key={item.key} />
+            ),
+          )}
+        </div>
+      );
+    };
+
     return (
-      <div className='flex flex-wrap items-center gap-1'>
-        {items.map((item) =>
-          selectionMode === 'multiple' ? (
-            <MultipleSelectItem channel={item.data} key={item.key} />
-          ) : (
-            <SingleSelectItem channel={item.data} key={item.key} />
-          ),
+      <Select
+        ref={ref}
+        classNames={classNames ?? ClassNames[selectionMode]}
+        items={sortedChannels}
+        variant={variant}
+        placeholder='チャンネルを選択'
+        renderValue={renderValue}
+        selectionMode={selectionMode}
+        isMultiline={selectionMode === 'multiple'}
+        {...props}
+      >
+        {(channel) => (
+          <SelectItem key={channel.id} value={channel.id} textValue={channel.name}>
+            <SingleSelectItem channel={channel} />
+          </SelectItem>
         )}
-      </div>
+      </Select>
     );
-  }
-
-  return (
-    <Select
-      classNames={classNames ?? FormSelectClassNames[selectionMode]}
-      items={sortedChannels}
-      variant='bordered'
-      placeholder='チャンネルを選択'
-      renderValue={renderValue}
-      selectionMode={selectionMode}
-      isMultiline={selectionMode === 'multiple'}
-      isRequired={isRequired}
-      disallowEmptySelection={isRequired}
-      {...props}
-    >
-      {(channel) => (
-        <SelectItem key={channel.id} value={channel.id} textValue={channel.name}>
-          <SingleSelectItem channel={channel} />
-        </SelectItem>
-      )}
-    </Select>
-  );
-}
+  },
+);
 
 function SingleSelectItem({ channel }: { channel?: GuildChannel | null }) {
   return (

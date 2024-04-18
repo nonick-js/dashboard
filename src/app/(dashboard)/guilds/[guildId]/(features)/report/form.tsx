@@ -83,20 +83,20 @@ function RequireConfig() {
   return (
     <FormCard>
       <FormLabelLayout mobileDir='col'>
-        <FormLabel title='通報を受け取るチャンネル' isRequired />
+        <FormLabel id='channel' title='通報を受け取るチャンネル' isRequired />
         <Controller
           control={form.control}
           name='channel'
-          render={({ field, fieldState: { error } }) => (
+          render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
             <ChannelSelect
-              ref={field.ref}
+              aria-labelledby='channel'
+              ref={ref}
+              onChange={onChange}
+              defaultSelectedKeys={value ? [value] : []}
               channels={channels}
-              types={[ChannelType.GuildText]}
-              onChange={field.onChange}
-              defaultSelectedKeys={field.value ? [field.value] : []}
+              types={{ allow: [ChannelType.GuildText] }}
               isInvalid={!!error}
               errorMessage={error?.message}
-              isRequired
             />
           )}
         />
@@ -112,27 +112,39 @@ function GeneralConfig() {
     <FormCard title='基本設定'>
       <FormLabelLayout>
         <FormLabel
+          id='includeModerator'
           title='モデレーターも通報の対象にする'
-          description='有効にすると、「サーバー管理」権限を持つユーザーをメンバーが通報できるようになります。'
+          description='有効にすると、「メンバー管理」権限を持つユーザーをメンバーが通報できるようになります。'
         />
         <Controller
           control={form.control}
           name='includeModerator'
-          render={({ field }) => (
-            <Switch ref={field.ref} onChange={field.onChange} defaultSelected={field.value} />
+          render={({ field: { ref, onChange, value } }) => (
+            <Switch
+              aria-labelledby='includeModerator'
+              ref={ref}
+              onChange={onChange}
+              defaultSelected={value}
+            />
           )}
         />
       </FormLabelLayout>
       <FormLabelLayout>
         <FormLabel
+          id='progressButton'
           title='進捗ボタンを表示する'
           description='送られた通報に「対処済み」「無視」などの、通報のステータスを管理できるボタンを表示します。'
         />
         <Controller
           control={form.control}
           name='progressButton'
-          render={({ field }) => (
-            <Switch ref={field.ref} onChange={field.onChange} defaultSelected={field.value} />
+          render={({ field: { ref, onChange, value } }) => (
+            <Switch
+              aria-labelledby='progressButton'
+              ref={ref}
+              onChange={onChange}
+              defaultSelected={value}
+            />
           )}
         />
       </FormLabelLayout>
@@ -149,33 +161,45 @@ function NotificationConfig() {
     <FormCard title='通知設定'>
       <FormLabelLayout>
         <FormLabel
+          id='mention.enabled'
           title='メンション通知を有効にする'
           description='通報が送られた際に特定のロールをメンションします'
         />
         <Controller
           control={form.control}
           name='mention.enabled'
-          render={({ field }) => (
-            <Switch ref={field.ref} onChange={field.onChange} defaultSelected={field.value} />
+          render={({ field: { ref, onChange, value } }) => (
+            <Switch
+              aria-labelledby='mention.enabled'
+              ref={ref}
+              onChange={onChange}
+              defaultSelected={value}
+            />
           )}
         />
       </FormLabelLayout>
       <FormLabelLayout dir='col'>
-        <FormLabel title='メンションするロール' isRequired isDisabled={!mention?.enabled} />
+        <FormLabel
+          id='mention.roles'
+          title='メンションするロール'
+          isRequired
+          isDisabled={!mention?.enabled}
+        />
         <Controller
           control={form.control}
           name='mention.roles'
-          render={({ field, fieldState: { error } }) => (
+          render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
             <RoleSelect
+              aria-labelledby='mention.roles'
+              ref={ref}
+              onSelectionChange={(keys) => onChange(Array.from(keys))}
+              defaultSelectedKeys={value.filter((id) => roles.some((role) => role.id === id))}
               selectionMode='multiple'
               roles={roles}
               filter={(role) => !role.managed && role.id !== guildId}
-              onSelectionChange={(keys) => field.onChange(Array.from(keys))}
-              defaultSelectedKeys={field.value.filter((id) => roles.some((role) => role.id === id))}
               isInvalid={!!error}
               errorMessage={error?.message}
               isDisabled={!mention?.enabled}
-              isRequired
             />
           )}
         />
