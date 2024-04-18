@@ -178,15 +178,16 @@ function NotificationConfig() {
         render={({ field, fieldState: { error } }) => (
           <RoleSelect
             label='メンションするロール'
-            labelPlacement='inside'
+            labelPlacement='outside'
             roles={roles}
             filter={(role) => !role.managed}
             onSelectionChange={(keys) => field.onChange(Array.from(keys))}
             selectionMode='multiple'
-            defaultSelectedKeys={field.value}
+            defaultSelectedKeys={field.value.filter((id) => roles.some((role) => role.id === id))}
             isInvalid={!!error}
             errorMessage={error?.message}
             isDisabled={!mention?.enabled}
+            isRequired
           />
         )}
       />
