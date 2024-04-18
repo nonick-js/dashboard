@@ -23,6 +23,50 @@ export function FormCard({ title, children }: { title?: string; children: ReactN
   );
 }
 
+type FlexDirection = 'row' | 'col';
+
+export function FormLabelLayout({
+  dir = 'row',
+  mobileDir,
+  children,
+}: { dir?: FlexDirection; mobileDir?: FlexDirection; children: ReactNode }) {
+  return (
+    <div
+      className={cn(
+        'flex',
+        { 'flex-row gap-3 items-center justify-between': dir === 'row' },
+        { 'flex-col gap-2 items-stretch justify-normal': dir === 'col' },
+        {
+          'max-md:flex-row max-md:gap-3 max-md:items-center max-md:justify-between':
+            mobileDir === 'row',
+        },
+        {
+          'max-md:flex-col max-md:gap-2 max-md:items-stretch max-md:justify-normal':
+            mobileDir === 'col',
+        },
+      )}
+    >
+      {children}
+    </div>
+  );
+}
+
+export function FormLabel({
+  title,
+  description,
+  isDisabled,
+  isRequired,
+}: { title: string; description?: string; isDisabled?: boolean; isRequired?: boolean }) {
+  return (
+    <div className={cn('flex flex-col max-sm:gap-1 text-sm', { 'opacity-disabled': isDisabled })}>
+      <p className={cn({ "after:content-['*'] after:text-danger after:ml-0.5": isRequired })}>
+        {title}
+      </p>
+      {description && <p className='max-sm:text-xs text-default-500'>{description}</p>}
+    </div>
+  );
+}
+
 export function SwitchLabel({ title, description }: { title: string; description?: string }) {
   return (
     <div className={cn({ 'flex flex-col max-sm:gap-1': description })}>
@@ -64,7 +108,6 @@ export const FormSwitchClassNames = {
 export const FormSelectClassNames = {
   multiple: { trigger: 'min-h-unit-12 py-2' },
   single: {
-    base: 'md:items-center md:justify-between',
-    mainWrapper: 'md:max-w-xs',
+    base: 'md:items-center md:justify-between md:max-w-xs',
   },
 };
