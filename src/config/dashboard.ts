@@ -42,7 +42,7 @@ const dashboardConfig: DashboardConfig = {
         {
           label: 'メッセージURL展開',
           icon: 'solar:link-round-bold',
-          href: '/message-expansion',
+          href: '/message-expand',
         },
         {
           label: '自動認証レベル変更',
