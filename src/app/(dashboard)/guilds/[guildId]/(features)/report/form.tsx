@@ -97,6 +97,7 @@ function RequireConfig() {
               types={{ allow: [ChannelType.GuildText] }}
               isInvalid={!!error}
               errorMessage={error?.message}
+              isRequired
             />
           )}
         />
@@ -178,7 +179,7 @@ function NotificationConfig() {
           )}
         />
       </FormLabelLayout>
-      <FormLabelLayout dir='col'>
+      <FormLabelLayout mobileDir='col'>
         <FormLabel
           id='mention.roles'
           title='メンションするロール'

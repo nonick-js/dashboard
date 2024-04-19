@@ -12,7 +12,10 @@ export type Props = {
 } & Omit<SelectProps, 'children' | 'renderValue' | 'items' | 'placeholder' | 'selectionMode'>;
 
 const ClassNames = {
-  multiple: { trigger: 'min-h-unit-12 py-2' },
+  multiple: {
+    base: 'md:items-center md:justify-between md:max-w-sm',
+    trigger: 'py-2',
+  },
   single: {
     base: 'md:items-center md:justify-between md:max-w-xs',
   },
