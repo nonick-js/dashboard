@@ -28,7 +28,6 @@ type Props = {
 
 const ClassNames = {
   multiple: {
-    base: 'md:items-center md:justify-between md:max-w-sm',
     trigger: 'py-2',
   },
   single: {
@@ -66,7 +65,7 @@ export const ChannelSelect = React.forwardRef<HTMLSelectElement, Props>(
         classNames={classNames ?? ClassNames[selectionMode]}
         items={sortedChannels}
         variant={variant}
-        placeholder='チャンネルを選択'
+        placeholder={`チャンネルを選択${selectionMode === 'multiple' ? '（複数選択可）' : ''}`}
         renderValue={renderValue}
         selectionMode={selectionMode}
         isMultiline={selectionMode === 'multiple'}

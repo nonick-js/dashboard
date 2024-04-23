@@ -179,7 +179,7 @@ function NotificationConfig() {
           )}
         />
       </FormLabelLayout>
-      <FormLabelLayout mobileDir='col'>
+      <FormLabelLayout dir='col'>
         <FormLabel
           id='mention.roles'
           title='メンションするロール'

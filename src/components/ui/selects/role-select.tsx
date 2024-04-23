@@ -13,7 +13,6 @@ export type Props = {
 
 const ClassNames = {
   multiple: {
-    base: 'md:items-center md:justify-between md:max-w-sm',
     trigger: 'py-2',
   },
   single: {
@@ -50,7 +49,7 @@ export const RoleSelect = React.forwardRef<HTMLSelectElement, Props>(
         classNames={classNames ?? ClassNames[selectionMode]}
         items={sortedRoles}
         variant={variant}
-        placeholder='ロールを選択'
+        placeholder={`ロールを選択${selectionMode === 'multiple' ? '（複数選択可）' : ''}`}
         renderValue={renderValue}
         selectionMode={selectionMode}
         isMultiline={selectionMode === 'multiple'}

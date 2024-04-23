@@ -178,7 +178,7 @@ function IgnoreConfig() {
           )}
         />
       </FormLabelLayout>
-      <FormLabelLayout mobileDir='col'>
+      <FormLabelLayout dir='col'>
         <FormLabel
           id='ignore.channels'
           title='チャンネル'
