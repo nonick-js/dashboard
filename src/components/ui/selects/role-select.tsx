@@ -14,9 +14,10 @@ export type Props = {
 const ClassNames = {
   multiple: {
     trigger: 'py-2',
+    base: 'md:max-w-sm',
   },
   single: {
-    base: 'md:items-center md:justify-between md:max-w-xs',
+    base: 'md:max-w-xs',
   },
 };
 
