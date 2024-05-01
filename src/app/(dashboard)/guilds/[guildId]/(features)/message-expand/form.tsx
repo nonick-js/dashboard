@@ -76,10 +76,10 @@ function EnableConfig() {
       <FormField
         control={form.control}
         name='enabled'
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { ref, onChange, value } }) => (
           <FormItem>
             <FormLabel title='メッセージURL展開を有効にする' />
-            <FormControl>
+            <FormControl ref={ref}>
               <Switch onChange={onChange} defaultSelected={value} />
             </FormControl>
           </FormItem>
@@ -98,14 +98,14 @@ function GeneralConfig() {
       <FormField
         control={form.control}
         name='allowExternalGuild'
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { ref, onChange, value } }) => (
           <FormItem>
             <FormLabel
               title='外部サーバーでの展開を許可する'
               description='このサーバーのメッセージURLを他のDiscordサーバーでも展開できるようにします。'
               isDisabled={!enabled}
             />
-            <FormControl>
+            <FormControl ref={ref}>
               <Switch onChange={onChange} defaultSelected={value} isDisabled={!enabled} />
             </FormControl>
           </FormItem>
@@ -125,14 +125,14 @@ function IgnoreConfig() {
       <FormField
         control={form.control}
         name='ignore.types'
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
           <FormItem mobileDir='col'>
             <FormLabel
               title='チャンネルの種類'
               description='特定の種類のチャンネルでURL展開を無効にします。'
               isDisabled={!enabled}
             />
-            <FormControl>
+            <FormControl ref={ref}>
               <CheckboxGroup
                 size='lg'
                 onValueChange={(v) => onChange(v.map((type) => Number(type)))}
@@ -156,14 +156,14 @@ function IgnoreConfig() {
       <FormField
         control={form.control}
         name='ignore.channels'
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
           <FormItem dir='row' mobileDir='col'>
             <FormLabel
               title='チャンネル'
               description='特定のチャンネルでURL展開を無効にします。'
               isDisabled={!enabled}
             />
-            <FormControl>
+            <FormControl ref={ref}>
               <ChannelSelect
                 onSelectionChange={(keys) => onChange(Array.from(keys))}
                 defaultSelectedKeys={value.filter((id) =>
@@ -182,7 +182,7 @@ function IgnoreConfig() {
       <FormField
         control={form.control}
         name='ignore.prefixes'
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
           <FormItem dir='row' mobileDir='col'>
             <FormLabel
               title='プレフィックス'
@@ -190,7 +190,7 @@ function IgnoreConfig() {
               isDisabled={!enabled}
             />
             <div className='grid gap-1 items-end'>
-              <FormControl>
+              <FormControl ref={ref}>
                 <Textarea
                   onChange={(e) =>
                     onChange(

@@ -80,10 +80,10 @@ function RequireConfig() {
       <FormField
         control={form.control}
         name='channel'
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
           <FormItem mobileDir='col'>
             <FormLabel title='通報を受け取るチャンネル' isRequired />
-            <FormControl>
+            <FormControl ref={ref}>
               <ChannelSelect
                 onChange={onChange}
                 defaultSelectedKeys={value ? [value] : []}
@@ -91,6 +91,7 @@ function RequireConfig() {
                 types={{ allow: [ChannelType.GuildText] }}
                 isInvalid={!!error}
                 isRequired
+                disallowEmptySelection
               />
             </FormControl>
           </FormItem>
@@ -108,13 +109,13 @@ function GeneralConfig() {
       <FormField
         control={form.control}
         name='includeModerator'
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { ref, onChange, value } }) => (
           <FormItem>
             <FormLabel
               title='モデレーターも通報の対象にする'
               description='有効にすると、「メンバー管理」権限を持つユーザーをメンバーが通報できるようになります。'
             />
-            <FormControl>
+            <FormControl ref={ref}>
               <Switch onChange={onChange} defaultSelected={value} />
             </FormControl>
           </FormItem>
@@ -123,13 +124,13 @@ function GeneralConfig() {
       <FormField
         control={form.control}
         name='progressButton'
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { ref, onChange, value } }) => (
           <FormItem>
             <FormLabel
               title='進捗ボタンを表示する'
               description='送られた通報に「対処済み」「無視」などの、通報のステータスを管理できるボタンを表示します。'
             />
-            <FormControl>
+            <FormControl ref={ref}>
               <Switch onChange={onChange} defaultSelected={value} />
             </FormControl>
           </FormItem>
@@ -149,13 +150,13 @@ function NotificationConfig() {
       <FormField
         control={form.control}
         name='mention.enabled'
-        render={({ field: { onChange, value } }) => (
+        render={({ field: { ref, onChange, value } }) => (
           <FormItem>
             <FormLabel
               title='メンション通知を有効にする'
               description='通報が送られた際に特定のロールをメンションします。'
             />
-            <FormControl>
+            <FormControl ref={ref}>
               <Switch onChange={onChange} defaultSelected={value} />
             </FormControl>
           </FormItem>
@@ -164,10 +165,10 @@ function NotificationConfig() {
       <FormField
         control={form.control}
         name='mention.roles'
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
           <FormItem dir='row' mobileDir='col'>
             <FormLabel title='メンションするロール' isRequired isDisabled={!mention?.enabled} />
-            <FormControl>
+            <FormControl ref={ref}>
               <RoleSelect
                 onSelectionChange={(keys) => onChange(Array.from(keys))}
                 defaultSelectedKeys={value.filter((id) => roles.some((role) => role.id === id))}
@@ -176,6 +177,7 @@ function NotificationConfig() {
                 filter={(role) => !role.managed && role.id !== guildId}
                 isInvalid={!!error}
                 isDisabled={!mention?.enabled}
+                disallowEmptySelection
               />
             </FormControl>
           </FormItem>
