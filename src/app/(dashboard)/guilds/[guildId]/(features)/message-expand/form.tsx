@@ -17,9 +17,10 @@ import { FormProvider, useForm, useFormContext, useWatch } from 'react-hook-form
 import type * as z from 'zod';
 import { updateConfig } from '../../action';
 
+type Config = z.infer<typeof MessageExpandConfig>;
 type Props = {
   channels: GuildChannel[];
-  config: z.infer<typeof MessageExpandConfig> | null;
+  config: Config | null;
 };
 
 const FormContext = createContext<Props>({
@@ -31,7 +32,7 @@ export default function MessageExpandConfigForm(props: Props) {
   const { toast } = useToast();
   const guildId = Snowflake.parse(useParams().guildId);
 
-  const form = useForm<z.infer<typeof MessageExpandConfig>>({
+  const form = useForm<Config>({
     resolver: zodResolver(MessageExpandConfig),
     defaultValues: props.config ?? {
       guildId,
@@ -47,7 +48,7 @@ export default function MessageExpandConfigForm(props: Props) {
 
   useFormGuard(form.formState.isDirty);
 
-  async function onSubmit(value: z.infer<typeof MessageExpandConfig>) {
+  async function onSubmit(value: Config) {
     const res = await updateConfig.bind(null, 'messageExpand')(value);
     toast(res.message);
     if (res.isSuccess) form.reset(value);
@@ -69,7 +70,7 @@ export default function MessageExpandConfigForm(props: Props) {
 }
 
 function EnableConfig() {
-  const form = useFormContext<z.infer<typeof MessageExpandConfig>>();
+  const form = useFormContext<Config>();
 
   return (
     <FormCard>
@@ -90,8 +91,8 @@ function EnableConfig() {
 }
 
 function GeneralConfig() {
-  const form = useFormContext<z.infer<typeof MessageExpandConfig>>();
-  const { enabled } = useWatch<z.infer<typeof MessageExpandConfig>>();
+  const form = useFormContext<Config>();
+  const { enabled } = useWatch<Config>();
 
   return (
     <FormCard title='全般設定'>
@@ -116,8 +117,8 @@ function GeneralConfig() {
 }
 
 function IgnoreConfig() {
-  const form = useFormContext<z.infer<typeof MessageExpandConfig>>();
-  const { enabled } = useWatch<z.infer<typeof MessageExpandConfig>>();
+  const form = useFormContext<Config>();
+  const { enabled } = useWatch<Config>();
   const { channels } = useContext(FormContext);
 
   return (

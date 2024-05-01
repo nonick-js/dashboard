@@ -18,10 +18,11 @@ import { FormProvider, useForm, useFormContext, useWatch } from 'react-hook-form
 import type * as z from 'zod';
 import { updateConfig } from '../../action';
 
+type Config = z.infer<typeof ReportConfig>;
 type Props = {
   channels: GuildChannel[];
   roles: APIRole[];
-  config: z.infer<typeof ReportConfig> | null;
+  config: Config | null;
 };
 
 const FormContext = createContext<Props>({
@@ -34,7 +35,7 @@ export default function Form(props: Props) {
   const { toast } = useToast();
   const guildId = Snowflake.parse(useParams().guildId);
 
-  const form = useForm<z.infer<typeof ReportConfig>>({
+  const form = useForm<Config>({
     resolver: zodResolver(ReportConfig),
     defaultValues: props.config ?? {
       guildId,
@@ -50,7 +51,7 @@ export default function Form(props: Props) {
 
   useFormGuard(form.formState.isDirty);
 
-  async function onSubmit(value: z.infer<typeof ReportConfig>) {
+  async function onSubmit(value: Config) {
     const res = await updateConfig.bind(null, 'report')(value);
     toast(res.message);
     if (res.isSuccess) form.reset(value);
@@ -73,7 +74,7 @@ export default function Form(props: Props) {
 
 function RequireConfig() {
   const { channels } = useContext(FormContext);
-  const form = useFormContext<z.infer<typeof ReportConfig>>();
+  const form = useFormContext<Config>();
 
   return (
     <FormCard>
@@ -102,7 +103,7 @@ function RequireConfig() {
 }
 
 function GeneralConfig() {
-  const form = useFormContext<z.infer<typeof ReportConfig>>();
+  const form = useFormContext<Config>();
 
   return (
     <FormCard title='基本設定'>
@@ -142,8 +143,8 @@ function GeneralConfig() {
 
 function NotificationConfig() {
   const { roles } = useContext(FormContext);
-  const form = useFormContext<z.infer<typeof ReportConfig>>();
-  const { mention, guildId } = useWatch<z.infer<typeof ReportConfig>>();
+  const form = useFormContext<Config>();
+  const { mention, guildId } = useWatch<Config>();
 
   return (
     <FormCard title='通知設定'>
