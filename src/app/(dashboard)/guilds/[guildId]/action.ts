@@ -51,19 +51,19 @@ export async function updateConfig<
     if (!(await isGuildAdmin(value.guildId, session.accessToken)))
       throw new Error('Invalid Permission');
 
-    const beforeConfig = await targetModel.findOne({ guildId: value.guildId });
+    // const beforeConfig = await targetModel.findOne({ guildId: value.guildId });
     await targetModel
       .updateOne({ guildId: value.guildId }, { $set: value }, { new: true, upsert: true })
       .exec();
 
     revalidatePath('/');
 
-    await model.AuditLog.create({
-      guildId: value.guildId,
-      authorId: session.user?.id,
-      before: targetSchema.parse(beforeConfig),
-      after: value, // already parsed
-    });
+    // await model.AuditLog.create({
+    //   guildId: value.guildId,
+    //   authorId: session.user?.id,
+    //   before: targetSchema.parse(beforeConfig),
+    //   after: value, // already parsed
+    // });
 
     await wait(1000); // cooldown
 
