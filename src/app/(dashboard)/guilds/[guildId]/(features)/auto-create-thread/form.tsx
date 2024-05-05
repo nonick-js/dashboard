@@ -90,7 +90,7 @@ function GeneralConfigForm() {
   const { enabled } = useWatch<Config>();
 
   return (
-    <FormCard>
+    <FormCard title='全般設定'>
       <FormField
         control={form.control}
         name='channels'
