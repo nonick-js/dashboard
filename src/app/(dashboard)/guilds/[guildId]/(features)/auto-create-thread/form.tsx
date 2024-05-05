@@ -1,0 +1,116 @@
+'use client';
+
+import type { GuildChannel } from '@/@types/discord';
+import { FormCard, FormValueViewer, SubmitButton } from '@/components/form-utils';
+import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
+import { ChannelSelect } from '@/components/ui/selects/channel-select';
+import { useToast } from '@/components/ui/use-toast';
+import { AutoCreateThreadConfig } from '@/database/zod/config';
+import { Snowflake } from '@/database/zod/discord';
+import { useFormGuard } from '@/hooks/use-form-guard';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Switch } from '@nextui-org/react';
+import { ChannelType } from 'discord-api-types/v10';
+import { useParams } from 'next/navigation';
+import { createContext, useContext } from 'react';
+import { FormProvider, useForm, useFormContext, useWatch } from 'react-hook-form';
+import type * as z from 'zod';
+import { updateConfig } from '../../action';
+
+type Config = z.infer<typeof AutoCreateThreadConfig>;
+type Props = {
+  channels: GuildChannel[];
+  config: Config | null;
+};
+
+const PropsContext = createContext<Props>({
+  channels: [],
+  config: null,
+});
+
+export default function Form(props: Props) {
+  const { toast } = useToast();
+  const guildId = Snowflake.parse(useParams().guildId);
+
+  const form = useForm<Config>({
+    resolver: zodResolver(AutoCreateThreadConfig),
+    defaultValues: props.config ?? {
+      guildId,
+      enabled: false,
+      channels: [],
+    },
+  });
+
+  useFormGuard(form.formState.isDirty);
+
+  async function onSubmit(value: Config) {
+    const res = await updateConfig.bind(null, 'autoCreateThread')(value);
+    toast(res.message);
+    if (res.isSuccess) form.reset(value);
+  }
+
+  return (
+    <PropsContext.Provider value={props}>
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-6'>
+          <EnableConfigForm />
+          <GeneralConfigForm />
+          <FormValueViewer />
+          <SubmitButton />
+        </form>
+      </FormProvider>
+    </PropsContext.Provider>
+  );
+}
+
+function EnableConfigForm() {
+  const form = useFormContext<Config>();
+
+  return (
+    <FormCard>
+      <FormField
+        control={form.control}
+        name='enabled'
+        render={({ field: { ref, onChange, value } }) => (
+          <FormItem>
+            <FormLabel title='自動アナウンス公開を有効にする' />
+            <FormControl ref={ref}>
+              <Switch onChange={onChange} defaultSelected={value} />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+    </FormCard>
+  );
+}
+
+function GeneralConfigForm() {
+  const form = useFormContext<Config>();
+  const { channels } = useContext(PropsContext);
+  const { enabled } = useWatch<Config>();
+
+  return (
+    <FormCard>
+      <FormField
+        control={form.control}
+        name='channels'
+        render={({ field: { ref, onChange, value }, fieldState: { invalid } }) => (
+          <FormItem mobileDir='col'>
+            <FormLabel title='スレッドを自動作成するチャンネル' isDisabled={!enabled} />
+            <FormControl ref={ref}>
+              <ChannelSelect
+                onSelectionChange={(keys) => onChange(Array.from(keys))}
+                defaultSelectedKeys={value.filter((id) => channels.some((ch) => ch.id === id))}
+                selectionMode='multiple'
+                channels={channels}
+                types={{ allow: [ChannelType.GuildText] }}
+                isInvalid={invalid}
+                isDisabled={!enabled}
+              />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+    </FormCard>
+  );
+}
