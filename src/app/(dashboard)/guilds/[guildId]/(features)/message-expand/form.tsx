@@ -167,9 +167,7 @@ function IgnoreConfig() {
             <FormControl ref={ref}>
               <ChannelSelect
                 onSelectionChange={(keys) => onChange(Array.from(keys))}
-                defaultSelectedKeys={value.filter((id) =>
-                  channels.some((channel) => channel.id === id),
-                )}
+                defaultSelectedKeys={value.filter((id) => channels.some((ch) => ch.id === id))}
                 selectionMode='multiple'
                 channels={channels}
                 types={{ ignore: [ChannelType.GuildCategory] }}
