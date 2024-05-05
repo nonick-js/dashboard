@@ -24,7 +24,7 @@ type Props = {
   config: Config | null;
 };
 
-const FormContext = createContext<Props>({
+const PropsContext = createContext<Props>({
   channels: [],
   config: null,
 });
@@ -57,21 +57,21 @@ export default function Form(props: Props) {
   }
 
   return (
-    <FormContext.Provider value={props}>
+    <PropsContext.Provider value={props}>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-6'>
-          <EnableConfig />
-          <GeneralConfig />
-          <LogConfig />
+          <EnableConfigForm />
+          <GeneralConfigForm />
+          <LogConfigForm />
           <FormValueViewer />
           <SubmitButton />
         </form>
       </FormProvider>
-    </FormContext.Provider>
+    </PropsContext.Provider>
   );
 }
 
-function EnableConfig() {
+function EnableConfigForm() {
   const form = useFormContext<Config>();
 
   return (
@@ -120,7 +120,7 @@ const HourInput = React.forwardRef<
   );
 });
 
-function GeneralConfig() {
+function GeneralConfigForm() {
   const form = useFormContext<Config>();
   const { enabled } = useWatch<Config>();
 
@@ -212,8 +212,8 @@ function GeneralConfig() {
   );
 }
 
-function LogConfig() {
-  const { channels } = useContext(FormContext);
+function LogConfigForm() {
+  const { channels } = useContext(PropsContext);
   const form = useFormContext<Config>();
   const { enabled, log } = useWatch<Config>();
 

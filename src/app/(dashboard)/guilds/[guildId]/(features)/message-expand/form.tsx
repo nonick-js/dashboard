@@ -23,7 +23,7 @@ type Props = {
   config: Config | null;
 };
 
-const FormContext = createContext<Props>({
+const PropsContext = createContext<Props>({
   channels: [],
   config: null,
 });
@@ -55,21 +55,21 @@ export default function MessageExpandConfigForm(props: Props) {
   }
 
   return (
-    <FormContext.Provider value={props}>
+    <PropsContext.Provider value={props}>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-6'>
-          <EnableConfig />
-          <GeneralConfig />
-          <IgnoreConfig />
+          <EnableConfigForm />
+          <GeneralConfigForm />
+          <IgnoreConfigForm />
           <FormValueViewer />
           <SubmitButton />
         </form>
       </FormProvider>
-    </FormContext.Provider>
+    </PropsContext.Provider>
   );
 }
 
-function EnableConfig() {
+function EnableConfigForm() {
   const form = useFormContext<Config>();
 
   return (
@@ -90,7 +90,7 @@ function EnableConfig() {
   );
 }
 
-function GeneralConfig() {
+function GeneralConfigForm() {
   const form = useFormContext<Config>();
   const { enabled } = useWatch<Config>();
 
@@ -116,10 +116,10 @@ function GeneralConfig() {
   );
 }
 
-function IgnoreConfig() {
+function IgnoreConfigForm() {
   const form = useFormContext<Config>();
   const { enabled } = useWatch<Config>();
-  const { channels } = useContext(FormContext);
+  const { channels } = useContext(PropsContext);
 
   return (
     <FormCard title='例外設定'>

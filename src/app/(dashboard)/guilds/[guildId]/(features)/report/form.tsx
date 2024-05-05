@@ -25,7 +25,7 @@ type Props = {
   config: Config | null;
 };
 
-const FormContext = createContext<Props>({
+const PropsContext = createContext<Props>({
   channels: [],
   roles: [],
   config: null,
@@ -58,22 +58,22 @@ export default function Form(props: Props) {
   }
 
   return (
-    <FormContext.Provider value={props}>
+    <PropsContext.Provider value={props}>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-6'>
-          <RequireConfig />
-          <GeneralConfig />
-          <NotificationConfig />
+          <RequireConfigForm />
+          <GeneralConfigForm />
+          <NotificationConfigForm />
           <FormValueViewer />
           <SubmitButton />
         </form>
       </FormProvider>
-    </FormContext.Provider>
+    </PropsContext.Provider>
   );
 }
 
-function RequireConfig() {
-  const { channels } = useContext(FormContext);
+function RequireConfigForm() {
+  const { channels } = useContext(PropsContext);
   const form = useFormContext<Config>();
 
   return (
@@ -102,7 +102,7 @@ function RequireConfig() {
   );
 }
 
-function GeneralConfig() {
+function GeneralConfigForm() {
   const form = useFormContext<Config>();
 
   return (
@@ -141,8 +141,8 @@ function GeneralConfig() {
   );
 }
 
-function NotificationConfig() {
-  const { roles } = useContext(FormContext);
+function NotificationConfigForm() {
+  const { roles } = useContext(PropsContext);
   const form = useFormContext<Config>();
   const { mention, guildId } = useWatch<Config>();
 

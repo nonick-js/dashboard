@@ -57,37 +57,37 @@ export default function Form(props: Props) {
     <PropsContext.Provider value={props}>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-6'>
-          <LogConfig
+          <LogConfigForm
             name='timeout'
             cardTitle='タイムアウト'
             labelTitle='タイムアウトログを有効にする'
             labelDescription='メンバーをタイムアウトしたり、タイムアウトを手動で解除したりした際にログを送信します。'
           />
-          <LogConfig
+          <LogConfigForm
             name='kick'
             cardTitle='キック'
             labelTitle='キックログを有効にする'
             labelDescription='メンバーをキックした際にログを送信します。'
           />
-          <LogConfig
+          <LogConfigForm
             name='ban'
             cardTitle='BAN'
             labelTitle='BANログを有効にする'
             labelDescription='メンバーをBANしたり、BANを解除した際にログを送信します。'
           />
-          <LogConfig
+          <LogConfigForm
             name='voice'
             cardTitle='ボイスチャット'
             labelTitle='VCログを有効にする'
             labelDescription='ボイスチャットの入室や退室、移動があった際にログを送信します。'
           />
-          <LogConfig
+          <LogConfigForm
             name='messageDelete'
             cardTitle='メッセージ削除'
             labelTitle='削除ログを有効にする'
             labelDescription='メッセージが削除された際にログを送信します。'
           />
-          <LogConfig
+          <LogConfigForm
             name='messageEdit'
             cardTitle='メッセージ編集'
             labelTitle='編集ログを有効にする'
@@ -101,7 +101,7 @@ export default function Form(props: Props) {
   );
 }
 
-function LogConfig({
+function LogConfigForm({
   name,
   cardTitle,
   labelTitle,
