@@ -81,7 +81,7 @@ function RequireConfigForm() {
       <FormField
         control={form.control}
         name='channel'
-        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { invalid } }) => (
           <FormItem mobileDir='col'>
             <FormLabel title='通報を受け取るチャンネル' isRequired />
             <FormControl ref={ref}>
@@ -90,7 +90,7 @@ function RequireConfigForm() {
                 defaultSelectedKeys={value ? [value] : []}
                 channels={channels}
                 types={{ allow: [ChannelType.GuildText] }}
-                isInvalid={!!error}
+                isInvalid={invalid}
                 isRequired
                 disallowEmptySelection
               />
@@ -166,7 +166,7 @@ function NotificationConfigForm() {
       <FormField
         control={form.control}
         name='mention.roles'
-        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { invalid } }) => (
           <FormItem dir='row' mobileDir='col'>
             <FormLabel title='メンションするロール' isRequired isDisabled={!mention?.enabled} />
             <FormControl ref={ref}>
@@ -176,7 +176,7 @@ function NotificationConfigForm() {
                 selectionMode='multiple'
                 roles={roles}
                 filter={(role) => !role.managed && role.id !== guildId}
-                isInvalid={!!error}
+                isInvalid={invalid}
                 isDisabled={!mention?.enabled}
                 disallowEmptySelection
               />

@@ -130,14 +130,14 @@ function GeneralConfigForm() {
         <FormField
           control={form.control}
           name='startHour'
-          render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
+          render={({ field: { ref, onChange, value }, fieldState: { invalid } }) => (
             <FormItem>
               <FormLabel title='開始時間 (0～23)' isRequired isDisabled={!enabled} />
               <FormControl ref={ref}>
                 <HourInput
                   onChange={onChange}
                   value={value}
-                  isInvalid={!!error}
+                  isInvalid={invalid}
                   isDisabled={!enabled}
                 />
               </FormControl>
@@ -147,14 +147,14 @@ function GeneralConfigForm() {
         <FormField
           control={form.control}
           name='endHour'
-          render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
+          render={({ field: { ref, onChange, value }, fieldState: { invalid } }) => (
             <FormItem>
               <FormLabel title='終了時間 (0～23)' isRequired isDisabled={!enabled} />
               <FormControl ref={ref}>
                 <HourInput
                   onChange={onChange}
                   value={value}
-                  isInvalid={!!error}
+                  isInvalid={invalid}
                   isDisabled={!enabled}
                 />
               </FormControl>
@@ -165,7 +165,7 @@ function GeneralConfigForm() {
       <FormField
         control={form.control}
         name='level'
-        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { invalid } }) => (
           <FormItem mobileDir='col'>
             <FormLabel title='期間内に設定する認証レベル' isRequired isDisabled={!enabled} />
             <FormControl ref={ref}>
@@ -173,7 +173,7 @@ function GeneralConfigForm() {
                 onChange={(e) => onChange(Number(e.target.value))}
                 defaultValue={String(value)}
                 isDisabled={!enabled}
-                isInvalid={!!error}
+                isInvalid={invalid}
               >
                 <Radio
                   classNames={{ label: 'text-green-500' }}
@@ -238,7 +238,7 @@ function LogConfigForm() {
       <FormField
         control={form.control}
         name='log.channel'
-        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { invalid } }) => (
           <FormItem mobileDir='col'>
             <FormLabel
               title='ログを送信するチャンネル'
@@ -251,7 +251,7 @@ function LogConfigForm() {
                 defaultSelectedKeys={value ? [value] : []}
                 channels={channels}
                 types={{ allow: [ChannelType.GuildText] }}
-                isInvalid={!!error}
+                isInvalid={invalid}
                 isDisabled={!enabled || !log?.enabled}
                 disallowEmptySelection
               />

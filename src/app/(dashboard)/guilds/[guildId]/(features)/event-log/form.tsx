@@ -133,7 +133,7 @@ function LogConfigForm({
       <FormField
         control={form.control}
         name={`${name}.channel`}
-        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { invalid } }) => (
           <FormItem mobileDir='col'>
             <FormLabel
               title='ログを送信するチャンネル'
@@ -146,7 +146,7 @@ function LogConfigForm({
                 defaultSelectedKeys={value ? [value] : []}
                 channels={channels}
                 types={{ allow: [ChannelType.GuildText] }}
-                isInvalid={!!error}
+                isInvalid={invalid}
                 isDisabled={!watch?.[name]?.enabled}
                 disallowEmptySelection
               />

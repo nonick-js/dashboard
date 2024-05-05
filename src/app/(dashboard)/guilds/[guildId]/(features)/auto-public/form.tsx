@@ -94,7 +94,7 @@ function GeneralConfigForm() {
       <FormField
         control={form.control}
         name='channels'
-        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { invalid } }) => (
           <FormItem mobileDir='col'>
             <FormLabel title='自動公開するチャンネル' isDisabled={!enabled} />
             <FormControl ref={ref}>
@@ -104,7 +104,7 @@ function GeneralConfigForm() {
                 selectionMode='multiple'
                 channels={channels}
                 types={{ allow: [ChannelType.GuildAnnouncement] }}
-                isInvalid={!!error}
+                isInvalid={invalid}
                 isDisabled={!enabled}
               />
             </FormControl>

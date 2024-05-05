@@ -126,7 +126,7 @@ function IgnoreConfigForm() {
       <FormField
         control={form.control}
         name='ignore.types'
-        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { invalid } }) => (
           <FormItem mobileDir='col'>
             <FormLabel
               title='チャンネルの種類'
@@ -139,7 +139,7 @@ function IgnoreConfigForm() {
                 onValueChange={(v) => onChange(v.map((type) => Number(type)))}
                 defaultValue={value.map((v) => String(v))}
                 classNames={{ base: 'w-md', wrapper: 'gap-0' }}
-                isInvalid={!!error}
+                isInvalid={invalid}
                 isDisabled={!enabled}
               >
                 <CustomCheckbox
@@ -157,7 +157,7 @@ function IgnoreConfigForm() {
       <FormField
         control={form.control}
         name='ignore.channels'
-        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { invalid } }) => (
           <FormItem dir='row' mobileDir='col'>
             <FormLabel
               title='チャンネル'
@@ -171,7 +171,7 @@ function IgnoreConfigForm() {
                 selectionMode='multiple'
                 channels={channels}
                 types={{ ignore: [ChannelType.GuildCategory] }}
-                isInvalid={!!error}
+                isInvalid={invalid}
                 isDisabled={!enabled}
               />
             </FormControl>
@@ -181,7 +181,7 @@ function IgnoreConfigForm() {
       <FormField
         control={form.control}
         name='ignore.prefixes'
-        render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
+        render={({ field: { ref, onChange, value }, fieldState: { invalid } }) => (
           <FormItem dir='row' mobileDir='col'>
             <FormLabel
               title='プレフィックス'
@@ -203,7 +203,7 @@ function IgnoreConfigForm() {
                   variant='bordered'
                   placeholder='プレフィックスを入力'
                   minRows={1}
-                  isInvalid={!!error}
+                  isInvalid={invalid}
                   isDisabled={!enabled}
                   disableAnimation
                 />
