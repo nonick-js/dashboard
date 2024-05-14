@@ -32,7 +32,7 @@ export async function getChannels(guildId: string) {
     `${Discord.Endpoints.API}/guilds/${guildId}/channels`,
     {
       headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` },
-      cache: 'no-store',
+      next: { revalidate: 10 },
     },
   );
   if (!res.ok) throw new Error(res.statusText);
@@ -42,7 +42,7 @@ export async function getChannels(guildId: string) {
 export async function getRoles(guildId: string) {
   const res = await fetch(`${Discord.Endpoints.API}/guilds/${guildId}/roles`, {
     headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` },
-    cache: 'no-store',
+    next: { revalidate: 10 },
   });
   if (!res.ok) throw new Error(res.statusText);
   return await res.json<APIRole[]>();
