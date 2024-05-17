@@ -1,43 +1,59 @@
+'use client';
+
+import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
 import { cn } from '@nextui-org/react';
 import { type VariantProps, cva } from 'class-variance-authority';
-import * as React from 'react';
+import React from 'react';
 
-const alertVariants = cva(
-  'flex gap-3 relative w-full rounded-lg border px-4 py-3 text-sm [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7',
-  {
-    variants: {
-      variant: {
-        default: 'bg-background text-foreground',
-        destructive:
-          'border-2 border-red-500/50 text-red-500 dark:border-red-500',
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
+const alertVariants = cva('flex gap-3 items-center px-4 py-3 rounded-lg', {
+  variants: {
+    variant: {
+      info: '[&>iconify-icon]:text-primary bg-primary/20',
+      success: '[&>iconify-icon]:text-success bg-success/20',
+      warning: '[&>iconify-icon]:text-warning bg-warning/20',
+      danger: '[&>iconify-icon]:text-danger bg-danger/20',
     },
   },
-);
+  defaultVariants: {
+    variant: 'info',
+  },
+});
 
-const Alert = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
->(({ className, variant, ...props }, ref) => (
-  <div
-    ref={ref}
-    role='alert'
-    className={cn(alertVariants({ variant }), className)}
-    {...props}
-  />
-));
-Alert.displayName = 'Alert';
+const Icons = new Map([
+  ['info', 'solar:info-circle-bold'],
+  ['success', 'solar:check-circle-bold'],
+  ['warning', 'solar:danger-circle-bold'],
+  ['danger', 'solar:close-circle-bold'],
+]);
+
+type AlertProps = {
+  title: string;
+  description?: string;
+} & VariantProps<typeof alertVariants>;
+
+const Alert = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & AlertProps>(
+  ({ className, variant, title, description, ...props }, ref) => (
+    <div ref={ref} role='alert' className={cn(alertVariants({ variant }), className)} {...props}>
+      <Icon
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        icon={Icons.get(variant!) || 'solar:info-circle-bold'}
+        className='text-[22px]'
+      />
+      <div>
+        <AlertTitle>{title}</AlertTitle>
+        {description && <AlertDescription>{description}</AlertDescription>}
+      </div>
+    </div>
+  ),
+);
 
 const AlertTitle = React.forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
+  React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
   <h5
     ref={ref}
-    className={cn('mb-1 font-medium leading-none tracking-tight', className)}
+    className={cn('text-sm font-medium leading-none tracking-tight', className)}
     {...props}
   />
 ));
@@ -47,12 +63,8 @@ const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn('text-sm text-foreground [&_p]:leading-relaxed', className)}
-    {...props}
-  />
+  <p ref={ref} className={cn('text-sm text-default-500', className)} {...props} />
 ));
 AlertDescription.displayName = 'AlertDescription';
 
-export { Alert, AlertTitle, AlertDescription };
+export { Alert };
