@@ -1,10 +1,10 @@
 'use client';
 
 import { Icon } from '@iconify-icon/react';
-import { Button } from '@nextui-org/react';
+import { Button, type ButtonProps } from '@nextui-org/react';
 import { useTheme } from 'next-themes';
 
-export function ThemeToggle() {
+export function ThemeToggle(props: ButtonProps) {
   const { theme, setTheme } = useTheme();
 
   return (
@@ -13,6 +13,7 @@ export function ThemeToggle() {
       variant='light'
       disableRipple
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+      {...props}
     >
       <Icon
         icon='solar:sun-bold'
