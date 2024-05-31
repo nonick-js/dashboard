@@ -12,7 +12,6 @@ declare module 'next-auth/jwt' {
   interface JWT {
     accessToken?: string;
     accessTokenExpires?: number;
-    userId: string;
     error?: 'invalid_token';
   }
 }
