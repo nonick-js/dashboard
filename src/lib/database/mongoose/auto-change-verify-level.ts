@@ -1,12 +1,12 @@
 import { GuildVerificationLevel } from 'discord-api-types/v10';
 import mongoose, { type Model } from 'mongoose';
 import type { z } from 'zod';
-import { AutoChangeVerifyLevelConfig } from '../zod';
-import { BaseConfigSchema } from '../zod/util';
-import { guildId } from './util';
+import { AutoChangeVerifyLevelZodSchema } from '../zod';
+import { BaseConfigSchema } from '../zod/lib/util';
+import { guildId } from './lib/util';
 
 const { Schema, model, models } = mongoose;
-const zodSchema = BaseConfigSchema.and(AutoChangeVerifyLevelConfig);
+const zodSchema = BaseConfigSchema.and(AutoChangeVerifyLevelZodSchema);
 
 const autoChangeVerifyLevelSchema = new Schema<z.infer<typeof zodSchema>>({
   guildId,

@@ -1,11 +1,11 @@
 import mongoose, { type Model } from 'mongoose';
 import type { z } from 'zod';
-import { AutoModConfig } from '../zod';
-import { BaseConfigSchema } from '../zod/util';
-import { guildId } from './util';
+import { AutoModZodSchema } from '../zod';
+import { BaseConfigSchema } from '../zod/lib/util';
+import { guildId } from './lib/util';
 
 const { Schema, model, models } = mongoose;
-const zodSchema = BaseConfigSchema.and(AutoModConfig);
+const zodSchema = BaseConfigSchema.and(AutoModZodSchema);
 
 const autoModSchema = new Schema<z.infer<typeof zodSchema>>({
   guildId,

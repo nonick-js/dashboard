@@ -1,9 +1,9 @@
 import { z } from 'zod';
-import { Snowflake } from './util';
+import { Snowflake } from './lib/discord';
 
 const domainRegex = /^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$/;
 
-const AutoModConfig = z
+const AutoModZodSchema = z
   .object({
     enabled: z.boolean(),
     filter: z.object({
@@ -51,4 +51,4 @@ const AutoModConfig = z
     }
   });
 
-export default AutoModConfig;
+export default AutoModZodSchema;

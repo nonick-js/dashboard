@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { MessageOptions, Snowflake } from './util';
+import { MessageOptions, Snowflake } from './lib/discord';
 
-const LeaveMessageConfig = z
+const JoinMessageZodSchema = z
   .object({
     enabled: z.boolean(),
     channel: Snowflake.nullable(),
@@ -18,4 +18,4 @@ const LeaveMessageConfig = z
     }
   });
 
-export default LeaveMessageConfig;
+export default JoinMessageZodSchema;

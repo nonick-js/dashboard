@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 import type { z } from 'zod';
-import type { MessageOptions } from '../zod/util';
+import { MessageOptions } from '../../zod/lib/discord';
 
 export const guildId = {
   required: true,

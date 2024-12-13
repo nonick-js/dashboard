@@ -1,12 +1,12 @@
 import mongoose, { type Model } from 'mongoose';
 import type { z } from 'zod';
-import { EventLogConfig } from '../zod';
-import type { LogConfig } from '../zod/eventLogConfig';
-import { BaseConfigSchema } from '../zod/util';
-import { guildId } from './util';
+import { EventLogZodSchema } from '../zod';
+import type { LogConfig } from '../zod/event-log';
+import { BaseConfigSchema } from '../zod/lib/util';
+import { guildId } from './lib/util';
 
 const { Schema, model, models } = mongoose;
-const zodSchema = BaseConfigSchema.and(EventLogConfig);
+const zodSchema = BaseConfigSchema.and(EventLogZodSchema);
 
 const LogSchema = new Schema<z.infer<typeof LogConfig>>({
   channel: Schema.Types.String,

@@ -1,11 +1,11 @@
 import { GuildVerificationLevel } from 'discord-api-types/v10';
 import { z } from 'zod';
-import { Snowflake } from './util';
+import { Snowflake } from './lib/discord';
 
-const Guild = z.object({
+const GuildZodSchema = z.object({
   guildId: Snowflake,
   beforeVerifyLevel: z.nativeEnum(GuildVerificationLevel),
   createAt: z.date(),
 });
 
-export default Guild;
+export default GuildZodSchema;

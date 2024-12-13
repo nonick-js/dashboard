@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { Snowflake } from './util';
+import { Snowflake } from './lib/discord';
 
 export const LogConfig = z
   .object({
@@ -16,7 +16,7 @@ export const LogConfig = z
     }
   });
 
-const EventLogConfig = z.object({
+const EventLogZodSchema = z.object({
   timeout: LogConfig,
   kick: LogConfig,
   ban: LogConfig,
@@ -25,4 +25,4 @@ const EventLogConfig = z.object({
   messageEdit: LogConfig,
 });
 
-export default EventLogConfig;
+export default EventLogZodSchema;

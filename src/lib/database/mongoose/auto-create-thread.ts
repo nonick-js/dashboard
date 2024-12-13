@@ -1,11 +1,11 @@
 import mongoose, { type Model } from 'mongoose';
 import type { z } from 'zod';
-import { AutoCreateThreadConfig } from '../zod';
-import { BaseConfigSchema } from '../zod/util';
-import { guildId } from './util';
+import { AutoCreateThreadZodSchema } from '../zod';
+import { BaseConfigSchema } from '../zod/lib/util';
+import { guildId } from './lib/util';
 
 const { Schema, model, models } = mongoose;
-const zodSchema = BaseConfigSchema.and(AutoCreateThreadConfig);
+const zodSchema = BaseConfigSchema.and(AutoCreateThreadZodSchema);
 
 const autoCreateThreadSchema = new Schema<z.infer<typeof zodSchema>>({
   guildId,

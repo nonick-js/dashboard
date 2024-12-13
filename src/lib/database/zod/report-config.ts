@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { Snowflake } from './util';
+import { Snowflake } from './lib/discord';
 
-const ReportConfig = z
+const ReportZodSchema = z
   .object({
     channel: Snowflake,
     includeModerator: z.boolean(),
@@ -21,4 +21,4 @@ const ReportConfig = z
     }
   });
 
-export default ReportConfig;
+export default ReportZodSchema;

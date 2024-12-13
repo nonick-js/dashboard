@@ -1,10 +1,10 @@
 import { GuildVerificationLevel } from 'discord-api-types/v10';
 import { z } from 'zod';
-import { Snowflake } from './util';
+import { Snowflake } from './lib/discord';
 
 const hourError = { message: '0～23の間で設定する必要があります' };
 
-const AutoChangeVerifyLevelConfig = z
+const AutoChangeVerifyLevelZodSchema = z
   .object({
     enabled: z.boolean(),
     level: z.coerce.number().pipe(z.nativeEnum(GuildVerificationLevel)),
@@ -32,4 +32,4 @@ const AutoChangeVerifyLevelConfig = z
     }
   });
 
-export default AutoChangeVerifyLevelConfig;
+export default AutoChangeVerifyLevelZodSchema;

@@ -1,10 +1,11 @@
 import { ChannelType } from 'discord-api-types/v10';
 import { z } from 'zod';
-import { Snowflake, findDuplicates } from './util';
+import { Snowflake } from './lib/discord';
+import { findDuplicates } from './lib/util';
 
 export const MessageExpandIgnorePrefixes = ['!', '?', '.', '#', '$', '%', '&', '^', '<'];
 
-const MessageExpandConfig = z
+const MessageExpandZodSchema = z
   .object({
     enabled: z.boolean(),
     allowExternalGuild: z.boolean(),
@@ -44,4 +45,4 @@ const MessageExpandConfig = z
     }
   });
 
-export default MessageExpandConfig;
+export default MessageExpandZodSchema;

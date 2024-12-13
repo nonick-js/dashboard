@@ -1,11 +1,11 @@
 import mongoose, { type Model } from 'mongoose';
 import type { z } from 'zod';
-import { ReportConfig } from '../zod';
-import { BaseConfigSchema } from '../zod/util';
-import { guildId } from './util';
+import { guildId } from './lib/util';
+import { BaseConfigSchema } from '../zod/lib/util';
+import { ReportZodSchema } from '../zod';
 
 const { Schema, model, models } = mongoose;
-const zodSchema = BaseConfigSchema.and(ReportConfig);
+const zodSchema = BaseConfigSchema.and(ReportZodSchema);
 
 const reportSchema = new Schema<z.infer<typeof zodSchema>>({
   guildId,
