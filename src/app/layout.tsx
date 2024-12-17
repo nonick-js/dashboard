@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import './globals.css';
+import { ConsoleWarning } from '@/components/console-warn';
 import metadataConfig from '@/config/metadata';
 import { Provider } from './provider';
 
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body className={`${notoSansJP.className} antialiased`}>
         <Provider>
           <main>{children}</main>
+          <ConsoleWarning />
         </Provider>
       </body>
     </html>
