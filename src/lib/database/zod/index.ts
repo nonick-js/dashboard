@@ -1,26 +1,29 @@
-import AuditLog from './auditLog';
-import AutoChangeVerifyLevelConfig from './autoChangeVerifyLevelConfig';
-import AutoCreateThreadConfig from './autoCreateThreadConfig';
-import AutoModConfig from './autoModConfig';
-import AutoPublicConfig from './autoPublicConfig';
-import EventLogConfig from './eventLogConfig';
-import Guild from './guild';
-import JoinMessageConfig from './joinMessageConfig';
-import LeaveMessageConfig from './leaveMessageConfig';
-import MessageExpandConfig from './messageExpandConfig';
-import ReportConfig from './reportConfig';
-export * as Utils from './util';
+import AuditLog from './audit-log';
+import AutoChangeVerifyLevelZodSchema from './auto-change-verify-level';
+import AutoCreateThreadZodSchema from './auto-create-thread';
+import AutoPublicZodSchema from './auto-public';
+import AutoModZodSchema from './automod-plus';
+import EventLogZodSchema from './event-log';
+import GuildZodSchema from './guild';
+import JoinMessageZodSchema from './join-message';
+import LeaveMessageZodSchema from './leave-message';
+import MessageExpandZodSchema, { MessageExpandIgnorePrefixes } from './message-expand';
+import ReportZodSchema from './report-config';
+
+export * as Discord from './lib/discord';
+export * as Utils from './lib/util';
 
 export {
   AuditLog,
-  AutoChangeVerifyLevelConfig,
-  AutoCreateThreadConfig,
-  AutoModConfig,
-  AutoPublicConfig,
-  EventLogConfig,
-  Guild,
-  JoinMessageConfig,
-  LeaveMessageConfig,
-  MessageExpandConfig,
-  ReportConfig,
+  AutoChangeVerifyLevelZodSchema,
+  AutoCreateThreadZodSchema,
+  AutoModZodSchema,
+  AutoPublicZodSchema,
+  EventLogZodSchema,
+  GuildZodSchema,
+  JoinMessageZodSchema,
+  LeaveMessageZodSchema,
+  MessageExpandZodSchema,
+  MessageExpandIgnorePrefixes,
+  ReportZodSchema,
 };
