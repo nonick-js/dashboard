@@ -11,17 +11,22 @@ declare namespace NodeJS {
     readonly DATABASE_NAME: string;
 
     /**
-     * セッション管理に使用するシークレットキー
+     * @see https://authjs.dev/getting-started/deployment#auth_url
+     */
+    readonly AUTH_URL: string;
+
+    /**
+     * @see https://authjs.dev/getting-started/deployment#auth_secret
      */
     readonly AUTH_SECRET: string;
 
     /**
-     * DiscordBotのクライアントID
+     * @see https://authjs.dev/guides/environment-variables#environment-variable-inference
      */
     readonly AUTH_DISCORD_ID: string;
 
     /**
-     * DiscordOauth2のクライアントシークレット
+     * @see https://authjs.dev/guides/environment-variables#environment-variable-inference
      */
     readonly AUTH_DISCORD_SECRET: string;
 
@@ -29,5 +34,10 @@ declare namespace NodeJS {
      * DiscordBotのトークン
      */
     readonly DISCORD_TOKEN: string;
+
+    /**
+     * DiscordBotの招待リンクに含める権限
+     */
+    readonly DISCORD_INVITE_PERMISSION: string;
   }
 }

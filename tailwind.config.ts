@@ -6,15 +6,12 @@ export default {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/components/(button|card|checkbox|divider|input|link|ripple|spinner|form).js"
+    "./node_modules/@nextui-org/theme/dist/components/(alert|avatar|button|card|checkbox|chip|divider|dropdown|input|link|navbar|progress|skeleton|user|ripple|spinner|form|menu|popover).js"
   ],
   theme: {
     container: {
       center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-      },
+      padding: '1.5rem',
     },
   },
   darkMode: 'class',
