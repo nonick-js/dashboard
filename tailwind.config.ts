@@ -1,23 +1,34 @@
 import { nextui } from '@nextui-org/theme';
 import type { Config } from 'tailwindcss';
 
-const config: Config = {
+export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/components/(accordion|avatar|button|card|checkbox|chip|code|divider|dropdown|input|link|listbox|modal|navbar|radio|scroll-shadow|select|skeleton|snippet|spinner|toggle|user|ripple|menu|popover).js"
+    "./node_modules/@nextui-org/theme/dist/components/(alert|avatar|button|card|checkbox|chip|divider|dropdown|input|link|navbar|progress|skeleton|user|ripple|spinner|form|menu|popover).js"
   ],
   theme: {
     container: {
       center: true,
       padding: '1.5rem',
-      screens: {
-        '2xl': '1280px',
-      },
     },
   },
   darkMode: 'class',
-  plugins: [nextui()],
-};
-export default config;
+  plugins: [
+    nextui({
+      themes: {
+        dark: {
+          colors: {
+            background: '#111213',
+          },
+        },
+        light: {
+          colors: {
+            background: '#f4f4f5',
+          },
+        },
+      },
+    }),
+  ],
+} satisfies Config;

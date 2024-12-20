@@ -1,7 +1,7 @@
 'use client';
 
-import { Icon, type IconifyIconProps } from '@iconify-icon/react';
+import { Icon as IconifyIcon, type IconifyIconProps } from '@iconify-icon/react';
 
-export function IconifyIcon(props: Omit<IconifyIconProps, 'ref'>) {
-  return <Icon {...props} />;
+export function Icon(props: Omit<IconifyIconProps, 'ref'>) {
+  return <IconifyIcon {...props} />;
 }

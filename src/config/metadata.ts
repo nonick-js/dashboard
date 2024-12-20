@@ -1,8 +1,11 @@
-import type { MetadataConfigType } from '@/types/config';
+﻿interface MetadataConfig {
+  name: string;
+  description: string;
+}
 
-const MetadataConfig: MetadataConfigType = {
+const metadataConfig: MetadataConfig = {
   name: 'NoNICK.js',
-  description: 'Discordサーバーを簡単&効率的に管理しよう。',
+  description: 'あなたのDiscordサーバーをもっと便利に!',
 };
 
-export default MetadataConfig;
+export default metadataConfig;
