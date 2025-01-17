@@ -1,7 +1,7 @@
 ﻿import { Logo } from '@/components/logo';
-import { Button } from '@nextui-org/button';
-import { Card } from '@nextui-org/card';
-import { Link } from '@nextui-org/link';
+import { Button } from '@heroui/button';
+import { Card } from '@heroui/card';
+import { Link } from '@heroui/link';
 import type { Metadata } from 'next';
 import NextLink from 'next/link';
 import { LoginButton } from './login-button';

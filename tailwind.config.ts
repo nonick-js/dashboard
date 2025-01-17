@@ -1,12 +1,12 @@
-import { nextui } from '@nextui-org/theme';
+import { heroui } from '@heroui/theme';
 import type { Config } from 'tailwindcss';
 
 export default {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/components/(alert|avatar|button|card|checkbox|chip|divider|dropdown|input|link|navbar|progress|skeleton|user|ripple|spinner|form|menu|popover).js"
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './node_modules/@heroui/theme/dist/components/(alert|avatar|button|card|checkbox|chip|divider|dropdown|input|link|navbar|progress|skeleton|user|ripple|spinner|form|menu|popover).js',
   ],
   theme: {
     container: {
@@ -16,7 +16,7 @@ export default {
   },
   darkMode: 'class',
   plugins: [
-    nextui({
+    heroui({
       themes: {
         dark: {
           colors: {

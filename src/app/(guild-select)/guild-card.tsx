@@ -1,10 +1,10 @@
 ﻿import { Discord } from '@/lib/constants';
 import { truncateString } from '@/lib/utils';
-import { Avatar } from '@nextui-org/avatar';
-import { Card, type CardProps } from '@nextui-org/card';
-import { Link } from '@nextui-org/link';
-import { Skeleton } from '@nextui-org/skeleton';
-import { cn } from '@nextui-org/theme';
+import { Avatar } from '@heroui/avatar';
+import { Card, type CardProps } from '@heroui/card';
+import { Link } from '@heroui/link';
+import { Skeleton } from '@heroui/skeleton';
+import { cn } from '@heroui/theme';
 import type { RESTAPIPartialCurrentUserGuild } from 'discord-api-types/v10';
 
 export function GuildCard({ guild }: { guild: RESTAPIPartialCurrentUserGuild }) {

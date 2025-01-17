@@ -2,10 +2,10 @@
 import { Icon } from '@/components/iconify-icon';
 import { Discord } from '@/lib/constants';
 import { getMutualManagedGuilds } from '@/lib/discord';
-import { Alert } from '@nextui-org/alert';
-import { Card } from '@nextui-org/card';
-import { Link } from '@nextui-org/link';
-import { cn } from '@nextui-org/theme';
+import { Alert } from '@heroui/alert';
+import { Card } from '@heroui/card';
+import { Link } from '@heroui/link';
+import { cn } from '@heroui/theme';
 import { GuildCard, GuildCardSkeleton } from './guild-card';
 
 export async function GuildContainer() {

@@ -1,8 +1,8 @@
 ﻿import { UserDropdown } from '@/components/dashboard/user-dropdown';
 import { Logo } from '@/components/logo';
-import { Chip } from '@nextui-org/chip';
-import { Link } from '@nextui-org/link';
-import { NavbarBrand, NavbarContent, NavbarItem, Navbar as NextUINavbar } from '@nextui-org/navbar';
+import { Chip } from '@heroui/chip';
+import { Link } from '@heroui/link';
+import { NavbarBrand, NavbarContent, NavbarItem, Navbar as NextUINavbar } from '@heroui/navbar';
 
 export function Navbar() {
   return (

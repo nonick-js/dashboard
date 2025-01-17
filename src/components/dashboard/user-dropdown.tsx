@@ -1,16 +1,16 @@
 ﻿'use client';
 
 import { Links } from '@/lib/constants';
-import { Avatar } from '@nextui-org/avatar';
+import { Avatar } from '@heroui/avatar';
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownSection,
   DropdownTrigger,
-} from '@nextui-org/dropdown';
-import { Skeleton } from '@nextui-org/skeleton';
-import { User } from '@nextui-org/user';
+} from '@heroui/dropdown';
+import { Skeleton } from '@heroui/skeleton';
+import { User } from '@heroui/user';
 import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
 import { Icon } from '../iconify-icon';

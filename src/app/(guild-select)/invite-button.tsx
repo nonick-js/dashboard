@@ -1,7 +1,7 @@
 ﻿import { Icon } from '@/components/iconify-icon';
 import { Discord } from '@/lib/constants';
-import { Button, type ButtonProps } from '@nextui-org/button';
-import { Link } from '@nextui-org/link';
+import { Button, type ButtonProps } from '@heroui/button';
+import { Link } from '@heroui/link';
 
 export function InviteButton({ ...props }: ButtonProps) {
   return (

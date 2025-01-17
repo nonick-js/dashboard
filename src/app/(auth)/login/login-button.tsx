@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import { Icon } from '@/components/iconify-icon';
-import { Button } from '@nextui-org/button';
+import { Button } from '@heroui/button';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
