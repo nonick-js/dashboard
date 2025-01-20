@@ -1,4 +1,4 @@
-﻿import { Icon } from '@/components/iconify-icon';
+﻿import { Icon } from '@/components/icon';
 import { Discord } from '@/lib/constants';
 import { Button, type ButtonProps } from '@heroui/button';
 import { Link } from '@heroui/link';

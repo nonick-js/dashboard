@@ -1,5 +1,6 @@
 ﻿'use client';
 
+import { Icon } from '@/components/icon';
 import { Links } from '@/lib/constants';
 import { Avatar } from '@heroui/avatar';
 import {
@@ -13,7 +14,6 @@ import { Skeleton } from '@heroui/skeleton';
 import { User } from '@heroui/user';
 import { signOut, useSession } from 'next-auth/react';
 import { useTheme } from 'next-themes';
-import { Icon } from '../iconify-icon';
 
 export function UserDropdown() {
   const { data: session } = useSession();

@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { Icon } from '@/components/iconify-icon';
+import { Icon } from '@/components/icon';
 import { Button } from '@heroui/button';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';

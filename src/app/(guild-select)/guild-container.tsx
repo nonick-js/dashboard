@@ -1,5 +1,5 @@
 ﻿import { auth } from '@/auth';
-import { Icon } from '@/components/iconify-icon';
+import { Icon } from '@/components/icon';
 import { Discord } from '@/lib/constants';
 import { getMutualManagedGuilds } from '@/lib/discord';
 import { Alert } from '@heroui/alert';
