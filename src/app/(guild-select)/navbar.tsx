@@ -1,5 +1,5 @@
-﻿import { UserDropdown } from '@/components/dashboard/user-dropdown';
-import { Logo } from '@/components/logo';
+﻿import { Logo } from '@/components/logo';
+import { UserDropdown } from '@/components/user-dropdown';
 import { Chip } from '@heroui/chip';
 import { Link } from '@heroui/link';
 import { Navbar as HeroUINavbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/navbar';

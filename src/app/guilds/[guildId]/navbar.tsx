@@ -1,8 +1,8 @@
 ﻿'use client';
 
-import { UserDropdown } from '@/components/dashboard/user-dropdown';
 import { Icon } from '@/components/icon';
 import { Logo } from '@/components/logo';
+import { UserDropdown } from '@/components/user-dropdown';
 import { Button } from '@heroui/button';
 import { Link } from '@heroui/link';
 import { Navbar as HeroUINavbar, NavbarContent, NavbarItem } from '@heroui/navbar';
