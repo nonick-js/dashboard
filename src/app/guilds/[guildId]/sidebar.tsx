@@ -23,9 +23,9 @@ export function Sidebar({ guild }: { guild: APIGuild }) {
 
   const content = (
     <ScrollShadow hideScrollBar className='h-dvh flex w-[300px] flex-1 flex-col p-6 pt-0'>
-      <div className='h-[80px] flex shrink-0 items-center px-2'>
+      <div className='h-[80px] flex shrink-0 items-center px-1'>
         <Link href='/'>
-          <Logo height={18} />
+          <Logo height={16} />
         </Link>
       </div>
 
@@ -34,7 +34,14 @@ export function Sidebar({ guild }: { guild: APIGuild }) {
         href='/'
         className='flex flex-shrink-0 h-14 font-semibold justify-between'
         variant='bordered'
-        endContent={<Icon icon='solar:sort-horizontal-bold' height={20} width={20} />}
+        endContent={
+          <Icon
+            icon='solar:sort-horizontal-bold'
+            className='flex-shrink-0'
+            height={20}
+            width={20}
+          />
+        }
       >
         <div className='flex items-center gap-2 overflow-hidden'>
           <Avatar

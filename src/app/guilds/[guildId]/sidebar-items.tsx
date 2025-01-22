@@ -1,3 +1,4 @@
+import { Chip } from '@heroui/chip';
 import type { SidebarItem } from './sidebar-navigation';
 
 export const sectionItems: SidebarItem[] = [
@@ -16,6 +17,11 @@ export const sectionItems: SidebarItem[] = [
         href: (guildId) => `/guilds/${guildId}/audit-log`,
         icon: 'solar:sort-by-time-outline',
         title: '監査ログ',
+        endContent: (
+          <Chip size='sm' color='primary' variant='flat'>
+            Coming soon
+          </Chip>
+        ),
       },
     ],
   },

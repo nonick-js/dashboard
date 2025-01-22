@@ -9,7 +9,7 @@ export function Navbar() {
     <HeroUINavbar height={80} maxWidth='xl' position='static'>
       <NavbarBrand className='gap-4'>
         <Link href='/'>
-          <Logo height={18} />
+          <Logo height={16} />
         </Link>
         <Chip className='max-sm:hidden' size='sm' radius='sm' variant='flat'>
           Dashboard
