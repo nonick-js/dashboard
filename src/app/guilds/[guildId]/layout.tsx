@@ -19,7 +19,7 @@ export default async function Layout({
         </Suspense>
         <div className='flex-1 flex-col'>
           <Navbar />
-          <main className='p-6 pt-0'>{children}</main>
+          <main className='flex flex-col gap-6 px-6'>{children}</main>
         </div>
       </div>
     </SidebarProvider>
