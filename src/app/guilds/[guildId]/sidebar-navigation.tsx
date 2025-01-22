@@ -79,7 +79,6 @@ export function SidebarNavigation({
     }),
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const renderNestItem = React.useCallback(
     (item: SidebarItem) => {
       const isNestType =
@@ -190,11 +189,9 @@ export function SidebarNavigation({
         </ListboxItem>
       );
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isCompact, hideEndContent, iconClassName, items],
+    [isCompact, hideEndContent, iconClassName, params.guildId],
   );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const renderItem = React.useCallback(
     (item: SidebarItem) => {
       const isNestType =
@@ -248,8 +245,7 @@ export function SidebarNavigation({
         </ListboxItem>
       );
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isCompact, hideEndContent, iconClassName, itemClasses?.base],
+    [isCompact, hideEndContent, iconClassName, params.guildId, renderNestItem],
   );
 
   return (
