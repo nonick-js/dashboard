@@ -9,6 +9,7 @@ import { Link } from '@heroui/link';
 import { ScrollShadow } from '@heroui/scroll-shadow';
 import { Spacer } from '@heroui/spacer';
 import type { APIGuild } from 'discord-api-types/v10';
+import NextLink from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useContext } from 'react';
 import SidebarDrawer from './sidebar-drawer';
@@ -30,7 +31,7 @@ export function Sidebar({ guild }: { guild: APIGuild }) {
       </div>
 
       <Button
-        as={Link}
+        as={NextLink}
         href='/'
         className='flex flex-shrink-0 h-14 font-semibold justify-between'
         variant='bordered'

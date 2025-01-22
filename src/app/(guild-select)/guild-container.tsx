@@ -4,8 +4,8 @@ import { Discord } from '@/lib/constants';
 import { getMutualManagedGuilds } from '@/lib/discord';
 import { Alert } from '@heroui/alert';
 import { Card } from '@heroui/card';
-import { Link } from '@heroui/link';
 import { cn } from '@heroui/theme';
+import NextLink from 'next/link';
 import { GuildCard, GuildCardSkeleton } from './guild-card';
 
 export async function GuildContainer() {
@@ -19,7 +19,7 @@ export async function GuildContainer() {
       return (
         <div className='grid grid-cols-12 gap-6'>
           <Card
-            as={Link}
+            as={NextLink}
             className='col-span-12 sm:col-span-6 lg:col-span-3 h-40 flex items-center justify-center gap-4 rounded-medium border-dashed border-content3 border-2 shadow-none hover:opacity-100 active:opacity-100'
             href={`${Discord.Endpoints.OAuth2}/authorize?${new URLSearchParams({
               client_id: process.env.AUTH_DISCORD_ID,

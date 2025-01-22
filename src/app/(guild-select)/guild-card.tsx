@@ -2,17 +2,17 @@
 import { truncateString } from '@/lib/utils';
 import { Avatar } from '@heroui/avatar';
 import { Card, type CardProps } from '@heroui/card';
-import { Link } from '@heroui/link';
 import { Skeleton } from '@heroui/skeleton';
 import { cn } from '@heroui/theme';
 import type { RESTAPIPartialCurrentUserGuild } from 'discord-api-types/v10';
+import NextLink from 'next/link';
 
 export function GuildCard({ guild }: { guild: RESTAPIPartialCurrentUserGuild }) {
   const iconUrl = `${Discord.Endpoints.CDN}/icons/${guild.id}/${guild.icon}`;
 
   return (
     <Card
-      as={Link}
+      as={NextLink}
       href={`guilds/${guild.id}`}
       className='col-span-12 sm:col-span-6 lg:col-span-3 overflow-hidden h-full hover:opacity-100 active:opacity-100'
       fullWidth
