@@ -3,10 +3,10 @@ import type { Config } from 'tailwindcss';
 
 export default {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './node_modules/@heroui/theme/dist/components/(accordion|alert|avatar|button|card|checkbox|chip|code|divider|drawer|dropdown|input|link|listbox|navbar|progress|select|skeleton|snippet|spacer|popover|user|ripple|spinner|form|modal|menu|scroll-shadow).js',
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/@heroui/theme/dist/components/(accordion|alert|avatar|button|card|checkbox|chip|code|divider|drawer|dropdown|input|link|listbox|navbar|progress|select|skeleton|snippet|spacer|toggle|popover|user|ripple|spinner|form|modal|menu|scroll-shadow).js"
   ],
   theme: {
     container: {
