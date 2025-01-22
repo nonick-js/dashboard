@@ -159,7 +159,7 @@ export async function fetchWithDiscordRateLimit(
     }
 
     await wait(retryAfter * 1000);
-    return await fetchWithDiscordRateLimit(input, init);
+    return await fetch(input, init);
   }
 
   return res;
