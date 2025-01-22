@@ -13,9 +13,9 @@ export function Navbar() {
   const { onOpen } = useContext(SidebarContext);
 
   return (
-    <HeroUINavbar height={80} maxWidth='full'>
+    <HeroUINavbar classNames={{ wrapper: 'px-6 sm:px-8' }} height={80} maxWidth='full'>
       <NavbarContent justify='start'>
-        <NavbarItem className='sm:hidden'>
+        <NavbarItem className='lg:hidden'>
           <Button isIconOnly size='sm' variant='light' onPress={onOpen}>
             <Icon
               className='text-default-500'
@@ -27,7 +27,7 @@ export function Navbar() {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify='center'>
-        <NavbarItem className='sm:hidden'>
+        <NavbarItem className='lg:hidden'>
           <Link href='/'>
             <Logo height={16} />
           </Link>

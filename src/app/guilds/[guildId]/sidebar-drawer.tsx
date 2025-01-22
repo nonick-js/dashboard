@@ -3,7 +3,7 @@
 import { Drawer, DrawerBody, DrawerContent } from '@heroui/drawer';
 import { TRANSITION_EASINGS } from '@heroui/framer-utils';
 import type { ModalProps } from '@heroui/modal';
-import { cn } from '@heroui/theme';
+import { card, cn } from '@heroui/theme';
 import React from 'react';
 
 const SidebarDrawer = React.forwardRef<
@@ -97,7 +97,8 @@ const SidebarDrawer = React.forwardRef<
         </Drawer>
         <div
           className={cn(
-            'hidden h-full max-w-[var(--sidebar-width)] overflow-x-hidden sm:flex',
+            card().base(),
+            'hidden h-full max-w-[var(--sidebar-width)] overflow-x-hidden lg:flex rounded-none flex-row z-50',
             className,
           )}
         >

@@ -23,6 +23,11 @@ export default {
             background: '#121212',
           },
         },
+        light: {
+          colors: {
+            background: '#f4f4f5',
+          },
+        },
       },
     }),
   ],

@@ -3,12 +3,17 @@ import { Button } from '@heroui/button';
 import { Link } from '@heroui/link';
 import { Skeleton } from '@heroui/skeleton';
 import { Spacer } from '@heroui/spacer';
-import { listbox, listboxSection } from '@heroui/theme';
+import { card, cn, listbox, listboxSection } from '@heroui/theme';
 import type { ReactNode } from 'react';
 
 export function SidebarSkeleton() {
   return (
-    <div className='hidden sm:flex sticky top-0 border-r-1 border-divider'>
+    <div
+      className={cn(
+        card().base(),
+        'hidden sm:flex sticky top-0 overflow-x-hidden rounded-none flex-row',
+      )}
+    >
       <div className='w-[300px] h-dvh p-6 pt-0'>
         <div className='h-[80px] flex shrink-0 items-center px-1'>
           <Link href='/'>
@@ -17,9 +22,7 @@ export function SidebarSkeleton() {
         </div>
 
         <Button
-          as={Link}
-          href='/'
-          className='flex flex-shrink-0 h-14 font-semibold justify-between'
+          className='w-full flex flex-shrink-0 h-14 font-semibold justify-between'
           variant='bordered'
           isDisabled
         >

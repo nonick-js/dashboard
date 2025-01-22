@@ -72,11 +72,7 @@ export function Sidebar({ guild }: { guild: APIGuild }) {
   );
 
   return (
-    <SidebarDrawer
-      className='sticky top-0 !border-r-1 border-divider'
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-    >
+    <SidebarDrawer className={'sticky top-0 shrink-0'} isOpen={isOpen} onOpenChange={onOpenChange}>
       {content}
     </SidebarDrawer>
   );
