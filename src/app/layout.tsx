@@ -3,6 +3,7 @@ import { Noto_Sans_JP } from 'next/font/google';
 import './globals.css';
 import { ConsoleWarning } from '@/components/console-warn';
 import metadataConfig from '@/config/metadata';
+import NextTopLoader from 'nextjs-toploader';
 import { Provider } from './provider';
 
 const notoSansJP = Noto_Sans_JP({
@@ -34,6 +35,7 @@ export default function RootLayout({
         <Provider>
           <main>{children}</main>
           <ConsoleWarning />
+          <NextTopLoader color='#006FEE' height={4} showSpinner={false} />
         </Provider>
       </body>
     </html>
