@@ -1,5 +1,4 @@
-﻿import { Header, HeaderTitle } from '@/components/header';
-import { hasAccessDashboardPermission } from '@/lib/discord';
+﻿import { hasAccessDashboardPermission } from '@/lib/discord';
 import { Alert } from '@heroui/alert';
 import { Code } from '@heroui/code';
 import { redirect } from 'next/navigation';

@@ -1,4 +1,4 @@
-﻿import { Header, HeaderDescription, HeaderTitle } from '@/components/header';
+﻿import { Header } from '@/components/header';
 import { hasAccessDashboardPermission } from '@/lib/discord';
 import { Alert } from '@heroui/alert';
 import { Code } from '@heroui/code';
@@ -17,12 +17,10 @@ export default async function Page({ params }: SettingPageProps) {
 
   return (
     <>
-      <Header>
-        <HeaderTitle>監査ログ</HeaderTitle>
-        <HeaderDescription>
-          ユーザーがダッシュボードで加えた変更を閲覧することができます。
-        </HeaderDescription>
-      </Header>
+      <Header
+        title='監査ログ'
+        description='ユーザーがダッシュボードで加えた変更を閲覧することができます。'
+      />
       <Alert
         color='primary'
         variant='faded'
