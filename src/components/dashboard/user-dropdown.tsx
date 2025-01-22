@@ -19,7 +19,7 @@ export function UserDropdown() {
   const { data: session } = useSession();
 
   if (!session) {
-    return <Skeleton className='w-10 h-10 rounded-full' />;
+    return <Skeleton className='w-8 h-8 rounded-full' />;
   }
 
   return (
