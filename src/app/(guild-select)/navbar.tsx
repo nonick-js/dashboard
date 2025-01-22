@@ -2,11 +2,11 @@
 import { Logo } from '@/components/logo';
 import { Chip } from '@heroui/chip';
 import { Link } from '@heroui/link';
-import { NavbarBrand, NavbarContent, NavbarItem, Navbar as NextUINavbar } from '@heroui/navbar';
+import { Navbar as HeroUINavbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/navbar';
 
 export function Navbar() {
   return (
-    <NextUINavbar height={80} maxWidth='xl' position='static'>
+    <HeroUINavbar height={80} maxWidth='xl' position='static'>
       <NavbarBrand className='gap-4'>
         <Link href='/'>
           <Logo height={18} />
@@ -20,6 +20,6 @@ export function Navbar() {
           <UserDropdown />
         </NavbarItem>
       </NavbarContent>
-    </NextUINavbar>
+    </HeroUINavbar>
   );
 }
