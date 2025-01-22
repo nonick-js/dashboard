@@ -8,7 +8,7 @@ import type { ReactNode } from 'react';
 
 export function SidebarSkeleton() {
   return (
-    <div className='sticky top-0 border-r-1 border-divider'>
+    <div className='hidden sm:flex sticky top-0 border-r-1 border-divider'>
       <div className='w-[300px] h-dvh p-6 pt-0'>
         <div className='h-[80px] flex shrink-0 items-center px-1'>
           <Link href='/'>
