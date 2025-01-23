@@ -23,7 +23,7 @@ export function UserDropdown() {
   }
 
   return (
-    <Dropdown>
+    <Dropdown placement='bottom-end'>
       <DropdownTrigger>
         <Avatar as='button' size='sm' src={session.user.image} showFallback />
       </DropdownTrigger>
