@@ -42,7 +42,7 @@ export async function getRoles(guildId: string) {
   });
 
   if (!res.ok) throw new Error(res.statusText);
-  return await res.json<APIRole[]>();
+  return (await res.json<APIRole[]>()).sort((a, b) => b.position - a.position);
 }
 
 /** Discordサーバーに参加しているメンバーを取得 */
