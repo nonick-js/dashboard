@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import './globals.css';
 import { ConsoleWarning } from '@/components/console-warn';
-import { Toaster } from '@/components/sonner';
 import metadataConfig from '@/config/metadata';
 import NextTopLoader from 'nextjs-toploader';
+import { Toaster } from 'react-hot-toast';
 import { Provider } from './provider';
 
 const notoSansJP = Noto_Sans_JP({
@@ -36,7 +36,7 @@ export default function RootLayout({
         <Provider>
           <main>{children}</main>
           <ConsoleWarning />
-          <Toaster />
+          <Toaster position='top-right' />
           <NextTopLoader color='#006FEE' height={4} showSpinner={false} />
         </Provider>
       </body>
