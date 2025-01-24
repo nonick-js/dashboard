@@ -23,7 +23,9 @@ export default async function Layout({
         </Suspense>
         <div className='flex-1 flex-col'>
           <Navbar />
-          <main className='max-w-[1100px] mx-auto flex flex-col gap-6 px-6'>{children}</main>
+          <main className='max-w-[1100px] mx-auto w-full flex flex-col gap-6 px-6 pb-28'>
+            {children}
+          </main>
         </div>
       </div>
     </SidebarProvider>

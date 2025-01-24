@@ -8,7 +8,7 @@ import GuildZodSchema from './guild';
 import JoinMessageZodSchema from './join-message';
 import LeaveMessageZodSchema from './leave-message';
 import MessageExpandZodSchema, { MessageExpandIgnorePrefixes } from './message-expand';
-import ReportZodSchema from './report-config';
+import ReportZodSchema from './report';
 
 export * as Discord from './lib/discord';
 export * as Utils from './lib/util';

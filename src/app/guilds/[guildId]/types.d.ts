@@ -1,7 +1,5 @@
 ﻿export type SettingPageProps = {
-  params: Promise<SettingPageParams>;
-};
-
-export type SettingPageParams = {
-  guildId: string;
+  params: Promise<{
+    guildId: string;
+  }>;
 };
