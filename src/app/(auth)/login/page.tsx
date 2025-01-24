@@ -4,6 +4,7 @@ import { Card } from '@heroui/card';
 import { Link } from '@heroui/link';
 import type { Metadata } from 'next';
 import NextLink from 'next/link';
+import { Suspense } from 'react';
 import { LoginButton } from './login-button';
 
 export const metadata: Metadata = {
@@ -20,7 +21,9 @@ export default function Page() {
           <p className='text-sm text-default-500'>Discordアカウントを使用して続行</p>
         </div>
         <div className='flex flex-col gap-3'>
-          <LoginButton />
+          <Suspense>
+            <LoginButton />
+          </Suspense>
           <Button
             as={NextLink}
             href='https://docs.nonick-js.com/nonick-js/how-to-login'
