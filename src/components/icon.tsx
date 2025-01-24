@@ -1,18 +1,9 @@
 ﻿'use client';
 
 import { type IconProps, Icon as RealIcon } from '@iconify/react';
-import React, { useEffect, useState } from 'react';
 
 export function Icon(props: IconProps) {
-  const [mounted, setMounted] = useState<boolean>(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  return mounted ? (
-    <RealIcon {...props} />
-  ) : (
+  return (
     <span
       style={{
         width: props.width || 20,
