@@ -3,23 +3,17 @@
 import { FormCard } from '@/components/form';
 import { FormChangePublisher } from '@/components/react-hook-form/change-publisher';
 import { ChannelSelect } from '@/components/react-hook-form/channel-select';
+import { ControlledForm } from '@/components/react-hook-form/form';
 import { RoleSelect } from '@/components/react-hook-form/role-select';
 import { ControlledSwitch } from '@/components/react-hook-form/switch';
 import { ReportZodSchema } from '@/lib/database/zod';
 import type { getChannels, getRoles } from '@/lib/discord';
 import { Alert } from '@heroui/alert';
-import { Form } from '@heroui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
-import {
-  FormProvider,
-  type SubmitHandler,
-  useForm,
-  useFormContext,
-  useWatch,
-} from 'react-hook-form';
+import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import type { z } from 'zod';
 import { updateSetting } from './action';
@@ -65,21 +59,19 @@ export function SettingForm({ setting, ...props }: Props) {
   };
 
   return (
-    <FormProvider {...form}>
-      <PropsContext value={props}>
-        <Form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-6 pb-28'>
-          <Alert
-            variant='faded'
-            color='primary'
-            description='この機能を無効にするには、Discordサーバーの「サーバー設定」→「連携サービス」から、コマンドを無効化する必要があります。'
-          />
-          <EnableSetting />
-          <GeneralSetting />
-          <NotificationSetting />
-          <FormChangePublisher />
-        </Form>
-      </PropsContext>
-    </FormProvider>
+    <PropsContext value={props}>
+      <ControlledForm form={form} onSubmit={form.handleSubmit(onSubmit)}>
+        <Alert
+          variant='faded'
+          color='primary'
+          description='この機能を無効にするには、Discordサーバーの「サーバー設定」→「連携サービス」から、コマンドを無効化する必要があります。'
+        />
+        <EnableSetting />
+        <GeneralSetting />
+        <NotificationSetting />
+        <FormChangePublisher />
+      </ControlledForm>
+    </PropsContext>
   );
 }
 

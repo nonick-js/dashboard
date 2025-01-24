@@ -3,7 +3,6 @@ import 'server-only';
 import { auth } from '@/auth';
 import chalk from 'chalk';
 import {
-  type APIApplication,
   type APIGuild,
   type APIGuildChannel,
   type APIGuildMember,
