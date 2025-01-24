@@ -51,7 +51,7 @@ export function Sidebar({ guild }: { guild: APIGuild }) {
             name={guild.name}
             src={
               guild.icon
-                ? `${Discord.Endpoints.CDN}/icons/${guild.id}/${guild.icon}.webp`
+                ? `${Discord.Endpoints.CDN}/icons/${guild.id}/${guild.icon}.webp?size=64`
                 : undefined
             }
             alt={`${guild.name}のサーバーアイコン`}

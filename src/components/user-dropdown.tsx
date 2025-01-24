@@ -25,7 +25,7 @@ export function UserDropdown() {
   return (
     <Dropdown placement='bottom-end'>
       <DropdownTrigger>
-        <Avatar as='button' size='sm' src={session.user.image} showFallback />
+        <Avatar as='button' size='sm' src={`${session.user.image}?size=64`} showFallback />
       </DropdownTrigger>
       <DropdownMenu variant='flat'>
         <DropdownSection>
@@ -36,7 +36,7 @@ export function UserDropdown() {
               description='Discordアカウント'
               avatarProps={{
                 size: 'sm',
-                src: session.user.image,
+                src: `${session.user.image}?size=64`,
               }}
             />
           </DropdownItem>
