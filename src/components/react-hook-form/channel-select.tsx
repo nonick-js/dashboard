@@ -4,7 +4,7 @@ import { truncateString } from '@/lib/utils';
 import { Chip } from '@heroui/chip';
 import { Select, SelectItem, type SelectProps, type SelectedItems } from '@heroui/select';
 import { type APIGuildChannel, ChannelType, type GuildChannelType } from 'discord-api-types/v10';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { FieldPath, FieldValues, UseControllerProps } from 'react-hook-form';
 import { Icon } from '../icon';
 import { ControlledSelect } from './select';
@@ -48,13 +48,14 @@ export function ChannelSelect<
   disableItemFilter,
   ...props
 }: ChannelSelectProps & UseControllerProps<TFieldValues, TName>) {
-  const filteredChannels = channels
-    .filter((channel) =>
-      channelTypeFilter?.include ? channelTypeFilter.include.includes(channel.type) : true,
-    )
-    .filter((channel) =>
-      channelTypeFilter?.exclude ? !channelTypeFilter.exclude.includes(channel.type) : true,
-    );
+  // channelTypeFilterをもとにチャンネルをフィルタリングする
+  const filteredChannels = useMemo(() => {
+    return channels.filter((channel) => {
+      const include = channelTypeFilter?.include?.includes(channel.type) ?? true;
+      const exclude = channelTypeFilter?.exclude?.includes(channel.type) ?? false;
+      return include && !exclude;
+    });
+  }, [channels, channelTypeFilter]);
 
   const renderValue = useCallback(
     (items: SelectedItems<APIGuildChannel<GuildChannelType>>) => (
