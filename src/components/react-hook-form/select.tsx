@@ -10,8 +10,6 @@ import {
   useController,
 } from 'react-hook-form';
 
-// TODO: ChannelSelectを作成する
-
 export function ControlledSelect<
   T extends object,
   TFieldValues extends FieldValues = FieldValues,
@@ -34,7 +32,7 @@ export function ControlledSelect<
   return (
     <Select
       // React Hook Form
-      // ref={field.ref}
+      ref={field.ref}
       onBlur={field.onBlur}
       onSelectionChange={onChange}
       selectedKeys={Array.isArray(field.value) ? field.value : [String(field.value)]}
