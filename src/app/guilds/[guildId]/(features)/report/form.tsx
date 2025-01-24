@@ -102,13 +102,13 @@ function GeneralSetting() {
       <ControlledSwitch
         control={control}
         name='includeModerator'
-        title='モデレーターも通報の対象にする'
+        label='モデレーターも通報の対象にする'
         description='有効にすると、「メンバー管理」権限を持つユーザーをメンバーが通報できるようになります。'
       />
       <ControlledSwitch
         control={control}
         name='progressButton'
-        title='進捗ボタンを表示する'
+        label='進捗ボタンを表示する'
         description='送られた通報に「対処済み」「無視」などの、通報のステータスを管理できるボタンを表示します。'
       />
     </FormCard>
@@ -125,7 +125,7 @@ function NotificationSetting() {
       <ControlledSwitch
         control={control}
         name='mention.enabled'
-        title='メンション通知を有効にする'
+        label='メンション通知を有効にする'
         description='通報が送られた際に特定のロールをメンションします。'
       />
       <RoleSelect
