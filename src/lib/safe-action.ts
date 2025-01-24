@@ -1,4 +1,5 @@
-﻿import chalk from 'chalk';
+﻿import { auth } from '@/auth';
+import chalk from 'chalk';
 import { DEFAULT_SERVER_ERROR_MESSAGE, createSafeActionClient } from 'next-safe-action';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
@@ -17,17 +18,20 @@ export const actionClient = createSafeActionClient({
   defineMetadataSchema: () => {
     return z.object({ actionName: z.string() });
   },
-}).use(async ({ next, metadata }) => {
-  console.log(chalk.bold('🚀 Server Action Log'));
-  console.group();
+}).use(async ({ next, metadata, clientInput }) => {
+  console.groupCollapsed(chalk.bold('🚀 Server Action Log'));
 
   const startTime = performance.now();
   const result = await next();
   const endTime = performance.now();
 
-  console.log(chalk.bold.underline.green('Result ->'), result);
-  console.log(chalk.bold.underline.green('Metadata ->'), metadata);
-  console.log(chalk.bold.underline.yellow(`Action time: ${endTime - startTime} ms`));
+  const session = await auth();
+
+  console.log(chalk.bold.underline.green('Result:'), result);
+  console.log(chalk.bold.underline.green('Client Input:'), clientInput);
+  console.log(chalk.bold.underline.green('Metadata:'), metadata);
+  console.log(chalk.bold.underline.green('Session UserID:'), session?.user.id);
+  console.log(chalk.bold.underline.yellow(`Action time: ${Math.floor(endTime - startTime)} ms`));
   console.groupEnd();
 
   return result;
