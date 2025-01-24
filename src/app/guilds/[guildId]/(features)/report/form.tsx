@@ -67,7 +67,7 @@ export function SettingForm({ setting, ...props }: Props) {
   return (
     <FormProvider {...form}>
       <PropsContext value={props}>
-        <Form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-6'>
+        <Form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-6 pb-28'>
           <Alert
             variant='faded'
             color='primary'

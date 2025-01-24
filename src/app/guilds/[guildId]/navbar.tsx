@@ -13,7 +13,12 @@ export function Navbar() {
   const { onOpen } = useContext(SidebarContext);
 
   return (
-    <HeroUINavbar classNames={{ wrapper: 'px-6 sm:px-8' }} height={80} maxWidth='full'>
+    <HeroUINavbar
+      position='static'
+      classNames={{ wrapper: 'px-6 sm:px-8' }}
+      height={80}
+      maxWidth='full'
+    >
       <NavbarContent justify='start'>
         <NavbarItem className='lg:hidden'>
           <Button isIconOnly size='sm' variant='light' onPress={onOpen}>
