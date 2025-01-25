@@ -6,12 +6,12 @@ import { SelectItem, type SelectProps, type SelectedItems } from '@heroui/select
 import type { APIRole } from 'discord-api-types/v10';
 import { useCallback } from 'react';
 import type { FieldPath, FieldValues, UseControllerProps } from 'react-hook-form';
-import { ControlledSelect } from './select';
+import { ControlledSelect, type ControlledSelectProps } from './select';
 
 type RoleSelectProps = {
   roles: APIRole[];
   disableItemFilter?: (channel: APIRole) => boolean;
-} & Omit<SelectProps, 'children' | 'items'>;
+} & Omit<ControlledSelectProps, 'children' | 'items'>;
 
 export function RoleSelect<
   TFieldValues extends FieldValues = FieldValues,

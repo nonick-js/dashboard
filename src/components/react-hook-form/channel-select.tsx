@@ -7,7 +7,7 @@ import { type APIGuildChannel, ChannelType, type GuildChannelType } from 'discor
 import { useCallback, useMemo } from 'react';
 import type { FieldPath, FieldValues, UseControllerProps } from 'react-hook-form';
 import { Icon } from '../icon';
-import { ControlledSelect } from './select';
+import { ControlledSelect, type ControlledSelectProps } from './select';
 
 const ChannelTypeIcons = new Map<GuildChannelType, string>([
   [ChannelType.GuildAnnouncement, 'solar:mailbox-bold'],
@@ -30,7 +30,7 @@ type ChannelSelectProps = {
     exclude?: GuildChannelType[];
   };
   disableItemFilter?: (channel: APIGuildChannel<GuildChannelType>) => boolean;
-} & Omit<SelectProps, 'children' | 'items'>;
+} & Omit<ControlledSelectProps, 'children' | 'items'>;
 
 /**
  * Discordサーバーのチャンネルを選択するコンポーネント

@@ -14,7 +14,7 @@ type ControlledSwitchProps = {
   label?: ReactNode;
   description?: ReactNode;
   wrapperClass?: string;
-} & SwitchProps;
+} & Omit<SwitchProps, 'ref' | 'onChange' | 'onBlur' | 'isSelected'>;
 
 export function ControlledSwitch<
   TFieldValues extends FieldValues = FieldValues,
@@ -32,13 +32,15 @@ export function ControlledSwitch<
   return (
     <div className={cn('flex justify-between flex-row-reverse items-center gap-3', wrapperClass)}>
       <Switch
+        // React Hook Form
         ref={field.ref}
         onChange={field.onChange}
         onBlur={field.onBlur}
         isSelected={field.value}
+        // Other
         {...props}
       />
-      <div className='flex flex-col max-sm:gap-1'>
+      <div className={cn('flex flex-col max-sm:gap-1', { 'opacity-disabled': props.isDisabled })}>
         <SwitchLabel>{label}</SwitchLabel>
         {description && <SwitchDescription>{description}</SwitchDescription>}
       </div>

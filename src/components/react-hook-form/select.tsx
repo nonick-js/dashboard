@@ -10,6 +10,11 @@ import {
   useController,
 } from 'react-hook-form';
 
+export type ControlledSelectProps<T extends object = object> = Omit<
+  SelectProps<T>,
+  'ref' | 'onBlur' | 'onSelectionChange' | 'selectedKeys' | 'isInvalid' | 'errorMessage'
+>;
+
 export function ControlledSelect<
   T extends object,
   TFieldValues extends FieldValues = FieldValues,
