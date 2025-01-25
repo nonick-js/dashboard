@@ -30,7 +30,7 @@ export function ControlledSwitch<
   const { field } = useController({ name, control });
 
   return (
-    <div className={cn('flex justify-between flex-row-reverse gap-3', wrapperClass)}>
+    <div className={cn('flex justify-between flex-row-reverse items-center gap-3', wrapperClass)}>
       <Switch
         ref={field.ref}
         onChange={field.onChange}
