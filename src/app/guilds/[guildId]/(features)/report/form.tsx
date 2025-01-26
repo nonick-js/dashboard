@@ -133,9 +133,7 @@ function NotificationSetting() {
         name='mention.roles'
         roles={roles}
         label='メンションするロール'
-        description='複数選択することができます。'
         selectionMode='multiple'
-        isMultiline
         isRequired
         isDisabled={!mentionEnabled}
       />

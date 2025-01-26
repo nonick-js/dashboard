@@ -48,6 +48,8 @@ export function ControlledSelect<
       classNames={{
         ...classNames,
         label: cn('pb-1', classNames?.label),
+        description: cn('text-sm max-sm:text-xs', classNames?.description),
+        errorMessage: cn('text-sm max-sm:text-xs', classNames?.errorMessage),
         trigger: cn(
           'min-h-12 py-2 data-[has-label=true]:mt-[calc(theme(fontSize.small)_+_14px)]',
           classNames?.trigger,
@@ -57,6 +59,7 @@ export function ControlledSelect<
         ...listboxProps,
         variant: 'flat',
       }}
+      isMultiline={isMultiple}
       {...props}
     />
   );

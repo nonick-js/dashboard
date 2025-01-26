@@ -122,7 +122,7 @@ function SingleSelectItem({ channel }: { channel: APIGuildChannel<GuildChannelTy
  */
 function MultipleSelectItem({ channel }: { channel: APIGuildChannel<GuildChannelType> }) {
   return (
-    <Chip variant='flat' radius='md'>
+    <Chip variant='faded' radius='sm'>
       {truncateString(channel.name, 16)}
     </Chip>
   );

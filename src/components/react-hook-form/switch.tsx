@@ -34,7 +34,7 @@ export function ControlledSwitch<
       <Switch
         // React Hook Form
         ref={field.ref}
-        onChange={field.onChange}
+        onValueChange={field.onChange}
         onBlur={field.onBlur}
         isSelected={field.value}
         // Other
