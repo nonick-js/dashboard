@@ -4,7 +4,6 @@ import { FormCard } from '@/components/form';
 import { Icon } from '@/components/icon';
 import { FormChangePublisher } from '@/components/react-hook-form/change-publisher';
 import { ChannelSelect } from '@/components/react-hook-form/channel-select';
-import { FormDevTool } from '@/components/react-hook-form/devtool';
 import { ControlledForm } from '@/components/react-hook-form/form';
 import { ControlledInput, type ControlledInputProps } from '@/components/react-hook-form/input';
 import { ControlledRadioGroup } from '@/components/react-hook-form/radio';
@@ -78,7 +77,6 @@ export function SettingForm({ setting, ...props }: Props) {
         <EnableSetting />
         <GeneralSetting />
         <LogSetting />
-        <FormDevTool />
         <FormChangePublisher />
       </ControlledForm>
     </PropsContext>
