@@ -10,6 +10,7 @@ import { ControlledSelect } from '@/components/react-hook-form/select';
 import { ControlledSwitch } from '@/components/react-hook-form/switch';
 import { MessageExpandIgnorePrefixes, MessageExpandZodSchema } from '@/lib/database/zod';
 import type { getChannels } from '@/lib/discord';
+import { convertNumbersToStrings } from '@/lib/utils';
 import { Checkbox, type CheckboxProps } from '@heroui/checkbox';
 import { Chip } from '@heroui/chip';
 import { SelectItem } from '@heroui/select';
@@ -29,35 +30,37 @@ type OutputSetting = z.output<typeof MessageExpandZodSchema>;
 
 type Props = {
   channels: Awaited<ReturnType<typeof getChannels>>;
-  config: OutputSetting | null;
+  setting: OutputSetting | null;
 };
 
-const PropsContext = createContext<Omit<Props, 'config'>>({
+const PropsContext = createContext<Omit<Props, 'setting'>>({
   channels: [],
 });
 // #endregion
 
 // #region Form
-export function SettingForm({ config, ...props }: Props) {
+export function SettingForm({ setting, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
     resolver: zodResolver(MessageExpandZodSchema),
-    defaultValues: config ?? {
-      enabled: false,
-      allowExternalGuild: false,
-      ignore: {
-        channels: [],
-        types: [],
-        prefixes: [],
-      },
-    },
+    defaultValues: setting
+      ? convertNumbersToStrings(setting)
+      : {
+          enabled: false,
+          allowExternalGuild: false,
+          ignore: {
+            channels: [],
+            types: [],
+            prefixes: [],
+          },
+        },
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
     const res = await updateSetting({ guildId, ...values });
 
-    if (res?.data?.success) form.reset(values);
+    if (res?.data?.success) form.reset(convertNumbersToStrings(values));
     else toast.error('設定の保存時に問題が発生しました。');
   };
 

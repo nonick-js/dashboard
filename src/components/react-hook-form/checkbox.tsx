@@ -11,7 +11,7 @@ import {
 
 export type ControlledCheckboxGroupProps = Omit<
   CheckboxGroupProps,
-  'ref' | 'onChange' | 'onBlur' | 'value' | 'isInvalid' | 'errorMessage'
+  'ref' | 'onChange' | 'onValueChange' | 'onBlur' | 'value' | 'isInvalid' | 'errorMessage'
 >;
 
 export function ControlledCheckboxGroup<
@@ -29,9 +29,9 @@ export function ControlledCheckboxGroup<
     <CheckboxGroup
       // React Hook Form
       ref={field.ref}
-      onValueChange={field.onChange}
+      onValueChange={(v) => field.onChange(v.sort())}
       onBlur={field.onBlur}
-      value={Array.isArray(field.value) ? field.value.map((v: unknown) => String(v)) : []}
+      value={field.value}
       isInvalid={fieldState.invalid}
       errorMessage={fieldState.error?.message}
       // Other

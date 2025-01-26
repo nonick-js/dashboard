@@ -31,7 +31,7 @@ export function ControlledSelect<
   const isMultiple = props.selectionMode === 'multiple';
 
   const onChange = (keys: SharedSelection) => {
-    field.onChange(isMultiple ? Array.from(keys) : (keys.currentKey ?? ''));
+    field.onChange(isMultiple ? Array.from(keys).sort() : (keys.currentKey ?? ''));
   };
 
   return (
@@ -40,7 +40,7 @@ export function ControlledSelect<
       ref={field.ref}
       onBlur={field.onBlur}
       onSelectionChange={onChange}
-      selectedKeys={Array.isArray(field.value) ? field.value : [String(field.value)]}
+      selectedKeys={Array.isArray(field.value) ? field.value : [field.value]}
       isInvalid={fieldState.invalid}
       errorMessage={fieldState.error?.message}
       // Other

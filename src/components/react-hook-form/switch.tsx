@@ -14,7 +14,7 @@ type ControlledSwitchProps = {
   label?: ReactNode;
   description?: ReactNode;
   wrapperClass?: string;
-} & Omit<SwitchProps, 'ref' | 'onChange' | 'onBlur' | 'isSelected'>;
+} & Omit<SwitchProps, 'ref' | 'onChange' | 'onValueChange' | 'onBlur' | 'isSelected'>;
 
 export function ControlledSwitch<
   TFieldValues extends FieldValues = FieldValues,

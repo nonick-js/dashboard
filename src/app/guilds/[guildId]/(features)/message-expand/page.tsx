@@ -28,7 +28,7 @@ export default async function Page({ params }: SettingPageProps) {
       />
       <SettingForm
         channels={channels}
-        config={MessageExpandZodSchema.safeParse(setting).data ?? null}
+        setting={MessageExpandZodSchema.safeParse(setting).data ?? null}
       />
     </>
   );
