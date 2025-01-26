@@ -21,7 +21,7 @@ import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import type { z } from 'zod';
-import { updateConfig } from './action';
+import { updateSetting } from './action';
 
 // #region Types, Context
 type InputSetting = z.input<typeof MessageExpandZodSchema>;
@@ -55,7 +55,7 @@ export function SettingForm({ config, ...props }: Props) {
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateConfig({ guildId, ...values });
+    const res = await updateSetting({ guildId, ...values });
 
     if (res?.data?.success) form.reset(values);
     else toast.error('設定の保存時に問題が発生しました。');

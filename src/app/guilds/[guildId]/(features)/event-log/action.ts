@@ -2,12 +2,12 @@
 
 import { EventLogModel } from '@/lib/database/mongoose';
 import { EventLogZodSchema } from '@/lib/database/zod';
-import { dashboardActionClient } from '@/lib/safe-action';
+import { ActionType, dashboardActionClient } from '@/lib/safe-action';
 import { revalidatePath } from 'next/cache';
 
 export const updateSetting = dashboardActionClient
   .schema(async (prevSchema) => prevSchema.and(EventLogZodSchema))
-  .metadata({ actionName: 'updateConfig' })
+  .metadata({ actionType: ActionType.updateSetting })
   .action(async ({ parsedInput }) => {
     await EventLogModel.updateOne(
       { guildId: parsedInput.guildId },

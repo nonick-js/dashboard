@@ -1,13 +1,16 @@
 ﻿import { auth } from '@/auth';
 import chalk from 'chalk';
 import { DEFAULT_SERVER_ERROR_MESSAGE, createSafeActionClient } from 'next-safe-action';
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { Snowflake } from './database/zod/lib/discord';
 import { hasAccessDashboardPermission } from './discord';
 import { wait } from './utils';
 
 export class ActionClientError extends Error {}
+
+export enum ActionType {
+  updateSetting = 'update-setting',
+}
 
 export const actionClient = createSafeActionClient({
   handleServerError: (e) => {
@@ -16,7 +19,7 @@ export const actionClient = createSafeActionClient({
     return DEFAULT_SERVER_ERROR_MESSAGE;
   },
   defineMetadataSchema: () => {
-    return z.object({ actionName: z.string() });
+    return z.object({ actionType: z.nativeEnum(ActionType) });
   },
 }).use(async ({ next, metadata, clientInput }) => {
   console.groupCollapsed(chalk.bold('🚀 Server Action Log'));
