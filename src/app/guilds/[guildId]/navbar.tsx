@@ -14,7 +14,7 @@ export function Navbar() {
 
   return (
     <HeroUINavbar
-      position='static'
+      position='sticky'
       classNames={{ wrapper: 'px-6 sm:px-8' }}
       height={80}
       maxWidth='full'
