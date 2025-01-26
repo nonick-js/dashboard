@@ -54,7 +54,7 @@ export function SettingForm({ setting, ...props }: Props) {
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
     const res = await updateSetting({ guildId, ...values });
 
-    if (res?.data?.success) form.reset(values);
+    if (res?.data?.success) form.reset(form.getValues());
     else toast.error('設定の保存時に問題が発生しました。');
   };
 
@@ -118,7 +118,8 @@ function GeneralSetting() {
 function NotificationSetting() {
   const { roles } = useContext(PropsContext);
   const { control } = useFormContext<InputSetting>();
-  const mentionEnabled = useWatch<InputSetting>({ name: 'mention.enabled' });
+
+  const isMentionEnabled = useWatch<InputSetting>({ name: 'mention.enabled' });
 
   return (
     <FormCard title='通知設定'>
@@ -135,7 +136,7 @@ function NotificationSetting() {
         label='メンションするロール'
         selectionMode='multiple'
         isRequired
-        isDisabled={!mentionEnabled}
+        isDisabled={!isMentionEnabled}
       />
     </FormCard>
   );

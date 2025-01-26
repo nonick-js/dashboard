@@ -59,6 +59,9 @@ importers:
       '@heroui/progress':
         specifier: 2.2.7
         version: 2.2.7(@heroui/system@2.4.6(@heroui/theme@2.4.5(tailwindcss@3.4.16))(framer-motion@11.13.5(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@heroui/theme@2.4.5(tailwindcss@3.4.16))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@heroui/radio':
+        specifier: ^2.3.9
+        version: 2.3.9(@heroui/system@2.4.6(@heroui/theme@2.4.5(tailwindcss@3.4.16))(framer-motion@11.13.5(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@heroui/theme@2.4.5(tailwindcss@3.4.16))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@heroui/select':
         specifier: ^2.4.10
         version: 2.4.10(@heroui/system@2.4.6(@heroui/theme@2.4.5(tailwindcss@3.4.16))(framer-motion@11.13.5(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@heroui/theme@2.4.5(tailwindcss@3.4.16))(framer-motion@11.13.5(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -535,6 +538,14 @@ packages:
     peerDependencies:
       '@heroui/system': '>=2.4.0'
       '@heroui/theme': '>=2.4.0'
+      react: '>=18 || >=19.0.0-rc.0'
+      react-dom: '>=18 || >=19.0.0-rc.0'
+
+  '@heroui/radio@2.3.9':
+    resolution: {integrity: sha512-ExmEz4obI485TyNnscFJMADHY8cC9CqALg/3aUXHstyPYFIchLeYMCiJQHs2+o76rk8nNJML+t+5SpdQrQ44WA==}
+    peerDependencies:
+      '@heroui/system': '>=2.4.0'
+      '@heroui/theme': '>=2.4.3'
       react: '>=18 || >=19.0.0-rc.0'
       react-dom: '>=18 || >=19.0.0-rc.0'
 
@@ -1064,6 +1075,11 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
+  '@react-aria/radio@3.10.10':
+    resolution: {integrity: sha512-NVdeOVrsrHgSfwL2jWCCXFsWZb+RMRZErj5vthHQW4nkHECGOzeX56VaLWTSvdoCPqi9wdIX8A6K9peeAIgxzA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+
   '@react-aria/selection@3.21.0':
     resolution: {integrity: sha512-52JJ6hlPcM+gt0VV3DBmz6Kj1YAJr13TfutrKfGWcK36LvNCBm1j0N+TDqbdnlp8Nue6w0+5FIwZq44XPYiBGg==}
     peerDependencies:
@@ -1138,6 +1154,11 @@ packages:
 
   '@react-stately/overlays@3.6.12':
     resolution: {integrity: sha512-QinvZhwZgj8obUyPIcyURSCjTZlqZYRRCS60TF8jH8ZpT0tEAuDb3wvhhSXuYA3Xo9EHLwvLjEf3tQKKdAQArw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+
+  '@react-stately/radio@3.10.9':
+    resolution: {integrity: sha512-kUQ7VdqFke8SDRCatw2jW3rgzMWbvw+n2imN2THETynI47NmNLzNP11dlGO2OllRtTrsLhmBNlYHa3W62pFpAw==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
@@ -1223,6 +1244,11 @@ packages:
 
   '@react-types/progress@3.5.8':
     resolution: {integrity: sha512-PR0rN5mWevfblR/zs30NdZr+82Gka/ba7UHmYOW9/lkKlWeD7PHgl1iacpd/3zl/jUF22evAQbBHmk1mS6Mpqw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
+
+  '@react-types/radio@3.8.5':
+    resolution: {integrity: sha512-gSImTPid6rsbJmwCkTliBIU/npYgJHOFaI3PNJo7Y0QTAnFelCtYeFtBiWrFodSArSv7ASqpLLUEj9hZu/rxIg==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
@@ -2778,6 +2804,24 @@ snapshots:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
 
+  '@heroui/radio@2.3.9(@heroui/system@2.4.6(@heroui/theme@2.4.5(tailwindcss@3.4.16))(framer-motion@11.13.5(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@heroui/theme@2.4.5(tailwindcss@3.4.16))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@heroui/form': 2.1.9(@heroui/system@2.4.6(@heroui/theme@2.4.5(tailwindcss@3.4.16))(framer-motion@11.13.5(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@heroui/theme@2.4.5(tailwindcss@3.4.16))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@heroui/react-utils': 2.1.4(react@19.0.0)
+      '@heroui/shared-utils': 2.1.3
+      '@heroui/system': 2.4.6(@heroui/theme@2.4.5(tailwindcss@3.4.16))(framer-motion@11.13.5(@emotion/is-prop-valid@1.3.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@heroui/theme': 2.4.5(tailwindcss@3.4.16)
+      '@react-aria/focus': 3.19.0(react@19.0.0)
+      '@react-aria/interactions': 3.22.5(react@19.0.0)
+      '@react-aria/radio': 3.10.10(react@19.0.0)
+      '@react-aria/utils': 3.26.0(react@19.0.0)
+      '@react-aria/visually-hidden': 3.8.18(react@19.0.0)
+      '@react-stately/radio': 3.10.9(react@19.0.0)
+      '@react-types/radio': 3.8.5(react@19.0.0)
+      '@react-types/shared': 3.26.0(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+
   '@heroui/react-rsc-utils@2.1.1(react@19.0.0)':
     dependencies:
       react: 19.0.0
@@ -3463,6 +3507,20 @@ snapshots:
       '@swc/helpers': 0.5.15
       react: 19.0.0
 
+  '@react-aria/radio@3.10.10(react@19.0.0)':
+    dependencies:
+      '@react-aria/focus': 3.19.0(react@19.0.0)
+      '@react-aria/form': 3.0.11(react@19.0.0)
+      '@react-aria/i18n': 3.12.4(react@19.0.0)
+      '@react-aria/interactions': 3.22.5(react@19.0.0)
+      '@react-aria/label': 3.7.13(react@19.0.0)
+      '@react-aria/utils': 3.26.0(react@19.0.0)
+      '@react-stately/radio': 3.10.9(react@19.0.0)
+      '@react-types/radio': 3.8.5(react@19.0.0)
+      '@react-types/shared': 3.27.0(react@19.0.0)
+      '@swc/helpers': 0.5.15
+      react: 19.0.0
+
   '@react-aria/selection@3.21.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@react-aria/focus': 3.19.0(react@19.0.0)
@@ -3595,6 +3653,15 @@ snapshots:
       '@swc/helpers': 0.5.15
       react: 19.0.0
 
+  '@react-stately/radio@3.10.9(react@19.0.0)':
+    dependencies:
+      '@react-stately/form': 3.1.0(react@19.0.0)
+      '@react-stately/utils': 3.10.5(react@19.0.0)
+      '@react-types/radio': 3.8.5(react@19.0.0)
+      '@react-types/shared': 3.27.0(react@19.0.0)
+      '@swc/helpers': 0.5.15
+      react: 19.0.0
+
   '@react-stately/selection@3.18.0(react@19.0.0)':
     dependencies:
       '@react-stately/collections': 3.12.0(react@19.0.0)
@@ -3696,6 +3763,11 @@ snapshots:
   '@react-types/progress@3.5.8(react@19.0.0)':
     dependencies:
       '@react-types/shared': 3.26.0(react@19.0.0)
+      react: 19.0.0
+
+  '@react-types/radio@3.8.5(react@19.0.0)':
+    dependencies:
+      '@react-types/shared': 3.27.0(react@19.0.0)
       react: 19.0.0
 
   '@react-types/select@3.9.8(react@19.0.0)':

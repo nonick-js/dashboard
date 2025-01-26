@@ -60,7 +60,7 @@ export function SettingForm({ setting, ...props }: Props) {
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
     const res = await updateSetting({ guildId, ...values });
 
-    if (res?.data?.success) form.reset(convertNumbersToStrings(values));
+    if (res?.data?.success) form.reset(form.getValues());
     else toast.error('設定の保存時に問題が発生しました。');
   };
 
@@ -88,6 +88,7 @@ function EnableSetting() {
 
 function GeneralSetting() {
   const { control } = useFormContext<InputSetting>();
+
   const isEnabled = useWatch<InputSetting>({ name: 'enabled' });
 
   return (
@@ -106,6 +107,7 @@ function GeneralSetting() {
 function IgnoreSetting() {
   const { control } = useFormContext<InputSetting>();
   const { channels } = useContext(PropsContext);
+
   const isEnabled = useWatch<InputSetting>({ name: 'enabled' });
 
   return (

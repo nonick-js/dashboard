@@ -50,7 +50,7 @@ export function SettingForm({ setting, ...props }: Props) {
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
     const res = await updateSetting({ guildId, ...values });
 
-    if (res?.data?.success) form.reset(values);
+    if (res?.data?.success) form.reset(form.getValues());
     else toast.error('設定の保存時に問題が発生しました。');
   };
 
@@ -126,6 +126,7 @@ function LogSetting({
 }: LogSettingProps) {
   const { channels } = useContext(PropsContext);
   const { control } = useFormContext<InputSetting>();
+
   const isLogEnabled = useWatch<InputSetting>({ name: `${name}.enabled` });
 
   return (
