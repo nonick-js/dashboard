@@ -130,23 +130,25 @@ function LogSetting({
   const isLogEnabled = useWatch<InputSetting>({ name: `${name}.enabled` });
 
   return (
-    <FormCard title={cardTitle}>
+    <FormCard title={cardTitle} bodyClass='gap-6'>
       {startContent}
-      <ControlledSwitch
-        control={control}
-        name={`${name}.enabled`}
-        label={switchLabel}
-        description={switchDescription}
-      />
-      <ChannelSelect
-        control={control}
-        name={`${name}.channel`}
-        channels={channels}
-        channelTypeFilter={{ include: [ChannelType.GuildText] }}
-        label='ログを送信するチャンネル'
-        isRequired
-        isDisabled={!isLogEnabled}
-      />
+      <div className='flex flex-col gap-8'>
+        <ControlledSwitch
+          control={control}
+          name={`${name}.enabled`}
+          label={switchLabel}
+          description={switchDescription}
+        />
+        <ChannelSelect
+          control={control}
+          name={`${name}.channel`}
+          channels={channels}
+          channelTypeFilter={{ include: [ChannelType.GuildText] }}
+          label='ログを送信するチャンネル'
+          isRequired
+          isDisabled={!isLogEnabled}
+        />
+      </div>
     </FormCard>
   );
 }

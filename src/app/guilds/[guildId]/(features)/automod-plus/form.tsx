@@ -10,6 +10,7 @@ import { ControlledArrayTextarea } from '@/components/react-hook-form/textarea';
 import { AutoModZodSchema } from '@/lib/database/zod';
 import type { getChannels, getRoles } from '@/lib/discord';
 import { Alert } from '@heroui/alert';
+import { cn } from '@heroui/theme';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
@@ -153,31 +154,34 @@ function IgnoreSetting() {
   const isEnabled = useWatch<InputSetting>({ name: 'enabled' });
 
   return (
-    <FormCard title='例外設定'>
+    <FormCard title='例外設定' bodyClass='gap-6'>
       <Alert
         variant='faded'
         color='primary'
         description='「サーバー管理」権限を持っているユーザーやBOTは、設定に関わらず全てのフィルターが適用されません。'
+        classNames={{ base: cn({ 'opacity-disabled': !isEnabled }) }}
       />
-      <ChannelSelect
-        control={control}
-        name='ignore.channels'
-        channels={channels}
-        channelTypeFilter={{ exclude: [ChannelType.GuildCategory] }}
-        label='フィルターを適用しないチャンネル'
-        description='選択したチャンネルのスレッドもフィルターが適用されなくなります。'
-        selectionMode='multiple'
-        isDisabled={!isEnabled}
-      />
-      <RoleSelect
-        control={control}
-        name='ignore.roles'
-        roles={roles}
-        disableItemFilter={(role) => role.id === guildId}
-        label='フィルターを適用しないロール'
-        selectionMode='multiple'
-        isDisabled={!isEnabled}
-      />
+      <div className='flex flex-col gap-8'>
+        <ChannelSelect
+          control={control}
+          name='ignore.channels'
+          channels={channels}
+          channelTypeFilter={{ exclude: [ChannelType.GuildCategory] }}
+          label='フィルターを適用しないチャンネル'
+          description='選択したチャンネルのスレッドもフィルターが適用されなくなります。'
+          selectionMode='multiple'
+          isDisabled={!isEnabled}
+        />
+        <RoleSelect
+          control={control}
+          name='ignore.roles'
+          roles={roles}
+          disableItemFilter={(role) => role.id === guildId}
+          label='フィルターを適用しないロール'
+          selectionMode='multiple'
+          isDisabled={!isEnabled}
+        />
+      </div>
     </FormCard>
   );
 }
