@@ -10,7 +10,7 @@ import { ControlledSelect, type ControlledSelectProps } from './select';
 
 type RoleSelectProps = {
   roles: APIRole[];
-  disableItemFilter?: (channel: APIRole) => boolean;
+  disableItemFilter?: (role: APIRole) => boolean;
 } & Omit<ControlledSelectProps, 'children' | 'items'>;
 
 export function RoleSelect<

@@ -31,7 +31,7 @@ export function ControlledSelect<
   const isMultiple = props.selectionMode === 'multiple';
 
   const onChange = (keys: SharedSelection) => {
-    field.onChange(isMultiple ? Array.from(keys).sort() : (keys.currentKey ?? ''));
+    field.onChange(isMultiple ? Array.from(keys) : (keys.currentKey ?? ''));
   };
 
   return (
