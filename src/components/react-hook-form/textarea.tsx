@@ -9,10 +9,49 @@ import {
   useController,
 } from 'react-hook-form';
 
-export type ControlledTextareaProps = { maxArrayLength?: number } & Omit<
+export type ControlledTextareaProps = Omit<
   TextAreaProps,
   'ref' | 'onChange' | 'onValueChange' | 'value' | 'isInvalid' | 'errorMessage'
 >;
+
+export function ControlledTextarea<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({
+  name,
+  control,
+  classNames,
+  labelPlacement = 'outside',
+  variant = 'flat',
+  ...props
+}: ControlledTextareaProps & UseControllerProps<TFieldValues, TName>) {
+  const { field, fieldState } = useController({ name, control });
+
+  return (
+    <Textarea
+      // React Hook Form
+      ref={field.ref}
+      onValueChange={field.onChange}
+      onBlur={field.onBlur}
+      value={field.value}
+      isInvalid={fieldState.invalid}
+      errorMessage={fieldState.error?.message}
+      // Other
+      classNames={{
+        ...classNames,
+        label: cn('text-sm text-foreground', classNames?.label),
+        description: cn('text-sm text-default-500 max-sm:text-xs', classNames?.description),
+        errorMessage: cn('text-sm max-sm:text-xs', classNames?.errorMessage),
+        inputWrapper: cn({
+          'data-[hover=true]:bg-opacity-30 transition-background': variant === 'flat',
+        }),
+      }}
+      labelPlacement={labelPlacement}
+      variant={variant}
+      {...props}
+    />
+  );
+}
 
 export function ControlledArrayTextarea<
   TFieldValues extends FieldValues = FieldValues,
@@ -24,7 +63,8 @@ export function ControlledArrayTextarea<
   maxArrayLength,
   labelPlacement = 'outside',
   ...props
-}: ControlledTextareaProps & UseControllerProps<TFieldValues, TName>) {
+}: ControlledTextareaProps &
+  UseControllerProps<TFieldValues, TName> & { maxArrayLength?: number }) {
   const { field, fieldState } = useController({ name, control });
 
   return (

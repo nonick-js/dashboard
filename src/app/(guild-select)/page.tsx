@@ -8,6 +8,7 @@ export default function Home() {
     <main className='container max-w-screen-xl'>
       <header className='mt-3 mb-8 flex w-full flex-col sm:flex-row gap-6 items-start sm:items-center justify-between'>
         <Header
+          className='flex-1'
           title='サーバー選択'
           description='Botの設定を行うサーバーを選択してください。'
           descriptionClass='text-medium'

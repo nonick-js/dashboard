@@ -21,6 +21,7 @@ export function ControlledInput<
   name,
   control,
   labelPlacement = 'outside',
+  variant = 'flat',
   classNames,
   ...props
 }: ControlledInputProps & UseControllerProps<TFieldValues, TName>) {
@@ -41,8 +42,12 @@ export function ControlledInput<
         label: cn('text-sm', classNames?.label),
         description: cn('text-sm max-sm:text-xs', classNames?.description),
         errorMessage: cn('text-sm max-sm:text-xs', classNames?.errorMessage),
+        inputWrapper: cn({
+          'data-[hover=true]:bg-opacity-30 transition-background': variant === 'flat',
+        }),
       }}
       labelPlacement={labelPlacement}
+      variant={variant}
       {...props}
     />
   );

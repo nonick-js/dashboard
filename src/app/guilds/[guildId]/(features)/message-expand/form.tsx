@@ -176,8 +176,8 @@ function CustomCheckbox({ children, icon, ...props }: CustomCheckboxProps) {
     <Checkbox
       classNames={{
         base: cn(
-          'inline-flex m-0 bg-default-100 hover:bg-default-100/80 items-center justify-between w-full max-w-none',
-          'w-full cursor-pointer rounded-lg gap-2 px-4 py-3 border-2 border-transparent',
+          'inline-flex m-0 bg-default-100 items-center justify-between w-full max-w-none',
+          'w-full cursor-pointer rounded-lg gap-2 px-4 py-3 border-2 border-transparent data-[hover=true]:bg-opacity-70 transition-background',
         ),
         label: 'w-full',
       }}

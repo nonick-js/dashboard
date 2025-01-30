@@ -2,7 +2,7 @@
 
 import { truncateString } from '@/lib/utils';
 import { Chip } from '@heroui/chip';
-import { SelectItem, type SelectProps, type SelectedItems } from '@heroui/select';
+import { SelectItem, type SelectedItems } from '@heroui/select';
 import type { APIRole } from 'discord-api-types/v10';
 import { useCallback } from 'react';
 import type { FieldPath, FieldValues, UseControllerProps } from 'react-hook-form';
@@ -84,9 +84,7 @@ function SingleSelectItem({ role }: { role: APIRole }) {
  */
 function MultipleSelectItem({ role }: { role: APIRole }) {
   return (
-    <Chip variant='faded' radius='sm' startContent={<RoleColorDot color={role.color} />}>
-      {truncateString(role.name, 15)}
-    </Chip>
+    <Chip startContent={<RoleColorDot color={role.color} />}>{truncateString(role.name, 15)}</Chip>
   );
 }
 

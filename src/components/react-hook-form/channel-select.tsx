@@ -2,7 +2,7 @@
 
 import { truncateString } from '@/lib/utils';
 import { Chip } from '@heroui/chip';
-import { Select, SelectItem, type SelectProps, type SelectedItems } from '@heroui/select';
+import { SelectItem, type SelectedItems } from '@heroui/select';
 import { type APIGuildChannel, ChannelType, type GuildChannelType } from 'discord-api-types/v10';
 import { useCallback, useMemo } from 'react';
 import type { FieldPath, FieldValues, UseControllerProps } from 'react-hook-form';
@@ -121,9 +121,5 @@ function SingleSelectItem({ channel }: { channel: APIGuildChannel<GuildChannelTy
  * `multiple`の場合の`renderValue`に使用するコンポーネント
  */
 function MultipleSelectItem({ channel }: { channel: APIGuildChannel<GuildChannelType> }) {
-  return (
-    <Chip variant='faded' radius='sm'>
-      {truncateString(channel.name, 16)}
-    </Chip>
-  );
+  return <Chip>{truncateString(channel.name, 16)}</Chip>;
 }
