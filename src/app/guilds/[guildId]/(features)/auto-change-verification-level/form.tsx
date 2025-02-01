@@ -4,10 +4,10 @@ import { FormCard } from '@/components/form';
 import { Icon } from '@/components/icon';
 import { FormChangePublisher } from '@/components/react-hook-form/change-publisher';
 import { ChannelSelect } from '@/components/react-hook-form/channel-select';
-import { ControlledForm } from '@/components/react-hook-form/form';
-import { ControlledInput, type ControlledInputProps } from '@/components/react-hook-form/input';
-import { ControlledRadioGroup } from '@/components/react-hook-form/radio';
-import { ControlledSwitch } from '@/components/react-hook-form/switch';
+import { ControlledForm } from '@/components/react-hook-form/ui/form';
+import { ControlledInput, type ControlledInputProps } from '@/components/react-hook-form/ui/input';
+import { ControlledRadioGroup } from '@/components/react-hook-form/ui/radio';
+import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
 import { AutoChangeVerifyLevelZodSchema } from '@/lib/database/zod';
 import type { getChannels } from '@/lib/discord';
 import { convertNumbersToStrings } from '@/lib/utils';
@@ -192,6 +192,7 @@ function HourInput<
   return (
     <ControlledInput
       type='number'
+      labelPlacement='outside'
       min={0}
       max={23}
       startContent={

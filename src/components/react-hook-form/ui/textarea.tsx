@@ -21,7 +21,6 @@ export function ControlledTextarea<
   name,
   control,
   classNames,
-  labelPlacement = 'outside',
   variant = 'flat',
   ...props
 }: ControlledTextareaProps & UseControllerProps<TFieldValues, TName>) {
@@ -39,14 +38,15 @@ export function ControlledTextarea<
       // Other
       classNames={{
         ...classNames,
-        label: cn('text-sm text-foreground', classNames?.label),
         description: cn('text-sm text-default-500 max-sm:text-xs', classNames?.description),
         errorMessage: cn('text-sm max-sm:text-xs', classNames?.errorMessage),
-        inputWrapper: cn({
-          'data-[hover=true]:bg-opacity-30 transition-background': variant === 'flat',
-        }),
+        inputWrapper: cn(
+          {
+            'data-[hover=true]:bg-opacity-30 transition-background': variant === 'flat',
+          },
+          classNames?.inputWrapper,
+        ),
       }}
-      labelPlacement={labelPlacement}
       variant={variant}
       {...props}
     />

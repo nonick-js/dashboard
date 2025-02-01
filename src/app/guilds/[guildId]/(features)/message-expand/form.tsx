@@ -4,10 +4,10 @@ import { FormCard } from '@/components/form';
 import { Icon } from '@/components/icon';
 import { FormChangePublisher } from '@/components/react-hook-form/change-publisher';
 import { ChannelSelect } from '@/components/react-hook-form/channel-select';
-import { ControlledCheckboxGroup } from '@/components/react-hook-form/checkbox';
-import { ControlledForm } from '@/components/react-hook-form/form';
-import { ControlledSelect } from '@/components/react-hook-form/select';
-import { ControlledSwitch } from '@/components/react-hook-form/switch';
+import { ControlledCheckboxGroup } from '@/components/react-hook-form/ui/checkbox';
+import { ControlledForm } from '@/components/react-hook-form/ui/form';
+import { ControlledSelect } from '@/components/react-hook-form/ui/select';
+import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
 import { MessageExpandIgnorePrefixes, MessageExpandZodSchema } from '@/lib/database/zod';
 import type { getChannels } from '@/lib/discord';
 import { convertNumbersToStrings } from '@/lib/utils';
@@ -151,8 +151,8 @@ function IgnoreSetting() {
         renderValue={(items) => (
           <div className='flex flex-wrap items-center gap-1'>
             {items.map((item) => (
-              <Chip variant='faded' radius='sm' key={item.key}>
-                {item.data?.value}
+              <Chip key={item.key}>
+                <span className='px-0.5'>{item.data?.value}</span>
               </Chip>
             ))}
           </div>

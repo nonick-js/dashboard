@@ -20,7 +20,6 @@ export function ControlledInput<
 >({
   name,
   control,
-  labelPlacement = 'outside',
   variant = 'flat',
   classNames,
   ...props
@@ -46,7 +45,6 @@ export function ControlledInput<
           'data-[hover=true]:bg-opacity-30 transition-background': variant === 'flat',
         }),
       }}
-      labelPlacement={labelPlacement}
       variant={variant}
       {...props}
     />

@@ -6,7 +6,7 @@ import { SelectItem, type SelectedItems } from '@heroui/select';
 import type { APIRole } from 'discord-api-types/v10';
 import { useCallback } from 'react';
 import type { FieldPath, FieldValues, UseControllerProps } from 'react-hook-form';
-import { ControlledSelect, type ControlledSelectProps } from './select';
+import { ControlledSelect, type ControlledSelectProps } from './ui/select';
 
 type RoleSelectProps = {
   roles: APIRole[];

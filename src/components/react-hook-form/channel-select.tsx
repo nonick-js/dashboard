@@ -7,7 +7,7 @@ import { type APIGuildChannel, ChannelType, type GuildChannelType } from 'discor
 import { useCallback, useMemo } from 'react';
 import type { FieldPath, FieldValues, UseControllerProps } from 'react-hook-form';
 import { Icon } from '../icon';
-import { ControlledSelect, type ControlledSelectProps } from './select';
+import { ControlledSelect, type ControlledSelectProps } from './ui/select';
 
 const ChannelTypeIcons = new Map<GuildChannelType, string>([
   [ChannelType.GuildAnnouncement, 'solar:mailbox-bold'],

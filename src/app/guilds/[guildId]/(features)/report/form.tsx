@@ -3,9 +3,9 @@
 import { FormCard } from '@/components/form';
 import { FormChangePublisher } from '@/components/react-hook-form/change-publisher';
 import { ChannelSelect } from '@/components/react-hook-form/channel-select';
-import { ControlledForm } from '@/components/react-hook-form/form';
 import { RoleSelect } from '@/components/react-hook-form/role-select';
-import { ControlledSwitch } from '@/components/react-hook-form/switch';
+import { ControlledForm } from '@/components/react-hook-form/ui/form';
+import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
 import { ReportZodSchema } from '@/lib/database/zod';
 import type { getChannels, getRoles } from '@/lib/discord';
 import { Alert } from '@heroui/alert';

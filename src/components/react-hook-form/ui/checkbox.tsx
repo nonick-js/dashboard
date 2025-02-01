@@ -1,6 +1,11 @@
 ﻿'use client';
 
-import { CheckboxGroup, type CheckboxGroupProps } from '@heroui/checkbox';
+import {
+  Checkbox,
+  CheckboxGroup,
+  type CheckboxGroupProps,
+  type CheckboxProps,
+} from '@heroui/checkbox';
 import { cn } from '@heroui/theme';
 import {
   type FieldPath,
@@ -43,6 +48,40 @@ export function ControlledCheckboxGroup<
           classNames?.label,
         ),
         description: cn('text-sm max-sm:text-xs', classNames?.description),
+      }}
+      {...props}
+    />
+  );
+}
+
+export type ControlledCheckboxProps = Omit<
+  CheckboxProps,
+  'ref' | 'onChange' | 'onValueChange' | 'onBlur' | 'value' | 'isInvalid'
+>;
+
+export function ControlledCheckbox<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({
+  name,
+  control,
+  classNames,
+  ...props
+}: ControlledCheckboxProps & UseControllerProps<TFieldValues, TName>) {
+  const { field, fieldState } = useController({ name, control });
+
+  return (
+    <Checkbox
+      // React Hook Form
+      ref={field.ref}
+      onValueChange={field.onChange}
+      onBlur={field.onBlur}
+      value={field.value}
+      isInvalid={fieldState.invalid}
+      // Other
+      classNames={{
+        ...classNames,
+        label: cn('text-sm', classNames?.label),
       }}
       {...props}
     />
