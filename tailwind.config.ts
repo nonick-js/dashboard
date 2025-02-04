@@ -3,15 +3,20 @@ import type { Config } from 'tailwindcss';
 
 export default {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@heroui/theme/dist/components/(accordion|alert|avatar|button|card|checkbox|chip|code|divider|drawer|dropdown|form|input|link|listbox|navbar|progress|radio|select|skeleton|snippet|spacer|toggle|popover|user|ripple|spinner|modal|menu|scroll-shadow).js"
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './node_modules/@heroui/theme/dist/components/(accordion|alert|avatar|button|card|checkbox|chip|code|divider|drawer|dropdown|form|input|link|listbox|modal|navbar|popover|progress|radio|select|skeleton|snippet|spacer|toggle|tabs|user|ripple|spinner|menu|scroll-shadow).js',
   ],
   theme: {
     container: {
       center: true,
       padding: '1.5rem',
+    },
+    extend: {
+      fontFamily: {
+        'noto-sans': ['var(--font-noto-sans)'],
+      },
     },
   },
   darkMode: 'class',
