@@ -1,9 +1,12 @@
 'use client';
 
 import { signOut, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import { type ReactNode, useEffect } from 'react';
 
-export function CheckSession() {
+/**
+ * token.errorがundefinedでない場合に強制的にログアウトさせる
+ */
+export function CheckSessionProvider({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -13,5 +16,5 @@ export function CheckSession() {
     }
   }, [session?.error, status]);
 
-  return null;
+  return <>{children}</>;
 }

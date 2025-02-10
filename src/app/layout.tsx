@@ -1,11 +1,10 @@
-import './globals.css';
-import { CheckSession } from '@/components/check-session';
-import { ConsoleWarning } from '@/components/console-warn';
-import { Toaster } from '@/components/ui/sonner';
-import MetadataConfig from '@/config/metadata';
 import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
+import './globals.css';
+import { ConsoleWarning } from '@/components/console-warn';
+import metadataConfig from '@/config/metadata';
 import NextTopLoader from 'nextjs-toploader';
+import { Toaster } from 'react-hot-toast';
 import { Provider } from './provider';
 
 const notoSansJP = Noto_Sans_JP({
@@ -14,14 +13,14 @@ const notoSansJP = Noto_Sans_JP({
 
 export const metadata: Metadata = {
   title: {
-    default: MetadataConfig.name,
-    template: `%s - ${MetadataConfig.name}`,
+    default: metadataConfig.name,
+    template: `%s - ${metadataConfig.name}`,
   },
-  description: MetadataConfig.description,
+  description: metadataConfig.description,
   openGraph: {
-    title: MetadataConfig.name,
-    description: MetadataConfig.description,
-    locale: 'ja_JP',
+    title: metadataConfig.name,
+    description: metadataConfig.description,
+    locale: 'ja-JP',
     type: 'website',
   },
 };
@@ -33,13 +32,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ja' suppressHydrationWarning>
-      <body className={notoSansJP.className}>
+      <body className={`${notoSansJP.className} antialiased`}>
         <Provider>
           <main>{children}</main>
-          <Toaster />
-          <NextTopLoader color='#006FEE' height={4} showSpinner={false} />
           <ConsoleWarning />
-          <CheckSession />
+          <Toaster position='top-right' />
+          <NextTopLoader color='#006FEE' height={4} showSpinner={false} />
         </Provider>
       </body>
     </html>

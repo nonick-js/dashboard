@@ -1,23 +1,39 @@
-import { nextui } from '@nextui-org/theme';
+import { heroui } from '@heroui/theme';
 import type { Config } from 'tailwindcss';
 
-const config: Config = {
+export default {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/components/(accordion|avatar|button|card|checkbox|chip|code|divider|dropdown|input|link|listbox|modal|navbar|radio|scroll-shadow|select|skeleton|snippet|spinner|toggle|user|ripple|menu|popover).js"
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    './node_modules/@heroui/theme/dist/components/(accordion|alert|avatar|button|card|checkbox|chip|code|divider|drawer|dropdown|form|input|link|listbox|modal|navbar|popover|progress|radio|select|skeleton|snippet|spacer|toggle|tabs|user|ripple|spinner|menu|scroll-shadow).js',
   ],
   theme: {
     container: {
       center: true,
       padding: '1.5rem',
-      screens: {
-        '2xl': '1280px',
+    },
+    extend: {
+      fontFamily: {
+        'noto-sans': ['var(--font-noto-sans)'],
       },
     },
   },
   darkMode: 'class',
-  plugins: [nextui()],
-};
-export default config;
+  plugins: [
+    heroui({
+      themes: {
+        dark: {
+          colors: {
+            background: '#121212',
+          },
+        },
+        light: {
+          colors: {
+            background: '#f4f4f5',
+          },
+        },
+      },
+    }),
+  ],
+} satisfies Config;

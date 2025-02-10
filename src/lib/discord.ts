@@ -14,12 +14,11 @@ import {
   type RESTRateLimit,
 } from 'discord-api-types/v10';
 import { Discord } from './constants';
-import { Guild } from './database/models';
+import { GuildModel } from './database/mongoose';
 import { dbConnect } from './mongoose';
 import { wait } from './utils';
 
 // #region API
-
 /** Discordサーバーのチャンネルを取得 */
 export async function getChannels(guildId: string) {
   const res = await fetchWithDiscordRateLimit(
@@ -42,7 +41,7 @@ export async function getRoles(guildId: string) {
   });
 
   if (!res.ok) throw new Error(res.statusText);
-  return await res.json<APIRole[]>();
+  return (await res.json<APIRole[]>()).sort((a, b) => b.position - a.position);
 }
 
 /** Discordサーバーに参加しているメンバーを取得 */
@@ -75,7 +74,7 @@ export async function getMutualGuilds(accessToken: string) {
   await dbConnect();
 
   const userGuilds = await getUserGuilds(accessToken);
-  const mutualGuildIds = await Guild.find({
+  const mutualGuildIds = await GuildModel.find({
     guildId: { $in: userGuilds.map((guild) => guild.id) },
   }).then((guilds) => guilds.map((guild) => guild.guildId));
 
@@ -159,23 +158,21 @@ export async function fetchWithDiscordRateLimit(
     }
 
     await wait(retryAfter * 1000);
-    return await fetchWithDiscordRateLimit(input, init);
+    return await fetch(input, init);
   }
 
   return res;
 }
-
 // #endregion
 
 // #region Utils
-
 /** 特定の権限が含まれているか確認 */
 export function hasPermission(permissions: string, permission: bigint) {
   return (Number.parseInt(permissions) & Number(permission)) === Number(permission);
 }
 
 /** チャンネルをDiscord上の配置順に並べ替え */
-const sortChannels = (channels: APIGuildChannel<GuildChannelType>[]) => {
+export function sortChannels(channels: APIGuildChannel<GuildChannelType>[]) {
   const categories = channels.filter((channel) => channel.type === ChannelType.GuildCategory);
   const otherChannels = channels.filter((channel) => channel.type !== ChannelType.GuildCategory);
 
@@ -213,6 +210,5 @@ const sortChannels = (channels: APIGuildChannel<GuildChannelType>[]) => {
 
   sortedChannels.unshift(...rootTextChannels, ...rootVoiceChannels);
   return sortedChannels;
-};
-
+}
 // #endregion
