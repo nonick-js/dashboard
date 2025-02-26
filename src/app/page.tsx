@@ -1,8 +1,5 @@
-import { Button } from "@heroui/button";
-import Image from "next/image";
+import { Button } from '@heroui/button';
 
 export default function Home() {
-  return (
-    <Button color="primary">Click Me</Button>
-  );
+  return <Button color='primary'>Click Me</Button>;
 }
