@@ -1,39 +1,18 @@
-import { heroui } from '@heroui/theme';
-import type { Config } from 'tailwindcss';
+import type { Config } from "tailwindcss";
 
 export default {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './node_modules/@heroui/theme/dist/components/(accordion|alert|avatar|button|card|checkbox|chip|code|divider|drawer|dropdown|form|input|link|listbox|modal|navbar|popover|progress|radio|select|skeleton|snippet|spacer|toggle|tabs|user|ripple|spinner|menu|scroll-shadow).js',
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    container: {
-      center: true,
-      padding: '1.5rem',
-    },
     extend: {
-      fontFamily: {
-        'noto-sans': ['var(--font-noto-sans)'],
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
       },
     },
   },
-  darkMode: 'class',
-  plugins: [
-    heroui({
-      themes: {
-        dark: {
-          colors: {
-            background: '#121212',
-          },
-        },
-        light: {
-          colors: {
-            background: '#f4f4f5',
-          },
-        },
-      },
-    }),
-  ],
+  plugins: [],
 } satisfies Config;
