@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ja' suppressHydrationWarning>
-      <body className={`${notoSansJP.variable} antialiased`}>
+      <body className={`${notoSansJP.className} antialiased`}>
         <Provider>{children}</Provider>
       </body>
     </html>
