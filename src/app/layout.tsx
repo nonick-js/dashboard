@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import './globals.css';
 import { Provider } from './provider';
@@ -14,6 +14,10 @@ export const metadata: Metadata = {
     template: '%s - NoNICK.js Dashboard',
   },
   description: 'あなたのDiscordサーバーをもっと便利に。',
+};
+
+export const viewport: Viewport = {
+  themeColor: '#0073f5',
 };
 
 export default function RootLayout({
