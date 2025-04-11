@@ -1,9 +1,9 @@
 ﻿declare namespace NodeJS {
   interface ProcessEnv {
     readonly DATABASE_URL: string;
-    readonly BETTER_AUTH_SECRET: string;
-    readonly BETTER_AUTH_URL: string;
-    readonly DISCORD_CLIENT_ID: string;
-    readonly DISCORD_CLIENT_SECRET: string;
+    readonly AUTH_SECRET: string;
+    readonly AUTH_URL: string;
+    readonly AUTH_DISCORD_ID: string;
+    readonly AUTH_DISCORD_SECRET: string;
   }
 }

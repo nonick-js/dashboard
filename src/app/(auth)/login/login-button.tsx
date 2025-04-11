@@ -1,8 +1,8 @@
 ﻿'use client';
 
 import { Icon } from '@/components/icon';
-import { authClient } from '@/lib/auth-client';
 import { Button } from '@heroui/button';
+import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
@@ -14,9 +14,8 @@ export function LoginButton() {
     <Button
       onPress={async () => {
         setIsPressed(true);
-        await authClient.signIn.social({
-          provider: 'discord',
-          callbackURL: searchParams.get('callbackUrl') || '/',
+        signIn('discord', {
+          redirectTo: searchParams.get('callbackUrl') || '/',
         });
       }}
       color='primary'
