@@ -36,15 +36,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: '/login',
   },
   callbacks: {
-    jwt: async ({ token, account }) => {
-      if (account) {
-        return {
-          ...token,
-          userId: account.providerAccountId,
-          accessToken: account.access_token as string,
-          refreshToken: account.refresh_token as string,
-          expiresAt: account.expires_at as number,
-        } as JWT;
+    authorized: ({ auth, request }) => {
+      if (auth && request.nextUrl.pathname === '/login') {
+        return NextResponse.redirect(new URL('/', request.nextUrl.origin));
+      }
+
+      return !!auth;
+    },
     jwt: async ({ token, account, user }) => {
       if (account && user) {
         token.userId = account.providerAccountId;
