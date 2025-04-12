@@ -1,10 +1,15 @@
 ﻿import 'server-only';
 
-import { PermissionFlagsBits, type RESTAPIPartialCurrentUserGuild } from 'discord-api-types/v10';
+import {
+  type APIGuild,
+  PermissionFlagsBits,
+  type RESTAPIPartialCurrentUserGuild,
+} from 'discord-api-types/v10';
 import { db } from '../drizzle';
-import { discordOAuth2UserFetch } from './fetcher';
+import { discordBotUserFetch, discordOAuth2UserFetch } from './fetcher';
 import { DiscordEndPoints, hasPermission } from './utils';
 
+/** Botの招待URL */
 export const inviteUrl = `${DiscordEndPoints.OAuth2}/authorize?${new URLSearchParams({
   client_id: process.env.AUTH_DISCORD_ID,
   scope: 'bot applications.commands',
@@ -49,4 +54,9 @@ export async function getMutualManagedGuilds(withCounts = false) {
 
   mutualGuilds.data = mutualManagedGuilds;
   return mutualGuilds;
+}
+
+/** Discordサーバーを取得 */
+export async function getGuild(guildId: string, withCounts = false) {
+  return discordBotUserFetch<APIGuild>(`/guilds/${guildId}?with_counts=${withCounts}`);
 }
