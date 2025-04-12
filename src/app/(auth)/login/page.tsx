@@ -1,4 +1,5 @@
-﻿import { Logo } from '@/components/logo';
+﻿import { Icon } from '@/components/icon';
+import { Logo } from '@/components/logo';
 import { Button } from '@heroui/button';
 import { Card } from '@heroui/card';
 import { Link } from '@heroui/link';
@@ -20,7 +21,18 @@ export default function Page() {
           <p className='text-sm text-default-500'>Discordアカウントを使用して続行</p>
         </div>
         <div className='flex flex-col gap-3'>
-          <Suspense>
+          <Suspense
+            fallback={
+              <Button
+                color='primary'
+                startContent={<Icon icon='ic:baseline-discord' className='text-2xl' />}
+                isDisabled
+                fullWidth
+              >
+                Discordでログイン
+              </Button>
+            }
+          >
             <LoginButton />
           </Suspense>
           <Button

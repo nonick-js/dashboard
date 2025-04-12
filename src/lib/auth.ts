@@ -5,7 +5,7 @@ import NextAuth, { type DefaultSession } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
 import discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import { NextResponse } from 'next/server';
-import { discordFetch } from './discord/fetch';
+import { discordFetch } from './discord/fetcher';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -37,8 +37,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     authorized: ({ auth, request }) => {
+      const baseUrl = request.nextUrl.origin;
+
       if (auth && request.nextUrl.pathname === '/login') {
-        return NextResponse.redirect(new URL('/', request.nextUrl.origin));
+        return NextResponse.redirect(new URL('/', baseUrl));
+      }
+
+      if (auth && request.nextUrl.pathname === '/') {
+        const searchParams = request.nextUrl.searchParams;
+        if (searchParams.toString()) {
+          const guildId = searchParams.get('guild_id');
+          if (guildId) return NextResponse.redirect(new URL(`/guilds/${guildId}`, baseUrl));
+          return NextResponse.redirect(new URL('/', baseUrl));
+        }
       }
 
       return !!auth;
@@ -64,7 +75,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           grant_type: 'refresh_token',
           refresh_token: token.refreshToken,
         }),
-        next: { revalidate: 60 },
+        next: { revalidate: 1 },
       });
 
       if (error) {

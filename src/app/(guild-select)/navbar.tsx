@@ -1,0 +1,31 @@
+﻿import { Logo } from '@/components/logo';
+import { UserDropdown } from '@/components/user-dropdown';
+import { auth } from '@/lib/auth';
+import { Chip } from '@heroui/chip';
+import { Link } from '@heroui/link';
+import { Navbar as HeroUINavbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/navbar';
+import { Suspense } from 'react';
+
+export async function Navbar() {
+  const sessionPromise = auth();
+
+  return (
+    <HeroUINavbar maxWidth='xl' isBordered isBlurred>
+      <NavbarBrand className='gap-4'>
+        <Link href='#'>
+          <Logo height={16} />
+        </Link>
+        <Chip className='max-sm:hidden' size='sm' radius='sm' variant='flat'>
+          Dashboard
+        </Chip>
+      </NavbarBrand>
+      <NavbarContent justify='end'>
+        <NavbarItem>
+          <Suspense>
+            <UserDropdown sessionPromise={sessionPromise} />
+          </Suspense>
+        </NavbarItem>
+      </NavbarContent>
+    </HeroUINavbar>
+  );
+}

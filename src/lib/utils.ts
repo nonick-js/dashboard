@@ -1,14 +1,10 @@
-﻿import pc from 'picocolors';
+﻿/** 指定の長さを超える文字列を「...」で省略する */
+export function truncateString(str: string, maxLength: number): string {
+  if (str.length > maxLength) return `${str.substring(0, maxLength)}...`;
+  return str;
+}
 
-export function logTimestamp() {
-  return pc.gray(
-    `[${new Date().toLocaleString('ja-JP', {
-      year: '2-digit',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    })}]`,
-  );
+/** 任意の間待機する */
+export async function wait(ms: number): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, ms));
 }

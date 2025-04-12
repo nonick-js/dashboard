@@ -1,15 +1,11 @@
 ﻿'use client';
 
+import { cn } from '@heroui/react';
 import { type IconProps, Icon as RealIcon } from '@iconify/react';
 
-export function Icon(props: IconProps) {
+export function Icon({ className, ...props }: IconProps) {
   return (
-    <span
-      style={{
-        width: props.width || 20,
-        height: props.width || 20,
-      }}
-    >
+    <span className={cn('w-[1em] h-[1em] inline-flex items-center justify-center', className)}>
       <RealIcon {...props} />
     </span>
   );
