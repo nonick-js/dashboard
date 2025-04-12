@@ -1,5 +1,5 @@
 ﻿import { Logo } from '@/components/logo';
-import { UserDropdown } from '@/components/user-dropdown';
+import { UserDropdown, UserDropdownSkeleton } from '@/components/user-dropdown';
 import { auth } from '@/lib/auth';
 import { Chip } from '@heroui/chip';
 import { Link } from '@heroui/link';
@@ -21,7 +21,7 @@ export async function Navbar() {
       </NavbarBrand>
       <NavbarContent justify='end'>
         <NavbarItem>
-          <Suspense>
+          <Suspense fallback={<UserDropdownSkeleton />}>
             <UserDropdown sessionPromise={sessionPromise} />
           </Suspense>
         </NavbarItem>
