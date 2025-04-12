@@ -14,10 +14,7 @@ const defaultFetchOptions: CreateFetchOption = {
 export const discordFetch = createFetch(defaultFetchOptions);
 
 export const discordBotUserFetch = createFetch({
-  auth: {
-    type: 'Bearer',
-    token: process.env.DISCORD_TOKEN,
-  },
+  headers: { authorization: `Bot ${process.env.DISCORD_TOKEN}` },
   ...defaultFetchOptions,
 });
 
