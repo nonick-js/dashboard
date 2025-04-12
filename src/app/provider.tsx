@@ -4,6 +4,7 @@ import { HeroUIProvider } from '@heroui/react';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
 import { useRouter } from 'next/navigation';
+import NextTopLoader from 'nextjs-toploader';
 import { type ReactNode, useEffect } from 'react';
 
 export function Provider({ children }: { children: ReactNode }) {
@@ -24,7 +25,10 @@ export function Provider({ children }: { children: ReactNode }) {
   return (
     <SessionProvider refetchOnWindowFocus={false}>
       <ThemeProvider attribute='class' defaultTheme='dark'>
-        <HeroUIProvider navigate={router.push}>{children}</HeroUIProvider>
+        <HeroUIProvider navigate={router.push}>
+          {children}
+          <NextTopLoader color='#006FEE' height={4} showSpinner={false} />
+        </HeroUIProvider>
       </ThemeProvider>
     </SessionProvider>
   );
