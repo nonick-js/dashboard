@@ -7,7 +7,8 @@ import type {
 import NextAuth, { type DefaultSession } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
 import discord, { type DiscordProfile } from 'next-auth/providers/discord';
-import { NextResponse } from 'next/server';
+import { NextResponse, URLPattern } from 'next/server';
+import { snowflake } from './database/src/utils/zod/discord';
 import { discordFetch } from './discord/fetcher';
 
 type SessionError = 'RefreshTokenError' | 'AccessTokenError';
@@ -84,6 +85,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (searchParams.toString()) {
           const guildId = searchParams.get('guild_id');
           if (guildId) return NextResponse.redirect(new URL(`/guilds/${guildId}`, baseUrl));
+          return NextResponse.redirect(new URL('/', baseUrl));
+        }
+      }
+
+      if (auth?.user && request.nextUrl.pathname.startsWith('/guilds')) {
+        const urlPattern = new URLPattern({ pathname: '/guilds/:guildId/:segment*' });
+        const guildId = urlPattern.exec(request.nextUrl)?.pathname.groups.guildId;
+
+        if (!snowflake.safeParse(guildId).success) {
           return NextResponse.redirect(new URL('/', baseUrl));
         }
       }
