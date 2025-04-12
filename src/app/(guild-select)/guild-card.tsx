@@ -1,4 +1,4 @@
-﻿import { DiscordEndPoints } from '@/lib/discord/utils';
+﻿import { DiscordEndPoints } from '@/lib/discord/constants';
 import { truncateString } from '@/lib/utils';
 import { Avatar } from '@heroui/avatar';
 import { Card, type CardProps } from '@heroui/card';

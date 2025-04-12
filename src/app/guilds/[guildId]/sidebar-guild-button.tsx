@@ -1,6 +1,6 @@
 ﻿import { Icon } from '@/components/icon';
 import type { getGuild } from '@/lib/discord/api';
-import { DiscordEndPoints } from '@/lib/discord/utils';
+import { DiscordEndPoints } from '@/lib/discord/constants';
 import { Avatar, Button, Link, Skeleton, Tooltip } from '@heroui/react';
 import { use } from 'react';
 

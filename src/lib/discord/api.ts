@@ -2,12 +2,19 @@
 
 import {
   type APIGuild,
+  type APIGuildChannel,
+  type APIGuildMember,
+  type APIRole,
+  type GuildChannelType,
   PermissionFlagsBits,
   type RESTAPIPartialCurrentUserGuild,
 } from 'discord-api-types/v10';
+import { redirect } from 'next/navigation';
+import { auth } from '../auth';
 import { db } from '../drizzle';
+import { DiscordEndPoints } from './constants';
 import { discordBotUserFetch, discordOAuth2UserFetch } from './fetcher';
-import { DiscordEndPoints, hasPermission } from './utils';
+import { hasPermission, sortChannels } from './utils';
 
 /** Botの招待URL */
 export const inviteUrl = `${DiscordEndPoints.OAuth2}/authorize?${new URLSearchParams({
@@ -59,4 +66,59 @@ export async function getMutualManagedGuilds(withCounts = false) {
 /** Discordサーバーを取得 */
 export async function getGuild(guildId: string, withCounts = false) {
   return discordBotUserFetch<APIGuild>(`/guilds/${guildId}?with_counts=${withCounts}`);
+}
+
+/** Discordサーバーのチャンネルを取得 */
+export async function getChannels(guildId: string) {
+  const channels = await discordBotUserFetch<APIGuildChannel<GuildChannelType>[]>(
+    `/guilds/${guildId}/channels`,
+  );
+  if (channels.error) return channels;
+
+  channels.data = sortChannels(channels.data);
+  return channels;
+}
+
+/** Discordサーバーのロールを取得 */
+export async function getRoles(guildId: string) {
+  const roles = await discordBotUserFetch<APIRole[]>(`/guilds/${guildId}/roles`);
+  if (roles.error) return roles;
+
+  roles.data = roles.data.sort((a, b) => b.position - a.position);
+  return roles;
+}
+
+/** Discordサーバーに参加しているメンバーを取得 */
+export async function getGuildMember(guildId: string, userId: string) {
+  return discordBotUserFetch<APIGuildMember>(`/guilds/${guildId}/members/${userId}`);
+}
+
+/** ダッシュボードのアクセス権限を持っているか確認 */
+export async function hasAccessDashboardPermission(guildId: string) {
+  const session = await auth();
+  if (!session || session.error) return false;
+
+  const { data: guild, error: guildError } = await getGuild(guildId);
+  if (guildError) return false;
+
+  const [{ data: roles, error: roleError }, { data: member, error: memberError }] =
+    await Promise.all([getRoles(guildId), getGuildMember(guildId, session.user.id)]);
+  if (roleError || memberError) return false;
+
+  const isGuildOwner = guild.owner_id === session.user.id;
+  const hasAdminRole = roles
+    .filter((role) => member.roles.includes(role.id))
+    .some(
+      (role) =>
+        hasPermission(role.permissions, PermissionFlagsBits.ManageGuild) ||
+        hasPermission(role.permissions, PermissionFlagsBits.Administrator),
+    );
+
+  return isGuildOwner || hasAdminRole;
+}
+
+/** ダッシュボードのアクセス権限を持っていない場合にリダイレクト */
+export async function redirectIfNoAccessPermission(guildId: string) {
+  const hasPermission = await hasAccessDashboardPermission(guildId);
+  if (!hasPermission) redirect('/');
 }

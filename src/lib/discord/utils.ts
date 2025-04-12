@@ -1,12 +1,47 @@
-﻿export enum DiscordEndPoints {
-	API = "https://discord.com/api/v10",
-	CDN = "https://cdn.discordapp.com",
-	OAuth2 = "https://discord.com/oauth2",
-}
+﻿import { type APIGuildChannel, ChannelType, type GuildChannelType } from 'discord-api-types/v10';
 
 /** 特定の権限が含まれていれば`true`を返す */
 export function hasPermission(permissions: string, permission: bigint) {
-	return (
-		(Number.parseInt(permissions) & Number(permission)) === Number(permission)
-	);
+  return (Number.parseInt(permissions) & Number(permission)) === Number(permission);
+}
+
+/** チャンネルをDiscord上の配置順に並べ替え */
+export function sortChannels(channels: APIGuildChannel<GuildChannelType>[]) {
+  const categories = channels.filter((channel) => channel.type === ChannelType.GuildCategory);
+  const otherChannels = channels.filter((channel) => channel.type !== ChannelType.GuildCategory);
+
+  categories.sort((a, b) => a.position - b.position);
+
+  const sortedChannels: APIGuildChannel<GuildChannelType>[] = [];
+
+  for (const category of categories) {
+    sortedChannels.push(category);
+
+    const childChannels = otherChannels.filter((channel) => channel.parent_id === category.id);
+    const voiceChannels = childChannels.filter((channel) =>
+      [ChannelType.GuildVoice, ChannelType.GuildStageVoice].includes(channel.type),
+    );
+    const textChannels = childChannels.filter(
+      (channel) => !voiceChannels.some((v) => v.id === channel.id),
+    );
+
+    voiceChannels.sort((a, b) => a.position - b.position);
+    textChannels.sort((a, b) => a.position - b.position);
+
+    sortedChannels.push(...textChannels, ...voiceChannels);
+  }
+
+  const rootChannels = otherChannels.filter((channel) => !channel.parent_id);
+  const rootVoiceChannels = rootChannels.filter((channel) =>
+    [ChannelType.GuildVoice, ChannelType.GuildStageVoice].includes(channel.type),
+  );
+  const rootTextChannels = rootChannels.filter(
+    (channel) => !rootVoiceChannels.some((v) => v.id === channel.id),
+  );
+
+  rootVoiceChannels.sort((a, b) => a.position - b.position);
+  rootTextChannels.sort((a, b) => a.position - b.position);
+
+  sortedChannels.unshift(...rootTextChannels, ...rootVoiceChannels);
+  return sortedChannels;
 }

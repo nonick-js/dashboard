@@ -3,7 +3,7 @@
 import { type CreateFetchOption, createFetch } from '@better-fetch/fetch';
 import { auth } from '../auth';
 import { defaultPlugins, defaultRetryOption } from '../better-fetch';
-import { DiscordEndPoints } from './utils';
+import { DiscordEndPoints } from './constants';
 
 const defaultFetchOptions: CreateFetchOption = {
   baseURL: DiscordEndPoints.API,

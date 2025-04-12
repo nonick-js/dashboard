@@ -1,9 +1,18 @@
 ﻿import { Header } from '@/components/header';
+import { auth } from '@/lib/auth';
+import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { InviteButton } from './invite-button';
 import { Navbar } from './navbar';
+import { SessionAlert } from './session-alert';
 
-export default function Layout({ children }: { children: ReactNode }) {
+export const metadata: Metadata = {
+  title: 'サーバー選択',
+};
+
+export default async function Layout({ children }: { children: ReactNode }) {
+  const session = await auth();
+
   return (
     <>
       <Navbar />
@@ -17,7 +26,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           />
           <InviteButton className='max-sm:w-full' />
         </header>
-        {children}
+        {session?.error ? <SessionAlert /> : children}
       </div>
     </>
   );
