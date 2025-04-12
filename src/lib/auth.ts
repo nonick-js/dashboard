@@ -1,11 +1,47 @@
 ﻿import 'server-only';
 
-import type { RESTPostOAuth2AccessTokenResult } from 'discord-api-types/v10';
+import type {
+  RESTGetAPIOAuth2CurrentAuthorizationResult,
+  RESTPostOAuth2AccessTokenResult,
+} from 'discord-api-types/v10';
 import NextAuth, { type DefaultSession } from 'next-auth';
 import type { JWT } from 'next-auth/jwt';
 import discord, { type DiscordProfile } from 'next-auth/providers/discord';
 import { NextResponse } from 'next/server';
 import { discordFetch } from './discord/fetcher';
+
+type SessionError = 'RefreshTokenError' | 'AccessTokenError';
+
+declare module 'next-auth' {
+  interface User {
+    username: string;
+    discriminator: string;
+  }
+  interface Session {
+    user: DefaultSession['user'] & {
+      id: string;
+      name: string;
+      image: string;
+      accessToken: string;
+    };
+    error?: SessionError;
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    // user
+    userId: string;
+    username: string;
+    discriminator: string;
+
+    // accounts
+    accessToken: string;
+    refreshToken: string;
+    expiresAt: number;
+    error?: SessionError;
+  }
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -55,6 +91,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return !!auth;
     },
     jwt: async ({ token, account, user }) => {
+      // ログイン時にDiscordの認証情報をjwtトークンに追加する
       if (account && user) {
         token.userId = account.providerAccountId;
         token.username = user.username;
@@ -65,27 +102,50 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return token;
       }
 
-      if (Date.now() < token.expiresAt * 1000) return token;
+      const isAccessTokenExpired = Date.now() > token.expiresAt * 1000;
 
-      const { data, error } = await discordFetch<RESTPostOAuth2AccessTokenResult>('/oauth2/token', {
-        method: 'POST',
-        body: new URLSearchParams({
-          client_id: process.env.AUTH_DISCORD_ID,
-          client_secret: process.env.AUTH_DISCORD_SECRET,
-          grant_type: 'refresh_token',
-          refresh_token: token.refreshToken,
-        }),
-        next: { revalidate: 1 },
-      });
-
-      if (error) {
-        token.error = 'RefreshTokenError';
+      // アクセストークンが期限切れでない場合は、アクセストークンが現在も有効であるか検証する
+      if (!isAccessTokenExpired && token.error !== 'AccessTokenError') {
+        const { error } = await discordFetch<RESTGetAPIOAuth2CurrentAuthorizationResult>(
+          '/oauth2/@me',
+          {
+            auth: {
+              type: 'Bearer',
+              token: token.accessToken,
+            },
+          },
+        );
+        if (error) token.error = 'AccessTokenError';
         return token;
       }
 
-      token.accessToken = data.access_token;
-      token.refreshToken = data.refresh_token;
-      token.expiresAt = Math.floor(Date.now() / 1000 + data.expires_in);
+      // アクセストークンが期限切れの場合は、リフレッシュトークンを使用してアクセストークンを更新する
+      if (isAccessTokenExpired && token.error !== 'RefreshTokenError') {
+        const { data, error } = await discordFetch<RESTPostOAuth2AccessTokenResult>(
+          '/oauth2/token',
+          {
+            method: 'POST',
+            body: new URLSearchParams({
+              client_id: process.env.AUTH_DISCORD_ID,
+              client_secret: process.env.AUTH_DISCORD_SECRET,
+              grant_type: 'refresh_token',
+              refresh_token: token.refreshToken,
+            }),
+            next: { revalidate: 1 },
+          },
+        );
+
+        if (error) {
+          token.error = 'RefreshTokenError';
+          return token;
+        }
+
+        token.accessToken = data.access_token;
+        token.refreshToken = data.refresh_token;
+        token.expiresAt = Math.floor(Date.now() / 1000 + data.expires_in);
+        return token;
+      }
+
       return token;
     },
     session: ({ session, token }) => {
@@ -98,34 +158,3 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
 });
-
-declare module 'next-auth' {
-  interface User {
-    username: string;
-    discriminator: string;
-  }
-  interface Session {
-    user: DefaultSession['user'] & {
-      id: string;
-      name: string;
-      image: string;
-      accessToken: string;
-    };
-    error?: 'RefreshTokenError';
-  }
-}
-
-declare module 'next-auth/jwt' {
-  interface JWT {
-    // user
-    userId: string;
-    username: string;
-    discriminator: string;
-
-    // accounts
-    accessToken: string;
-    refreshToken: string;
-    expiresAt: number;
-    error?: 'RefreshTokenError';
-  }
-}

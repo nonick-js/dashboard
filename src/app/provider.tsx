@@ -1,6 +1,5 @@
 ﻿'use client';
 
-import { ValidateSessionProvider } from '@/components/validate-session';
 import { HeroUIProvider } from '@heroui/react';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
@@ -12,11 +11,9 @@ export function Provider({ children }: { children: ReactNode }) {
 
   return (
     <SessionProvider refetchOnWindowFocus={false}>
-      <ValidateSessionProvider>
-        <ThemeProvider attribute='class' defaultTheme='dark'>
-          <HeroUIProvider navigate={router.push}>{children}</HeroUIProvider>
-        </ThemeProvider>
-      </ValidateSessionProvider>
+      <ThemeProvider attribute='class' defaultTheme='dark'>
+        <HeroUIProvider navigate={router.push}>{children}</HeroUIProvider>
+      </ThemeProvider>
     </SessionProvider>
   );
 }
