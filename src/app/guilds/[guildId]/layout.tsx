@@ -1,7 +1,6 @@
 ﻿import { SidebarProvider } from '@/components/sidebar-provider';
 import { auth } from '@/lib/auth';
 import { getGuild, redirectIfNoAccessPermission } from '@/lib/discord/api';
-import { ScrollShadow } from '@heroui/scroll-shadow';
 import type { ReactNode } from 'react';
 import { Navbar } from './navbar';
 import { Sidebar } from './sidebar';
@@ -22,7 +21,7 @@ export default async function Layout({
         <Sidebar guildPromise={guildPromise} />
         <div className='flex-1 flex flex-col h-dvh overflow-y-scroll'>
           <Navbar sessionPromise={sessionPromise} />
-          <div className='flex-1 px-6 sm:px-8 flex flex-col gap-6'>{children}</div>
+          <div className='px-6 sm:px-8 flex flex-col gap-6'>{children}</div>
         </div>
       </div>
     </SidebarProvider>
