@@ -1,7 +1,7 @@
 ﻿import { Icon } from '@/components/icon';
+import { inviteUrl } from '@/lib/discord/api';
 import { Button, type ButtonProps } from '@heroui/button';
 import { Link } from '@heroui/link';
-import { inviteUrl } from './invite-url';
 
 export function InviteButton({ ...props }: ButtonProps) {
   return (
