@@ -17,7 +17,7 @@ export function Sidebar({ guildPromise }: { guildPromise: ReturnType<typeof getG
   const currentPath = pathname.split('/')?.[3];
 
   const content = (
-    <div className='relative flex h-full w-[300px] flex-1 flex-col px-6'>
+    <div className='relative flex w-[300px] flex-1 flex-col px-6'>
       <div className='h-[80px] flex shrink-0 items-center px-1'>
         <Link href='/'>
           <Logo height={16} />
@@ -39,9 +39,9 @@ export function Sidebar({ guildPromise }: { guildPromise: ReturnType<typeof getG
   );
 
   return (
-    <div className='h-dvh'>
+    <div className='h-dvh sticky top-0 shrink-0'>
       <SidebarDrawer
-        className='!border-r-small border-divider sticky top-0 shrink-0 overflow-y-hidden'
+        className='!border-r-small border-divider'
         isOpen={isOpen}
         onOpenChange={onOpenChange}
       >
