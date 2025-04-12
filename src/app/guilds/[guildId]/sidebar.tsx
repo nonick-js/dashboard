@@ -17,13 +17,13 @@ export function Sidebar({ guildPromise }: { guildPromise: ReturnType<typeof getG
   const currentPath = pathname.split('/')?.[3];
 
   const content = (
-    <div className='relative flex w-[300px] flex-1 flex-col px-6'>
-      <div className='h-[80px] flex shrink-0 items-center px-1'>
+    <div className='relative flex w-[300px] flex-1 flex-col'>
+      <div className='h-[80px] flex shrink-0 items-center px-6'>
         <Link href='/'>
           <Logo height={16} />
         </Link>
       </div>
-      <ScrollShadow hideScrollBar className='h-full'>
+      <ScrollShadow className='h-full px-6 hover-scrollbar'>
         <Suspense fallback={<SidebarGuildButtonSkeleton />}>
           <SidebarGuildButton guildPromise={guildPromise} />
         </Suspense>
@@ -39,7 +39,7 @@ export function Sidebar({ guildPromise }: { guildPromise: ReturnType<typeof getG
   );
 
   return (
-    <div className='h-dvh sticky top-0 shrink-0'>
+    <div className='h-dvh'>
       <SidebarDrawer
         className='!border-r-small border-divider'
         isOpen={isOpen}
