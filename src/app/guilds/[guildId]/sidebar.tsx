@@ -24,7 +24,7 @@ export function Sidebar({ guildPromise }: { guildPromise: ReturnType<typeof getG
         </Link>
       </div>
       <ScrollShadow hideScrollBar className='h-full'>
-        <Suspense fallback={<SidebarGuildButtonSkeleton isDisabled />}>
+        <Suspense fallback={<SidebarGuildButtonSkeleton />}>
           <SidebarGuildButton guildPromise={guildPromise} />
         </Suspense>
         <Spacer y={3} />

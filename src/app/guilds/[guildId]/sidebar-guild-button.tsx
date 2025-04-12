@@ -51,7 +51,7 @@ export function SidebarGuildButton({
   );
 }
 
-export function SidebarGuildButtonSkeleton({ isDisabled }: { isDisabled?: boolean }) {
+export function SidebarGuildButtonSkeleton() {
   return (
     <Button
       as={Link}
@@ -64,7 +64,6 @@ export function SidebarGuildButtonSkeleton({ isDisabled }: { isDisabled?: boolea
           className='text-default-500 flex-shrink-0 text-xl'
         />
       }
-      isDisabled={isDisabled}
     >
       <div className='flex items-center gap-2 overflow-hidden'>
         <Skeleton className='flex-shrink-0 w-8 h-8 rounded-full' />
