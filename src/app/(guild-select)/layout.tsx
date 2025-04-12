@@ -24,7 +24,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
             description='Botの設定を行うサーバーを選択してください。'
             descriptionClass='text-medium'
           />
-          <InviteButton className='max-sm:w-full' />
+          <InviteButton className='max-sm:w-full' isDisabled={!!session?.error} />
         </header>
         {session?.error ? <SessionAlert /> : children}
       </div>

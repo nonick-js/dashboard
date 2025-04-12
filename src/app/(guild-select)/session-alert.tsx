@@ -18,7 +18,7 @@ export function SessionAlert() {
         title: 'text-md',
       }}
       title='セッションの有効期限が切れました'
-      description='ダッシュボードを使用するにはもう一度ログインを行う必要があります。'
+      description='ダッシュボードを使用するには再度ログインを行う必要があります。'
       color='warning'
       variant='faded'
       endContent={
