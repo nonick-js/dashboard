@@ -9,6 +9,7 @@ import {
   PermissionFlagsBits,
   type RESTAPIPartialCurrentUserGuild,
 } from 'discord-api-types/v10';
+import type { Session } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { auth } from '../auth';
 import { db } from '../drizzle';
@@ -25,14 +26,22 @@ export const inviteUrl = `${DiscordEndPoints.OAuth2}/authorize?${new URLSearchPa
   redirect_uri: process.env.AUTH_URL,
 })}` as const;
 
-/** ユーザーが参加しているDiscordサーバーを取得 */
+/**
+ * ユーザーが参加しているDiscordサーバーを取得
+ * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link RESTAPIPartialCurrentUserGuild}に含まれるようになる
+ * @see https://discord.com/developers/docs/resources/user#get-current-user-guilds
+ */
 export async function getUserGuilds(withCounts = false) {
   return discordOAuth2UserFetch<RESTAPIPartialCurrentUserGuild[]>(
     `/users/@me/guilds?with_counts=${withCounts}`,
   );
 }
 
-/** Botとユーザーが参加しているDiscordサーバーを取得 */
+/**
+ * Botとユーザーが参加しているDiscordサーバーを取得
+ * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link RESTAPIPartialCurrentUserGuild}に含まれるようになる
+ * @see {@link getUserGuilds}
+ */
 export async function getMutualGuilds(withCounts = false) {
   const userGuilds = await getUserGuilds(withCounts);
   if (userGuilds.error) return userGuilds;
@@ -50,7 +59,11 @@ export async function getMutualGuilds(withCounts = false) {
   return userGuilds;
 }
 
-/** ユーザーが`MANAGED_GUILD`権限を所有しており、かつBotとユーザーが参加しているDiscordサーバーを取得 */
+/**
+ * ユーザーが`MANAGED_GUILD`権限を所有しており、かつBotとユーザーが参加しているDiscordサーバーを取得
+ * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link RESTAPIPartialCurrentUserGuild}に含まれるようになる
+ * @see {@link getMutualGuilds}
+ */
 export async function getMutualManagedGuilds(withCounts = false) {
   const mutualGuilds = await getMutualGuilds(withCounts);
   if (mutualGuilds.error) return mutualGuilds;
@@ -63,12 +76,21 @@ export async function getMutualManagedGuilds(withCounts = false) {
   return mutualGuilds;
 }
 
-/** Discordサーバーを取得 */
+/**
+ * Discordサーバーを取得
+ * @param guildId サーバーID
+ * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link APIGuild}に含まれるようになる
+ * @see https://discord.com/developers/docs/resources/guild#get-guild
+ */
 export async function getGuild(guildId: string, withCounts = false) {
   return discordBotUserFetch<APIGuild>(`/guilds/${guildId}?with_counts=${withCounts}`);
 }
 
-/** Discordサーバーのチャンネルを取得 */
+/**
+ * Discordサーバーのチャンネルを取得
+ * @param guildId サーバーID
+ * @see https://discord.com/developers/docs/resources/guild#get-guild-channels
+ */
 export async function getChannels(guildId: string) {
   const channels = await discordBotUserFetch<APIGuildChannel<GuildChannelType>[]>(
     `/guilds/${guildId}/channels`,
@@ -79,7 +101,11 @@ export async function getChannels(guildId: string) {
   return channels;
 }
 
-/** Discordサーバーのロールを取得 */
+/**
+ * Discordサーバーのロールを取得
+ * @param guildId サーバーID
+ * @see https://discord.com/developers/docs/resources/guild#get-guild-roles
+ */
 export async function getRoles(guildId: string) {
   const roles = await discordBotUserFetch<APIRole[]>(`/guilds/${guildId}/roles`);
   if (roles.error) return roles;
@@ -88,24 +114,33 @@ export async function getRoles(guildId: string) {
   return roles;
 }
 
-/** Discordサーバーに参加しているメンバーを取得 */
+/**
+ * Discordサーバーに参加しているメンバーを取得
+ * @param guildId サーバーID
+ * @param userId ユーザーID
+ * @see https://discord.com/developers/docs/resources/guild#get-guild-member
+ */
 export async function getGuildMember(guildId: string, userId: string) {
   return discordBotUserFetch<APIGuildMember>(`/guilds/${guildId}/members/${userId}`);
 }
 
-/** ダッシュボードのアクセス権限を持っているか確認 */
-export async function hasAccessDashboardPermission(guildId: string) {
-  const session = await auth();
-  if (!session || session.error) return false;
+/**
+ * ダッシュボードのアクセス権限を持っているか確認
+ * @param guildId サーバーID
+ * @param session セッション（{@link https://nextjs.org/docs/app/building-your-application/caching#request-memoization Request Memoization}が適用されない場合に使用する）
+ */
+export async function hasAccessDashboardPermission(guildId: string, session?: Session | null) {
+  const currentSession = session || (await auth());
+  if (!currentSession || currentSession.error) return false;
 
   const { data: guild, error: guildError } = await getGuild(guildId);
   if (guildError) return false;
 
   const [{ data: roles, error: roleError }, { data: member, error: memberError }] =
-    await Promise.all([getRoles(guildId), getGuildMember(guildId, session.user.id)]);
+    await Promise.all([getRoles(guildId), getGuildMember(guildId, currentSession.user.id)]);
   if (roleError || memberError) return false;
 
-  const isGuildOwner = guild.owner_id === session.user.id;
+  const isGuildOwner = guild.owner_id === currentSession.user.id;
   const hasAdminRole = roles
     .filter((role) => member.roles.includes(role.id))
     .some(
@@ -117,8 +152,13 @@ export async function hasAccessDashboardPermission(guildId: string) {
   return isGuildOwner || hasAdminRole;
 }
 
-/** ダッシュボードのアクセス権限を持っていない場合にリダイレクト */
-export async function redirectIfNoAccessPermission(guildId: string) {
-  const hasPermission = await hasAccessDashboardPermission(guildId);
+/**
+ * ダッシュボードのアクセス権限を持っていない場合にリダイレクトする
+ * @param guildId サーバーID
+ * @param session セッション（{@link https://nextjs.org/docs/app/building-your-application/caching#request-memoization Request Memoization}が適用されない場合に使用する）
+ * @see {@link hasAccessDashboardPermission}
+ */
+export async function redirectIfNoAccessPermission(guildId: string, session?: Session | null) {
+  const hasPermission = await hasAccessDashboardPermission(guildId, session);
   if (!hasPermission) redirect('/');
 }
