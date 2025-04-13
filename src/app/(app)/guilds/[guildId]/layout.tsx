@@ -5,6 +5,8 @@ import type { ReactNode } from 'react';
 import { Navbar } from './navbar';
 import { Sidebar } from './sidebar';
 
+export const revalidate = 30;
+
 export default async function Layout({
   children,
   params,

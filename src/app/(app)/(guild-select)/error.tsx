@@ -2,13 +2,7 @@
 
 import { Alert, Code } from '@heroui/react';
 
-export default function ErrorPage({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+export default function ErrorPage() {
   return (
     <Alert
       classNames={{
@@ -20,7 +14,6 @@ export default function ErrorPage({
       }}
       title='予期しないエラーが発生しました'
       description='時間を置いて再度アクセスしてください。'
-      endContent={<Code>Error: {error.message}</Code>}
       color='danger'
       variant='faded'
     />
