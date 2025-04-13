@@ -1,6 +1,7 @@
 ﻿import { SidebarProvider } from '@/components/sidebar-provider';
+import { requireDashboardAccessPermission } from '@/lib/api/permission';
 import { auth } from '@/lib/auth';
-import { getGuild, redirectIfNoAccessPermission } from '@/lib/discord/api';
+import { getGuild } from '@/lib/discord/api';
 import type { ReactNode } from 'react';
 import { Navbar } from './navbar';
 import { Sidebar } from './sidebar';
@@ -12,7 +13,7 @@ export default async function Layout({
   params,
 }: { children: ReactNode; params: Promise<{ guildId: string }> }) {
   const { guildId } = await params;
-  await redirectIfNoAccessPermission(guildId);
+  await requireDashboardAccessPermission(guildId);
 
   const guildPromise = getGuild(guildId, false);
   const sessionPromise = auth();

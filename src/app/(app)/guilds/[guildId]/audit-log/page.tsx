@@ -1,5 +1,5 @@
 ﻿import { Header } from '@/components/header';
-import { redirectIfNoAccessPermission } from '@/lib/discord/api';
+import { requireDashboardAccessPermission } from '@/lib/api/permission';
 import { Alert } from '@heroui/alert';
 import { Code } from '@heroui/code';
 import type { Metadata } from 'next';
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default async function Page({ params }: SettingPageProps) {
   const { guildId } = await params;
-  await redirectIfNoAccessPermission(guildId);
+  await requireDashboardAccessPermission(guildId);
 
   return (
     <>
