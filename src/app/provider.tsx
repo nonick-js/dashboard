@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { HeroUIProvider } from '@heroui/react';
+import { HeroUIProvider, ToastProvider } from '@heroui/react';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
 import { useRouter } from 'next/navigation';
@@ -28,6 +28,7 @@ export function Provider({ children }: { children: ReactNode }) {
         <HeroUIProvider navigate={router.push} spinnerVariant='spinner'>
           {children}
           <NextTopLoader color='#006FEE' height={4} showSpinner={false} />
+          <ToastProvider placement='top-right' toastProps={{ variant: 'flat' }} toastOffset={80} />
         </HeroUIProvider>
       </ThemeProvider>
     </SessionProvider>
