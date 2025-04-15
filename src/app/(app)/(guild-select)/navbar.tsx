@@ -10,7 +10,7 @@ export async function Navbar() {
   const sessionPromise = auth();
 
   return (
-    <HeroUINavbar maxWidth='xl'>
+    <HeroUINavbar maxWidth='xl' height={80}>
       <NavbarBrand className='gap-4'>
         <Link href='#'>
           <Logo height={16} />

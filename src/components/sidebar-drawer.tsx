@@ -4,7 +4,7 @@ import type { ModalProps } from '@heroui/modal';
 
 import { Drawer, DrawerBody, DrawerContent } from '@heroui/drawer';
 import { TRANSITION_EASINGS } from '@heroui/framer-utils';
-import { cn } from '@heroui/theme';
+import { card, cn } from '@heroui/theme';
 import React from 'react';
 
 export function SidebarDrawer({
@@ -87,12 +87,13 @@ export function SidebarDrawer({
         onOpenChange={onOpenChange}
       >
         <DrawerContent>
-          <DrawerBody>{children}</DrawerBody>
+          <DrawerBody className='hover-scrollbar'>{children}</DrawerBody>
         </DrawerContent>
       </Drawer>
       <div
         className={cn(
-          'hidden h-full max-w-[var(--sidebar-width)] overflow-x-hidden lg:flex',
+          card().base(),
+          'hidden h-full max-w-[var(--sidebar-width)] overflow-x-hidden lg:flex rounded-none flex-row z-50',
           className,
         )}
       >
