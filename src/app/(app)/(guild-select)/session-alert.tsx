@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import { Icon } from '@/components/icon';
-import { Alert, Button, Spinner } from '@heroui/react';
+import { Alert, Button } from '@heroui/react';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 
@@ -35,7 +35,6 @@ export function SessionAlert() {
             )
           }
           isLoading={isPressed}
-          spinner={<Spinner variant='spinner' size='sm' color='warning' />}
           variant='flat'
         >
           ログイン

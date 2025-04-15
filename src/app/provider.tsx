@@ -25,7 +25,7 @@ export function Provider({ children }: { children: ReactNode }) {
   return (
     <SessionProvider refetchOnWindowFocus={false}>
       <ThemeProvider attribute='class' defaultTheme='dark'>
-        <HeroUIProvider navigate={router.push}>
+        <HeroUIProvider navigate={router.push} spinnerVariant='spinner'>
           {children}
           <NextTopLoader color='#006FEE' height={4} showSpinner={false} />
         </HeroUIProvider>
