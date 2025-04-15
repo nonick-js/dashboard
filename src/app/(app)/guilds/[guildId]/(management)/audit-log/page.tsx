@@ -3,7 +3,7 @@ import { requireDashboardAccessPermission } from '@/lib/api/utils';
 import { Alert } from '@heroui/alert';
 import { Code } from '@heroui/code';
 import type { Metadata } from 'next';
-import type { SettingPageProps } from '../types';
+import type { SettingPageProps } from '../../types';
 
 export const metadata: Metadata = {
   title: '監査ログ',
