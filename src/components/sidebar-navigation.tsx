@@ -13,6 +13,7 @@ import { Tooltip } from '@heroui/tooltip';
 import type { Params } from 'next/dist/server/request/params';
 import { useParams } from 'next/navigation';
 import React from 'react';
+import { LinkForListbox } from './heroui/listbox-link';
 import { Icon } from './icon';
 
 export enum SidebarItemType {
@@ -95,6 +96,7 @@ export function SidebarNavigation<TParams extends Params = Params>({
       return (
         <ListboxItem
           {...item}
+          as={LinkForListbox}
           key={item.key}
           href={typeof item.href === 'function' ? item.href(params) : item.href}
           onPress={onItemPress}
@@ -207,6 +209,7 @@ export function SidebarNavigation<TParams extends Params = Params>({
       return (
         <ListboxItem
           {...item}
+          as={LinkForListbox}
           key={item.key}
           href={typeof item.href === 'function' ? item.href(params) : item.href}
           onPress={onItemPress}
