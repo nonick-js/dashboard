@@ -7,7 +7,7 @@ import { FormDevTool } from '@/components/react-hook-form/devtool';
 import { RoleSelect } from '@/components/react-hook-form/role-select';
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { internalFetch } from '@/lib/api/fetcher';
+import { postInternalAPI } from '@/lib/api/fetcher';
 import { reportSettingSchema } from '@/lib/database/src/schema/setting';
 import { filterValidIds } from '@/lib/discord/utils';
 import { Alert, addToast } from '@heroui/react';
@@ -53,12 +53,8 @@ export function SettingForm({ setting, ...props }: Props) {
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const { error } = await internalFetch(`/guilds/${guildId}/report`, {
-      method: 'POST',
+    const { error } = await postInternalAPI(`/guilds/${guildId}/report`, {
       body: JSON.stringify(values),
-      headers: {
-        'content-type': 'application/json',
-      },
     });
 
     if (!error) form.reset(form.getValues());
