@@ -1,4 +1,9 @@
-﻿import { type APIGuildChannel, ChannelType, type GuildChannelType } from 'discord-api-types/v10';
+﻿import {
+  type APIGuildChannel,
+  type APIRole,
+  ChannelType,
+  type GuildChannelType,
+} from 'discord-api-types/v10';
 
 /** 特定の権限が含まれていれば`true`を返す */
 export function hasPermission(permissions: string, permission: bigint) {
@@ -44,4 +49,17 @@ export function sortChannels(channels: APIGuildChannel<GuildChannelType>[]) {
 
   sortedChannels.unshift(...rootTextChannels, ...rootVoiceChannels);
   return sortedChannels;
+}
+
+/** ロールを`position`順に並べ替え */
+export function sortRoles(roles: APIRole[]) {
+  return roles.sort((a, b) => b.position - a.position);
+}
+
+/** 配列からチャンネルまたはロールに存在するIDのみを返す */
+export function filterValidIds(
+  ids: string[] | undefined,
+  channelOrRoles: APIGuildChannel<GuildChannelType>[] | APIRole[],
+) {
+  return ids?.filter((id) => channelOrRoles.some((item) => item.id === id)) ?? [];
 }

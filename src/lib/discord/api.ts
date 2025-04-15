@@ -100,11 +100,7 @@ export async function getChannels(guildId: string) {
  * @see https://discord.com/developers/docs/resources/guild#get-guild-roles
  */
 export async function getRoles(guildId: string) {
-  const roles = await discordBotUserFetch<APIRole[]>(`/guilds/${guildId}/roles`);
-  if (roles.error) return roles;
-
-  roles.data = roles.data.sort((a, b) => b.position - a.position);
-  return roles;
+  return await discordBotUserFetch<APIRole[]>(`/guilds/${guildId}/roles`);
 }
 
 /**
