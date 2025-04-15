@@ -1,5 +1,5 @@
 ﻿import { SidebarProvider } from '@/components/sidebar-provider';
-import { requireDashboardAccessPermission } from '@/lib/api/permission';
+import { requireDashboardAccessPermission } from '@/lib/api/utils';
 import { auth } from '@/lib/auth';
 import { getGuild } from '@/lib/discord/api';
 import type { ReactNode } from 'react';

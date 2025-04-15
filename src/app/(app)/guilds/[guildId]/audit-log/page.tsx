@@ -1,5 +1,5 @@
 ﻿import { Header } from '@/components/header';
-import { requireDashboardAccessPermission } from '@/lib/api/permission';
+import { requireDashboardAccessPermission } from '@/lib/api/utils';
 import { Alert } from '@heroui/alert';
 import { Code } from '@heroui/code';
 import type { Metadata } from 'next';
