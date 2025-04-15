@@ -3,7 +3,7 @@ import { logger } from '@better-fetch/logger';
 
 export const defaultRetryOption: RetryOptions = {
   type: 'linear',
-  attempts: 3,
+  attempts: 2,
   delay: 1,
   shouldRetry: (res) => {
     if (!res || res.status === 429) return true;
@@ -16,8 +16,3 @@ export const defaultPlugins: BetterFetchPlugin[] = [
     enabled: process.env.NODE_ENV === 'development',
   }),
 ];
-
-export const $fetch = createFetch({
-  retry: defaultRetryOption,
-  plugins: defaultPlugins,
-});
