@@ -12,7 +12,7 @@ import {
 import { db } from '../drizzle';
 import { DiscordEndPoints } from './constants';
 import { discordBotUserFetch, discordOAuth2UserFetch } from './fetcher';
-import { hasPermission, sortChannels } from './utils';
+import { hasPermission } from './utils';
 
 /** Botの招待URL */
 export const inviteUrl = `${DiscordEndPoints.OAuth2}/authorize?${new URLSearchParams({
@@ -89,13 +89,9 @@ export async function getGuild(guildId: string, withCounts = false) {
  * @see https://discord.com/developers/docs/resources/guild#get-guild-channels
  */
 export async function getChannels(guildId: string) {
-  const channels = await discordBotUserFetch<APIGuildChannel<GuildChannelType>[]>(
+  return await discordBotUserFetch<APIGuildChannel<GuildChannelType>[]>(
     `/guilds/${guildId}/channels`,
   );
-  if (channels.error) return channels;
-
-  channels.data = sortChannels(channels.data);
-  return channels;
 }
 
 /**
