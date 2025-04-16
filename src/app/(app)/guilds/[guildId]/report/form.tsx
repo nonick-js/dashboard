@@ -43,7 +43,7 @@ export function SettingForm({ setting, ...props }: Props) {
   const form = useForm<InputSetting, unknown, OutputSetting>({
     resolver: zodResolver(reportSettingSchema.form),
     defaultValues: {
-      channel: null,
+      channel: '',
       showProgressButton: true,
       includeModerator: false,
       enableMention: false,
