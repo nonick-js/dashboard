@@ -21,7 +21,7 @@ export function ControlledSelect<
   name,
   control,
   labelPlacement = 'outside',
-  variant = 'faded',
+  variant = 'bordered',
   listboxProps,
   classNames,
   ...props

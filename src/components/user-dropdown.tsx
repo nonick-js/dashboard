@@ -73,11 +73,9 @@ export function UserDropdown({ sessionPromise }: { sessionPromise: Promise<Sessi
             テーマ
           </DropdownItem>
           <DropdownItem
-            color='danger'
-            className='text-danger'
             key='logout'
             onPress={() => signOut()}
-            endContent={<Icon icon='solar:logout-2-bold' className='text-danger-300 text-xl' />}
+            endContent={<Icon icon='solar:logout-2-bold' className='text-default-500 text-xl' />}
           >
             ログアウト
           </DropdownItem>

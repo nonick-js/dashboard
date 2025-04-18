@@ -31,7 +31,6 @@ export function FormChangePublisher() {
                 <Button
                   onPress={() => reset()}
                   isDisabled={isSubmitting}
-                  spinner={<Spinner size='sm' color='white' variant='spinner' />}
                   radius='full'
                   variant='light'
                   className='text-default-500'
