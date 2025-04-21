@@ -19,7 +19,7 @@ import {
   type GuildChannelType,
 } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
-import { createContext, useContext, useMemo } from 'react';
+import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
 

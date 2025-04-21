@@ -1,7 +1,7 @@
 ﻿import 'server-only';
 
 import { eq } from 'drizzle-orm';
-import type { PgColumn, PgTable, PgTableWithColumns, TableConfig } from 'drizzle-orm/pg-core';
+import type { PgColumn, PgTable } from 'drizzle-orm/pg-core';
 import type { Session } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { type ZodSchema, z } from 'zod';
@@ -45,11 +45,10 @@ export async function withAuth<T>(
  * @param handler 検証済みのセッションを引数として受け取り、Promiseを返すハンドラー関数。
  */
 export async function withGuildAccess<T>(
-  params: Promise<{ guildId: string }>,
+  guildId: string,
   handler: (session: Session, guildId: string) => Promise<T>,
 ) {
   return withAuth(async (session) => {
-    const { guildId } = await params;
     if (!snowflake.safeParse(guildId).success) {
       return NextResponse.json({ message: 'Invalid Guild ID' }, { status: 400 });
     }
@@ -116,10 +115,10 @@ type CreateGuildDatabaseAdapterOptions<FormSchema extends ZodSchema, DbSchema ex
  */
 export async function updateGuildSetting<FormSchema extends ZodSchema, DbSchema extends ZodSchema>(
   req: Request,
-  params: Promise<{ guildId: string }>,
+  guildId: string,
   options: GuildDatabaseAdapter<FormSchema, DbSchema>,
 ) {
-  return withGuildAccess(params, async (session, guildId) => {
+  return withGuildAccess(guildId, async (session, guildId) => {
     try {
       const body = await req.json().catch(() => null);
       const parsedBody = options.formSchema.parse(body);
