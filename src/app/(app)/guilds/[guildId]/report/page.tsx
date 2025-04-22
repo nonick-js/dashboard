@@ -1,9 +1,9 @@
 ﻿import { Header } from '@/components/header';
-import { requireDashboardAccessPermission } from '@/lib/api/utils';
 import { reportSettingSchema } from '@/lib/database/src/schema/setting';
 import { getChannels, getRoles } from '@/lib/discord/api';
 import { sortChannels, sortRoles } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
+import { requireDashboardAccessPermission } from '@/lib/permission';
 import type { Metadata } from 'next';
 import type { SettingPageProps } from '../types';
 import { SettingForm } from './form';

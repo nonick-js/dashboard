@@ -7,7 +7,6 @@ import { FormDevTool } from '@/components/react-hook-form/devtool';
 import { RoleSelect } from '@/components/react-hook-form/role-select';
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { postInternalAPI } from '@/lib/api/fetcher';
 import { reportSettingSchema } from '@/lib/database/src/schema/setting';
 import { filterValidIds } from '@/lib/discord/utils';
 import { Alert, addToast } from '@heroui/react';
@@ -22,6 +21,7 @@ import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
+import { updateReportSettingAction } from '../actions';
 
 type InputSetting = z.input<typeof reportSettingSchema.form>;
 type OutputSetting = z.output<typeof reportSettingSchema.form>;
@@ -53,17 +53,17 @@ export function SettingForm({ setting, ...props }: Props) {
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const { error } = await postInternalAPI(`/guilds/${guildId}/report`, {
-      body: JSON.stringify(values),
-    });
+    const res = await updateReportSettingAction({ guildId, ...values });
+    const error = !res?.data?.success;
 
-    if (!error) form.reset(form.getValues());
-    else
-      addToast({
+    if (error) {
+      return addToast({
         title: '送信中に問題が発生しました',
         description: '時間を置いてもう一度送信してください。',
         color: 'danger',
       });
+    }
+    form.reset(form.getValues());
   };
 
   return (

@@ -8,7 +8,6 @@ import { ControlledCheckboxGroup } from '@/components/react-hook-form/ui/checkbo
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSelect } from '@/components/react-hook-form/ui/select';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { postInternalAPI } from '@/lib/api/fetcher';
 import { ignorePrefixes, msgExpandSettingSchema } from '@/lib/database/src/schema/setting';
 import { filterValidIds } from '@/lib/discord/utils';
 import { Chip, SelectItem, addToast } from '@heroui/react';
@@ -18,6 +17,7 @@ import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
+import { updateMsgExpandSettingAction } from '../actions';
 import { CustomCheckbox } from './custom-checkbox';
 
 type InputSetting = z.input<typeof msgExpandSettingSchema.form>;
@@ -48,17 +48,17 @@ export function SettingForm({ setting, ...props }: Props) {
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const { error } = await postInternalAPI(`/guilds/${guildId}/message-expand`, {
-      body: JSON.stringify(values),
-    });
+    const res = await updateMsgExpandSettingAction({ guildId, ...values });
+    const error = !res?.data?.success;
 
-    if (!error) form.reset(form.getValues());
-    else
-      addToast({
+    if (error) {
+      return addToast({
         title: '送信中に問題が発生しました',
         description: '時間を置いてもう一度送信してください。',
         color: 'danger',
       });
+    }
+    form.reset(form.getValues());
   };
 
   return (

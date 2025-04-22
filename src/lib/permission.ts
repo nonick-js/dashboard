@@ -3,9 +3,9 @@
 import { PermissionFlagsBits } from 'discord-api-types/v10';
 import type { Session } from 'next-auth';
 import { redirect } from 'next/navigation';
-import { auth } from '../auth';
-import { getGuild, getGuildMember, getRoles } from '../discord/api';
-import { hasPermission } from '../discord/utils';
+import { auth } from './auth';
+import { getGuild, getGuildMember, getRoles } from './discord/api';
+import { hasPermission } from './discord/utils';
 
 /**
  * ダッシュボードのアクセス権限を持っているか確認
