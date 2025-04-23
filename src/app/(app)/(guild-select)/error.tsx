@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { Alert, Code } from '@heroui/react';
+import { Alert } from '@heroui/react';
 
 export default function ErrorPage() {
   return (
