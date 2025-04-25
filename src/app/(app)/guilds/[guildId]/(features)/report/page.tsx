@@ -16,18 +16,13 @@ export default async function ({ params }: SettingPageProps) {
   const { guildId } = await params;
   await requireDashboardAccessPermission(guildId);
 
-  const [{ data: channels, error: channelsError }, { data: roles, error: rolesError }, setting] =
-    await Promise.all([
-      getChannels(guildId),
-      getRoles(guildId),
-      db.query.reportSetting.findFirst({
-        where: (setting, { eq }) => eq(setting.guildId, guildId),
-      }),
-    ]);
-
-  if (channelsError || rolesError) {
-    throw new Error('Failed to load data');
-  }
+  const [channels, roles, setting] = await Promise.all([
+    getChannels(guildId),
+    getRoles(guildId),
+    db.query.reportSetting.findFirst({
+      where: (setting, { eq }) => eq(setting.guildId, guildId),
+    }),
+  ]);
 
   return (
     <>

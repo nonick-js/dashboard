@@ -10,8 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const { data: guilds, error } = await getMutualManagedGuilds();
-  if (error) throw new Error(error.statusText);
+  const guilds = await getMutualManagedGuilds();
 
   if (!guilds.length) {
     return (

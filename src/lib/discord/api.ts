@@ -28,9 +28,10 @@ export const inviteUrl = `${DiscordEndPoints.OAuth2}/authorize?${new URLSearchPa
  * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link RESTAPIPartialCurrentUserGuild}に含まれるようになる
  * @see https://discord.com/developers/docs/resources/user#get-current-user-guilds
  */
-export async function getUserGuilds(withCounts = false) {
-  return discordOAuth2UserFetch<RESTAPIPartialCurrentUserGuild[]>(
+export function getUserGuilds(withCounts = false) {
+  return discordOAuth2UserFetch<RESTAPIPartialCurrentUserGuild[], false>(
     `/users/@me/guilds?with_counts=${withCounts}`,
+    { throw: true },
   );
 }
 
@@ -41,19 +42,15 @@ export async function getUserGuilds(withCounts = false) {
  */
 export async function getMutualGuilds(withCounts = false) {
   const userGuilds = await getUserGuilds(withCounts);
-  if (userGuilds.error) return userGuilds;
-
   const mutualGuilds = await db.query.guild.findMany({
     where: (guild, { inArray }) =>
       inArray(
         guild.id,
-        userGuilds.data.map((v) => v.id),
+        userGuilds.map((v) => v.id),
       ),
   });
   const mutualGuildIds = mutualGuilds.map((guild) => guild.id);
-
-  userGuilds.data = userGuilds.data.filter((guild) => mutualGuildIds.includes(guild.id));
-  return userGuilds;
+  return userGuilds.filter((guild) => mutualGuildIds.includes(guild.id));
 }
 
 /**
@@ -63,24 +60,21 @@ export async function getMutualGuilds(withCounts = false) {
  */
 export async function getMutualManagedGuilds(withCounts = false) {
   const mutualGuilds = await getMutualGuilds(withCounts);
-  if (mutualGuilds.error) return mutualGuilds;
-
-  const mutualManagedGuilds = mutualGuilds.data.filter((guild) =>
+  return mutualGuilds.filter((guild) =>
     hasPermission(guild.permissions, PermissionFlagsBits.ManageGuild),
   );
-
-  mutualGuilds.data = mutualManagedGuilds;
-  return mutualGuilds;
 }
 
 /**
  * Discordサーバーを取得
  * @param guildId サーバーID
- * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link APIGuild}に含まれるようになる
+ * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link APIGuild}に含まれるようになります
  * @see https://discord.com/developers/docs/resources/guild#get-guild
  */
-export async function getGuild(guildId: string, withCounts = false) {
-  return discordBotUserFetch<APIGuild>(`/guilds/${guildId}?with_counts=${withCounts}`);
+export function getGuild(guildId: string, withCounts = false) {
+  return discordBotUserFetch<APIGuild, false>(`/guilds/${guildId}?with_counts=${withCounts}`, {
+    throw: true,
+  });
 }
 
 /**
@@ -88,9 +82,10 @@ export async function getGuild(guildId: string, withCounts = false) {
  * @param guildId サーバーID
  * @see https://discord.com/developers/docs/resources/guild#get-guild-channels
  */
-export async function getChannels(guildId: string) {
-  return await discordBotUserFetch<APIGuildChannel<GuildChannelType>[]>(
+export function getChannels(guildId: string) {
+  return discordBotUserFetch<APIGuildChannel<GuildChannelType>[], false>(
     `/guilds/${guildId}/channels`,
+    { throw: true },
   );
 }
 
@@ -99,8 +94,8 @@ export async function getChannels(guildId: string) {
  * @param guildId サーバーID
  * @see https://discord.com/developers/docs/resources/guild#get-guild-roles
  */
-export async function getRoles(guildId: string) {
-  return await discordBotUserFetch<APIRole[]>(`/guilds/${guildId}/roles`);
+export function getRoles(guildId: string) {
+  return discordBotUserFetch<APIRole[], false>(`/guilds/${guildId}/roles`, { throw: true });
 }
 
 /**
@@ -109,6 +104,8 @@ export async function getRoles(guildId: string) {
  * @param userId ユーザーID
  * @see https://discord.com/developers/docs/resources/guild#get-guild-member
  */
-export async function getGuildMember(guildId: string, userId: string) {
-  return discordBotUserFetch<APIGuildMember>(`/guilds/${guildId}/members/${userId}`);
+export function getGuildMember(guildId: string, userId: string) {
+  return discordBotUserFetch<APIGuildMember, false>(`/guilds/${guildId}/members/${userId}`, {
+    throw: true,
+  });
 }

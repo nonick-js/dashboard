@@ -12,8 +12,7 @@ import { createElement } from 'react';
 import { PartneredBadge, VerifiedBadge } from './badge';
 
 export async function GuildStatsCard({ guildId }: { guildId: string }) {
-  const { data: guild, error } = await getGuild(guildId, true);
-  if (error) throw new Error(error.statusText);
+  const guild = await getGuild(guildId, true);
 
   const createAt = getDate(guild.id as Snowflake);
   const badge = getGuildBadge(guild);

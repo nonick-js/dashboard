@@ -8,7 +8,12 @@ import type { getGuild } from '@/lib/discord/api';
 import { Link, ScrollShadow, Spacer } from '@heroui/react';
 import { usePathname } from 'next/navigation';
 import { Suspense, useContext } from 'react';
-import { SidebarGuildButton, SidebarGuildButtonSkeleton } from './sidebar-guild-button';
+import { ErrorBoundary } from 'react-error-boundary';
+import {
+  SidebarGuildButton,
+  SidebarGuildButtonSkeleton,
+  SidebarGuildButtonTooltip,
+} from './sidebar-guild-button';
 import { sectionItems } from './sidebar-items';
 
 export function Sidebar({ guildPromise }: { guildPromise: ReturnType<typeof getGuild> }) {
@@ -24,9 +29,17 @@ export function Sidebar({ guildPromise }: { guildPromise: ReturnType<typeof getG
         </Link>
       </div>
       <ScrollShadow className='h-full px-6 hover-scrollbar'>
-        <Suspense fallback={<SidebarGuildButtonSkeleton />}>
-          <SidebarGuildButton guildPromise={guildPromise} />
-        </Suspense>
+        <ErrorBoundary
+          fallback={
+            <SidebarGuildButtonTooltip>
+              <SidebarGuildButtonSkeleton />
+            </SidebarGuildButtonTooltip>
+          }
+        >
+          <Suspense fallback={<SidebarGuildButtonSkeleton />}>
+            <SidebarGuildButton guildPromise={guildPromise} />
+          </Suspense>
+        </ErrorBoundary>
         <Spacer y={3} />
         <SidebarNavigation
           defaultSelectedKey='dashboard'

@@ -13,26 +13,30 @@ import { hasPermission } from './discord/utils';
  * @param session セッション（{@link https://nextjs.org/docs/app/building-your-application/caching#request-memoization Request Memoization}が適用されない場合に使用する）
  */
 export async function hasDashboardAccessPermission(guildId: string, session?: Session | null) {
-  const currentSession = session || (await auth());
-  if (!currentSession || currentSession.error) return false;
+  try {
+    const currentSession = session || (await auth());
+    if (!currentSession || currentSession.error) return false;
 
-  const { data: guild, error: guildError } = await getGuild(guildId);
-  if (guildError) return false;
+    const guild = await getGuild(guildId);
 
-  const [{ data: roles, error: roleError }, { data: member, error: memberError }] =
-    await Promise.all([getRoles(guildId), getGuildMember(guildId, currentSession.user.id)]);
-  if (roleError || memberError) return false;
+    const [roles, member] = await Promise.all([
+      getRoles(guildId),
+      getGuildMember(guildId, currentSession.user.id),
+    ]);
 
-  const isGuildOwner = guild.owner_id === currentSession.user.id;
-  const hasAdminRole = roles
-    .filter((role) => member.roles.includes(role.id))
-    .some(
-      (role) =>
-        hasPermission(role.permissions, PermissionFlagsBits.ManageGuild) ||
-        hasPermission(role.permissions, PermissionFlagsBits.Administrator),
-    );
+    const isGuildOwner = guild.owner_id === currentSession.user.id;
+    const hasAdminRole = roles
+      .filter((role) => member.roles.includes(role.id))
+      .some(
+        (role) =>
+          hasPermission(role.permissions, PermissionFlagsBits.ManageGuild) ||
+          hasPermission(role.permissions, PermissionFlagsBits.Administrator),
+      );
 
-  return isGuildOwner || hasAdminRole;
+    return isGuildOwner || hasAdminRole;
+  } catch {
+    return false;
+  }
 }
 
 /**

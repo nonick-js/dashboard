@@ -7,18 +7,10 @@ import { use } from 'react';
 export function SidebarGuildButton({
   guildPromise,
 }: { guildPromise: ReturnType<typeof getGuild> }) {
-  const { data: guild, error } = use(guildPromise);
-
-  if (error) {
-    return (
-      <Tooltip content='サーバーを切り替える' placement='bottom' showArrow delay={1000}>
-        <SidebarGuildButtonSkeleton />
-      </Tooltip>
-    );
-  }
+  const guild = use(guildPromise);
 
   return (
-    <Tooltip content='サーバーを切り替える' placement='bottom' showArrow delay={1000}>
+    <SidebarGuildButtonTooltip>
       <Button
         as={Link}
         href='/'
@@ -47,7 +39,7 @@ export function SidebarGuildButton({
           <p className='flex-1 truncate'>{guild.name}</p>
         </div>
       </Button>
-    </Tooltip>
+    </SidebarGuildButtonTooltip>
   );
 }
 
@@ -70,5 +62,13 @@ export function SidebarGuildButtonSkeleton() {
         <Skeleton className='w-36 h-4 rounded-md' />
       </div>
     </Button>
+  );
+}
+
+export function SidebarGuildButtonTooltip({ children }: { children: React.ReactNode }) {
+  return (
+    <Tooltip content={children} placement='bottom' showArrow delay={1000}>
+      {children}
+    </Tooltip>
   );
 }
