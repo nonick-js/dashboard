@@ -109,5 +109,33 @@
       "  );",
       "}"
     ],
+  },
+  "create setting action": {
+    "prefix": "create_setting_action",
+    "body": [
+      "'use server';",
+      "",
+      "import { updateGuildSetting } from '@/lib/safe-action/action/update-guild-setting';",
+      "import { createGuildDatabaseAdapter } from '@/lib/safe-action/action/utils';",
+      "import { guildActionClient } from '@/lib/safe-action/client';",
+      "",
+      "export const update$1Action = guildActionClient",
+      "  .schema(async (prevSchema) => prevSchema.and($2.form))",
+      "  .action(async ({ parsedInput: { guildId, ...input }, ctx }) => {",
+      "    await updateGuildSetting(",
+      "      guildId,",
+      "      input,",
+      "      ctx,",
+      "      createGuildDatabaseAdapter({",
+      "        metadata: { targetName: '$3' },",
+      "        table: $4,",
+      "        guildIdColumn: $4.guildId,",
+      "        dbSchema: $2.db,",
+      "        formSchema: $2.form,",
+      "      }),",
+      "    );",
+      "    return { success: true };",
+      "  });",
+    ]
   }
 }

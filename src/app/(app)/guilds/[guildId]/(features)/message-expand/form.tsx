@@ -17,7 +17,7 @@ import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateMsgExpandSettingAction } from '../../actions';
+import { updateMsgExpandSettingAction } from './action';
 import { CustomCheckbox } from './custom-checkbox';
 
 type InputSetting = z.input<typeof msgExpandSettingSchema.form>;
