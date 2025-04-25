@@ -5,7 +5,7 @@ import { sortChannels } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import type { Metadata } from 'next';
-import type { SettingPageProps } from '../types';
+import type { SettingPageProps } from '../../types';
 import { SettingForm } from './form';
 
 export const metadata: Metadata = {

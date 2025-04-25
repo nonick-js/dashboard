@@ -21,7 +21,7 @@ import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateReportSettingAction } from '../actions';
+import { updateReportSettingAction } from '../../actions';
 
 type InputSetting = z.input<typeof reportSettingSchema.form>;
 type OutputSetting = z.output<typeof reportSettingSchema.form>;
