@@ -1,15 +1,20 @@
 import { Icon } from '@/components/icon';
+import { auth } from '@/lib/auth';
 import { getMutualManagedGuilds, inviteUrl } from '@/lib/discord/api';
 import { Card } from '@heroui/card';
 import { Link } from '@heroui/link';
 import type { Metadata } from 'next';
 import { GuildCard } from './guild-card';
+import { SessionAlert } from './session-alert';
 
 export const metadata: Metadata = {
   title: 'サーバー選択',
 };
 
 export default async function Page() {
+  const session = await auth();
+  if (session?.error) return <SessionAlert />;
+
   const guilds = await getMutualManagedGuilds();
 
   if (!guilds.length) {

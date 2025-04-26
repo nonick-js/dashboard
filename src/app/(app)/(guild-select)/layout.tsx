@@ -1,18 +1,14 @@
 ﻿import { Header } from '@/components/header';
-import { auth } from '@/lib/auth';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { InviteButton } from './invite-button';
 import { Navbar } from './navbar';
-import { SessionAlert } from './session-alert';
 
 export const metadata: Metadata = {
   title: 'サーバー選択',
 };
 
-export default async function Layout({ children }: { children: ReactNode }) {
-  const session = await auth();
-
+export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <Navbar />
@@ -24,9 +20,9 @@ export default async function Layout({ children }: { children: ReactNode }) {
             description='Botの設定を行うサーバーを選択してください。'
             descriptionClass='text-medium'
           />
-          <InviteButton className='max-sm:w-full' isDisabled={!!session?.error} />
+          <InviteButton className='max-sm:w-full' />
         </header>
-        {session?.error ? <SessionAlert /> : children}
+        {children}
       </div>
     </>
   );
