@@ -67,7 +67,7 @@ export function SidebarGuildButtonSkeleton() {
 
 export function SidebarGuildButtonTooltip({ children }: { children: React.ReactNode }) {
   return (
-    <Tooltip content={children} placement='bottom' showArrow delay={1000}>
+    <Tooltip content='サーバーを切り替える' placement='bottom' showArrow delay={1000}>
       {children}
     </Tooltip>
   );
