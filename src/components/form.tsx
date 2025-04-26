@@ -51,7 +51,7 @@ export function FormSubCard({
           )}
         >
           {icon && <Icon icon={icon} className='text-default-500 text-xl' />}
-          <h4 className='text-sm text-default-500 font-semibold'>{title}</h4>
+          <h4 className='text-sm font-semibold'>{title}</h4>
         </CardHeader>
       )}
       <CardBody className={cn('flex flex-col gap-6 p-5', { 'pt-0': title }, bodyClass)}>
