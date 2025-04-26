@@ -1,7 +1,7 @@
 ﻿import { Header } from '@/components/header';
 import { autoChangeVerifyLevelSettingSchema } from '@/lib/database/src/schema/setting';
-import { getChannels, getRoles } from '@/lib/discord/api';
-import { sortChannels, sortRoles } from '@/lib/discord/utils';
+import { getChannels } from '@/lib/discord/api';
+import { sortChannels } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import type { Metadata } from 'next';

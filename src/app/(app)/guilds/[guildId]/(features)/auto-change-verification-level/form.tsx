@@ -187,12 +187,13 @@ function CustomRadioClassName(
       'w-full cursor-pointer rounded-lg gap-2 px-4 py-3 text-sm',
     ),
     label: cn(
+      'shrink-0',
       { 'text-green-500': color === GuildVerificationLevel.Low },
       { 'text-yellow-500': color === GuildVerificationLevel.Medium },
       { 'text-orange-500': color === GuildVerificationLevel.High },
       { 'text-red-500': color === GuildVerificationLevel.VeryHigh },
     ),
-    description: 'text-sm text-default-500',
+    description: 'text-sm text-default-500 max-sm:text-xs',
     labelWrapper: 'flex-row flex-1 items-center gap-3',
   };
 }
