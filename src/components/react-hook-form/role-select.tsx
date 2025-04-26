@@ -83,7 +83,9 @@ function SingleSelectItem({ role }: { role: APIRole }) {
  */
 function MultipleSelectItem({ role }: { role: APIRole }) {
   return (
-    <Chip startContent={<RoleColorDot color={role.color} />}>{truncateString(role.name, 15)}</Chip>
+    <Chip variant='faded' startContent={<RoleColorDot color={role.color} />}>
+      {truncateString(role.name, 15)}
+    </Chip>
   );
 }
 

@@ -118,5 +118,5 @@ function SingleSelectItem({ channel }: { channel: APIGuildChannel<GuildChannelTy
  * `multiple`の場合の`renderValue`に使用するコンポーネント
  */
 function MultipleSelectItem({ channel }: { channel: APIGuildChannel<GuildChannelType> }) {
-  return <Chip>{truncateString(channel.name, 16)}</Chip>;
+  return <Chip variant='faded'>{truncateString(channel.name, 16)}</Chip>;
 }

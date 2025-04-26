@@ -21,7 +21,6 @@ export function ControlledSelect<
   name,
   control,
   labelPlacement = 'outside',
-  variant = 'bordered',
   listboxProps,
   classNames,
   ...props
@@ -59,7 +58,6 @@ export function ControlledSelect<
         variant: 'flat',
       }}
       isMultiline={isMultiple}
-      variant={variant}
       {...props}
     />
   );

@@ -38,10 +38,9 @@ export function SettingForm({ setting, ...props }: Props) {
   const form = useForm<InputSetting, unknown, OutputSetting>({
     resolver: zodResolver(msgExpandSettingSchema.form),
     defaultValues: {
-      enabled: false,
-      allowExternalGuild: false,
-      ignorePrefixes: [],
-      ...setting,
+      enabled: setting?.enabled ?? false,
+      allowExternalGuild: setting?.allowExternalGuild ?? false,
+      ignorePrefixes: setting?.ignorePrefixes ?? [],
       ignoreChannels: filterValidIds(setting?.ignoreChannels, props.channels),
       ignoreChannelTypes: setting?.ignoreChannelTypes.map((v) => String(v)) ?? [],
     },
