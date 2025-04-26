@@ -73,6 +73,7 @@ export async function getMutualManagedGuilds(withCounts = false) {
  */
 export function getGuild(guildId: string, withCounts = false) {
   return discordBotUserFetch<APIGuild, false>(`/guilds/${guildId}?with_counts=${withCounts}`, {
+    next: { revalidate: 30 },
     throw: true,
   });
 }
@@ -85,7 +86,7 @@ export function getGuild(guildId: string, withCounts = false) {
 export function getChannels(guildId: string) {
   return discordBotUserFetch<APIGuildChannel<GuildChannelType>[], false>(
     `/guilds/${guildId}/channels`,
-    { throw: true },
+    { next: { revalidate: 30 }, throw: true },
   );
 }
 
@@ -95,7 +96,9 @@ export function getChannels(guildId: string) {
  * @see https://discord.com/developers/docs/resources/guild#get-guild-roles
  */
 export function getRoles(guildId: string) {
-  return discordBotUserFetch<APIRole[], false>(`/guilds/${guildId}/roles`, { throw: true });
+  return discordBotUserFetch<APIRole[], false>(`/guilds/${guildId}/roles`, {
+    throw: true,
+  });
 }
 
 /**
