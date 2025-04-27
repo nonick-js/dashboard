@@ -42,6 +42,7 @@ export function Sidebar({ guildPromise }: { guildPromise: ReturnType<typeof getG
         </ErrorBoundary>
         <Spacer y={3} />
         <SidebarNavigation
+          className='pb-6'
           defaultSelectedKey='dashboard'
           selectedKeys={[currentPath ?? 'dashboard']}
           items={sectionItems}
