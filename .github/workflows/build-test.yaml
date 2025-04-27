@@ -2,7 +2,7 @@ name: Next.js Build Test with Bun
 
 on:
   push:
-    branches-ignore:
+    branches:
       - '**'
   pull_request:
     branches:
