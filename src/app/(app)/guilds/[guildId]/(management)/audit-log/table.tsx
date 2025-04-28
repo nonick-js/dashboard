@@ -9,7 +9,12 @@ import type {
 import { DiscordEndPoints } from '@/lib/discord/constants';
 import {
   Avatar,
-  Code,
+  Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Pagination,
   Table,
   TableBody,
   TableCell,
@@ -18,7 +23,7 @@ import {
   TableRow,
 } from '@heroui/react';
 import type { APIUser } from 'discord-api-types/v10';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { z } from 'zod';
 
 const columns = [
@@ -62,36 +67,89 @@ export function AuditLogTable({
   auditLogs,
   authors,
 }: { auditLogs: z.infer<typeof auditLogSelectSchema.db>[]; authors: APIUser[] }) {
+  const [page, setPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
+
+  const pages = Math.ceil(auditLogs.length / rowsPerPage);
+
+  const items = useMemo(() => {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+
+    return auditLogs.slice(start, end);
+  }, [page, auditLogs, rowsPerPage]);
+
   const renderCell = (entry: z.infer<typeof auditLogSelectSchema.db>, columnKey: React.Key) => {
     switch (columnKey) {
       case 'user':
-        return <AuditLogUser authors={authors} authorId={entry.authorId} />;
+        return <TableRowUser authors={authors} authorId={entry.authorId} />;
       case 'content':
-        return <AuditLogContent actionType={entry.actionType} targetName={entry.targetName} />;
+        return <TableRowContent actionType={entry.actionType} targetName={entry.targetName} />;
       case 'time':
-        return <AuditLogTime time={entry.createdAt} />;
+        return <TableRowTime time={entry.createdAt} />;
       default:
         return <span className='text-default-500'>unknown</span>;
     }
   };
 
   return (
-    <Table aria-label='auditlog table' className='pb-6'>
-      <TableHeader columns={columns}>
-        {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-      </TableHeader>
-      <TableBody emptyContent='表示する監査ログがありません' items={auditLogs}>
-        {(entry) => (
-          <TableRow key={entry.id}>
-            {(columnKey) => <TableCell>{renderCell(entry, columnKey)}</TableCell>}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <div className='flex flex-col gap-6 pb-6'>
+      <Table aria-label='auditlog table'>
+        <TableHeader columns={columns}>
+          {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+        </TableHeader>
+        <TableBody emptyContent='表示する監査ログがありません' items={items}>
+          {(entry) => (
+            <TableRow key={entry.id}>
+              {(columnKey) => <TableCell>{renderCell(entry, columnKey)}</TableCell>}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <div className='flex w-full justify-between items-center gap-6'>
+        <div className='flex gap-3 items-center'>
+          <Dropdown>
+            <DropdownTrigger>
+              <Button
+                variant='flat'
+                endContent={<Icon icon='solar:alt-arrow-down-outline' className='text-base' />}
+              >
+                {rowsPerPage}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              disallowEmptySelection
+              aria-label='Single selection example'
+              selectedKeys={[String(rowsPerPage)]}
+              onSelectionChange={(keys) => {
+                setRowsPerPage(Number(Array.from(keys)[0]));
+                setPage(1);
+              }}
+              selectionMode='single'
+              variant='flat'
+            >
+              <DropdownItem key='20'>20</DropdownItem>
+              <DropdownItem key='50'>50</DropdownItem>
+              <DropdownItem key='100'>100</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+          <p className='text-default-500 text-sm'>件表示</p>
+        </div>
+        <Pagination
+          isCompact
+          showControls
+          showShadow
+          page={page}
+          total={pages}
+          isDisabled={pages < 1}
+          onChange={(page) => setPage(page)}
+        />
+      </div>
+    </div>
   );
 }
 
-function AuditLogUser({ authors, authorId }: { authors: APIUser[]; authorId: string }) {
+function TableRowUser({ authors, authorId }: { authors: APIUser[]; authorId: string }) {
   const user = authors.find((author) => author.id === authorId);
 
   return (
@@ -108,7 +166,7 @@ function AuditLogUser({ authors, authorId }: { authors: APIUser[]; authorId: str
   );
 }
 
-function AuditLogContent({
+function TableRowContent({
   actionType,
   targetName,
 }: {
@@ -129,7 +187,7 @@ function AuditLogContent({
   return <span className='text-default-500'>不明なアクション</span>;
 }
 
-function AuditLogTime({ time }: { time: Date }) {
+function TableRowTime({ time }: { time: Date }) {
   const [formattedTime, setFormattedTime] = useState<string | null>(null);
 
   useEffect(() => {
