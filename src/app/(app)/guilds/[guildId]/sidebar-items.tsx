@@ -85,4 +85,21 @@ export const sectionItems: SidebarItem<{ guildId: string }>[] = [
       },
     ],
   },
+  {
+    key: 'tools',
+    title: 'ツール',
+    items: [
+      {
+        key: 'message-create',
+        href: (params) => `/guilds/${params.guildId}/message-create`,
+        title: 'メッセージ作成',
+        icon: 'solar:chat-round-line-outline',
+        endContent: (
+          <Chip size='sm' color='primary' variant='flat'>
+            New
+          </Chip>
+        ),
+      },
+    ],
+  },
 ];
