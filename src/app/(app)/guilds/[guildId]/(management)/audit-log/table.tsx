@@ -9,6 +9,7 @@ import type {
 import { DiscordEndPoints } from '@/lib/discord/constants';
 import {
   Avatar,
+  Badge,
   Button,
   Dropdown,
   DropdownItem,
@@ -26,6 +27,9 @@ import type { APIUser } from 'discord-api-types/v10';
 import { useEffect, useMemo, useState } from 'react';
 import type { z } from 'zod';
 
+type ActionType = z.infer<typeof actionTypeEnumSchema>;
+type TargetName = z.infer<typeof targetNameEnumSchema>;
+
 const columns = [
   {
     key: 'user',
@@ -41,8 +45,8 @@ const columns = [
   },
 ];
 
-const translateTargetName = (targetName: z.infer<typeof targetNameEnumSchema>): string => {
-  const targetMap: Record<z.infer<typeof targetNameEnumSchema>, string> = {
+const translateTargetName = (targetName: TargetName): string => {
+  const targetMap: Record<TargetName, string> = {
     join_message: '入室メッセージ',
     leave_message: '退室メッセージ',
     report: 'サーバー内通報',
@@ -69,15 +73,30 @@ export function AuditLogTable({
 }: { auditLogs: z.infer<typeof auditLogSelectSchema.db>[]; authors: APIUser[] }) {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [userIdFilter, setUserIdFilter] = useState<string | null>(null);
+  const [actionTypeFilter, setActionTypeFilter] = useState<ActionType | null>(null);
 
-  const pages = Math.ceil(auditLogs.length / rowsPerPage);
+  const filteredItems = useMemo(() => {
+    let filteredAuditLog = [...auditLogs];
+
+    if (userIdFilter) {
+      filteredAuditLog = filteredAuditLog.filter((log) => log.authorId === userIdFilter);
+    }
+    if (actionTypeFilter) {
+      filteredAuditLog = filteredAuditLog.filter((log) => log.actionType === actionTypeFilter);
+    }
+
+    return filteredAuditLog;
+  }, [auditLogs, userIdFilter, actionTypeFilter]);
+
+  const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return auditLogs.slice(start, end);
-  }, [page, auditLogs, rowsPerPage]);
+    return filteredItems.slice(start, end);
+  }, [page, filteredItems, rowsPerPage]);
 
   const renderCell = (entry: z.infer<typeof auditLogSelectSchema.db>, columnKey: React.Key) => {
     switch (columnKey) {
@@ -94,6 +113,91 @@ export function AuditLogTable({
 
   return (
     <div className='flex flex-col gap-6 pb-6'>
+      <div className='flex w-full justify-end items-center gap-3'>
+        <Dropdown>
+          <DropdownTrigger>
+            <Button
+              variant='flat'
+              startContent={
+                <Badge
+                  color='primary'
+                  size='sm'
+                  content=''
+                  isInvisible={!userIdFilter}
+                  shape='circle'
+                >
+                  <Icon icon='solar:user-bold' className='text-2xl' />
+                </Badge>
+              }
+              endContent={<Icon icon='solar:alt-arrow-down-outline' className='text-base' />}
+            >
+              ユーザー
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu
+            aria-label='Single selection example'
+            selectedKeys={userIdFilter ? [userIdFilter] : []}
+            onSelectionChange={(keys) =>
+              setUserIdFilter(Array.from(keys)[0] ? (Array.from(keys)[0] as string) : null)
+            }
+            items={authors}
+            selectionMode='single'
+            variant='flat'
+          >
+            {(author) => (
+              <DropdownItem
+                key={author.id}
+                startContent={
+                  <Avatar
+                    size='sm'
+                    src={`${DiscordEndPoints.CDN}/avatars/${author.id}/${author.avatar}.webp`}
+                    name={author.username}
+                  />
+                }
+              >
+                {author.username}
+              </DropdownItem>
+            )}
+          </DropdownMenu>
+        </Dropdown>
+        <Dropdown>
+          <DropdownTrigger>
+            <Button
+              variant='flat'
+              startContent={
+                <Badge
+                  color='primary'
+                  size='sm'
+                  content=''
+                  isInvisible={!actionTypeFilter}
+                  shape='circle'
+                >
+                  <Icon icon='solar:tuning-2-bold' className='text-2xl' />
+                </Badge>
+              }
+              endContent={<Icon icon='solar:alt-arrow-down-outline' className='text-base' />}
+            >
+              操作内容
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu
+            aria-label='Single selection example'
+            selectedKeys={actionTypeFilter ? [actionTypeFilter] : []}
+            onSelectionChange={(keys) =>
+              setActionTypeFilter(Array.from(keys)[0] ? (Array.from(keys)[0] as ActionType) : null)
+            }
+            selectionMode='single'
+            variant='flat'
+          >
+            <DropdownItem
+              startContent={<Icon icon='solar:settings-outline' className='text-xl text-warning' />}
+              key={'update_guild_setting'}
+            >
+              サーバー設定を更新
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </div>
       <Table aria-label='auditlog table'>
         <TableHeader columns={columns}>
           {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
@@ -170,8 +274,8 @@ function TableRowContent({
   actionType,
   targetName,
 }: {
-  actionType: z.infer<typeof actionTypeEnumSchema>;
-  targetName: z.infer<typeof targetNameEnumSchema>;
+  actionType: ActionType;
+  targetName: TargetName;
 }) {
   if (actionType === 'update_guild_setting') {
     return (
