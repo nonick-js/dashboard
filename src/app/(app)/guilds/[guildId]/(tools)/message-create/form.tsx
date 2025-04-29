@@ -43,7 +43,7 @@ export const messageCreateFormSchema = z.object({
 });
 
 type InputSchema = z.input<typeof messageCreateFormSchema>;
-type OutputSchema = z.input<typeof messageCreateFormSchema>;
+type OutputSchema = z.output<typeof messageCreateFormSchema>;
 
 type Props = {
   channels: APIGuildChannel<GuildChannelType>[];
@@ -56,7 +56,7 @@ const PropsContext = createContext<Props>({
 export function MessageCreateForm({ channels }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
 
-  const form = useForm<InputSchema, unknown, OutputSchema>({
+  const form = useForm<InputSchema, object, OutputSchema>({
     resolver: zodResolver(messageCreateFormSchema),
     defaultValues: {
       message: {
