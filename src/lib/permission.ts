@@ -34,7 +34,7 @@ export async function hasDashboardAccessPermission(guildId: string, session?: Se
       );
 
     return isGuildOwner || hasAdminRole;
-  } catch {
+  } catch (e) {
     return false;
   }
 }

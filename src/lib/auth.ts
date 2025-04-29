@@ -1,8 +1,9 @@
 ﻿import 'server-only';
 
-import type {
-  RESTGetAPIOAuth2CurrentAuthorizationResult,
-  RESTPostOAuth2AccessTokenResult,
+import {
+  OAuth2Scopes,
+  type RESTGetAPIOAuth2CurrentAuthorizationResult,
+  type RESTPostOAuth2AccessTokenResult,
 } from 'discord-api-types/v10';
 import NextAuth, { type DefaultSession } from 'next-auth';
 // biome-ignore lint/correctness/noUnusedImports: <explanation>
@@ -12,7 +13,7 @@ import { NextResponse, URLPattern } from 'next/server';
 import { snowflake } from './database/src/utils/zod/discord';
 import { discordFetch } from './discord/fetcher';
 
-type SessionError = 'RefreshTokenError' | 'AccessTokenError';
+type SessionError = 'RefreshTokenError' | 'AccessTokenError' | 'MissingRequireScope';
 
 declare module 'next-auth' {
   interface User {
@@ -45,11 +46,12 @@ declare module 'next-auth/jwt' {
   }
 }
 
+const RequireScope = [OAuth2Scopes.Identify, OAuth2Scopes.Guilds, OAuth2Scopes.GuildsMembersRead];
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     discord({
-      authorization:
-        'https://discord.com/api/oauth2/authorize?scope=identify+guilds+guilds.members.read',
+      authorization: `https://discord.com/api/oauth2/authorize?scope=${RequireScope.join('+')}`,
       profile: (profile: DiscordProfile) => {
         if (profile.avatar === null) {
           const defaultAvatarNumber =
@@ -118,7 +120,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       // アクセストークンが期限切れでない場合は、アクセストークンが現在も有効であるか検証する
       if (!isAccessTokenExpired && token.error !== 'AccessTokenError') {
-        const { error } = await discordFetch<RESTGetAPIOAuth2CurrentAuthorizationResult>(
+        const { data, error } = await discordFetch<RESTGetAPIOAuth2CurrentAuthorizationResult>(
           '/oauth2/@me',
           {
             auth: {
@@ -128,6 +130,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           },
         );
         if (error) token.error = 'AccessTokenError';
+
+        // 必要なスコープが含まれていない場合はエラーを追加する
+        if (!RequireScope.every((s) => data?.scopes.includes(s))) {
+          token.error = 'MissingRequireScope';
+        }
+
         return token;
       }
 
