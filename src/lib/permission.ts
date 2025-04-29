@@ -4,7 +4,7 @@ import { PermissionFlagsBits } from 'discord-api-types/v10';
 import type { Session } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { auth } from './auth';
-import { getGuild, getGuildMember, getRoles } from './discord/api';
+import { getCurrentUserGuildMember, getGuild, getRoles } from './discord/api';
 import { hasPermission } from './discord/utils';
 
 /**
@@ -21,7 +21,7 @@ export async function hasDashboardAccessPermission(guildId: string, session?: Se
 
     const [roles, member] = await Promise.all([
       getRoles(guildId),
-      getGuildMember(guildId, currentSession.user.id),
+      getCurrentUserGuildMember(guildId),
     ]);
 
     const isGuildOwner = guild.owner_id === currentSession.user.id;

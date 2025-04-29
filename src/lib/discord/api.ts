@@ -3,7 +3,6 @@
 import {
   type APIGuild,
   type APIGuildChannel,
-  type APIGuildMember,
   type APIRole,
   type GuildChannelType,
   PermissionFlagsBits,
@@ -110,18 +109,7 @@ export function getChannels(guildId: string) {
  */
 export function getRoles(guildId: string) {
   return discordBotUserFetch<APIRole[], false>(`/guilds/${guildId}/roles`, {
-    throw: true,
-  });
-}
-
-/**
- * Discordサーバーに参加しているメンバーを取得
- * @param guildId サーバーID
- * @param userId ユーザーID
- * @see https://discord.com/developers/docs/resources/guild#get-guild-member
- */
-export function getGuildMember(guildId: string, userId: string) {
-  return discordBotUserFetch<APIGuildMember, false>(`/guilds/${guildId}/members/${userId}`, {
+    next: { revalidate: 30 },
     throw: true,
   });
 }
