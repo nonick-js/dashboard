@@ -24,11 +24,11 @@ export const inviteUrl = `${DiscordEndPoints.OAuth2}/authorize?${new URLSearchPa
 })}` as const;
 
 /**
- * ユーザーが参加しているDiscordサーバーを取得
+ * ログイン中のユーザーが参加しているDiscordサーバーを取得
  * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link RESTAPIPartialCurrentUserGuild}に含まれるようになる
  * @see https://discord.com/developers/docs/resources/user#get-current-user-guilds
  */
-export function getUserGuilds(withCounts = false) {
+export function getCurrentUserGuilds(withCounts = false) {
   return discordOAuth2UserFetch<RESTAPIPartialCurrentUserGuild[], false>(
     `/users/@me/guilds?with_counts=${withCounts}`,
     { throw: true },
@@ -36,12 +36,12 @@ export function getUserGuilds(withCounts = false) {
 }
 
 /**
- * Botとユーザーが参加しているDiscordサーバーを取得
+ * Botとログイン中のユーザーが参加しているDiscordサーバーを取得
  * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link RESTAPIPartialCurrentUserGuild}に含まれるようになる
- * @see {@link getUserGuilds}
+ * @see {@link getCurrentUserGuilds}
  */
 export async function getMutualGuilds(withCounts = false) {
-  const userGuilds = await getUserGuilds(withCounts);
+  const userGuilds = await getCurrentUserGuilds(withCounts);
   const mutualGuilds = await db.query.guild.findMany({
     where: (guild, { inArray }) =>
       inArray(
@@ -54,7 +54,7 @@ export async function getMutualGuilds(withCounts = false) {
 }
 
 /**
- * ユーザーが`MANAGED_GUILD`権限を所有しており、かつBotとユーザーが参加しているDiscordサーバーを取得
+ * ログイン中のユーザーが`MANAGED_GUILD`権限を所有しており、かつBotとユーザーが参加しているDiscordサーバーを取得
  * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link RESTAPIPartialCurrentUserGuild}に含まれるようになる
  * @see {@link getMutualGuilds}
  */
