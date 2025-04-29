@@ -8,6 +8,7 @@ import {
   type GuildChannelType,
   PermissionFlagsBits,
   type RESTAPIPartialCurrentUserGuild,
+  type RESTGetCurrentUserGuildMemberResult,
 } from 'discord-api-types/v10';
 import { db } from '../drizzle';
 import { DiscordEndPoints } from './constants';
@@ -31,6 +32,18 @@ export const inviteUrl = `${DiscordEndPoints.OAuth2}/authorize?${new URLSearchPa
 export function getCurrentUserGuilds(withCounts = false) {
   return discordOAuth2UserFetch<RESTAPIPartialCurrentUserGuild[], false>(
     `/users/@me/guilds?with_counts=${withCounts}`,
+    { throw: true },
+  );
+}
+
+/**
+ * ログイン中のユーザーのサーバーメンバーを取得
+ * @param guildId サーバーID
+ * @see https://discord.com/developers/docs/resources/user#get-current-user-guild-member
+ */
+export async function getCurrentUserGuildMember(guildId: string) {
+  return discordOAuth2UserFetch<RESTGetCurrentUserGuildMemberResult, false>(
+    `/users/@me/guilds/${guildId}/member`,
     { throw: true },
   );
 }
