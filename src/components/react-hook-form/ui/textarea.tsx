@@ -37,6 +37,7 @@ export function ControlledTextarea<
       // Other
       classNames={{
         ...classNames,
+        label: cn('text-sm', classNames?.label),
         description: cn('text-sm text-default-500 max-sm:text-xs', classNames?.description),
         errorMessage: cn('text-sm max-sm:text-xs', classNames?.errorMessage),
         // inputWrapper: cn('transition-background', classNames?.inputWrapper),
