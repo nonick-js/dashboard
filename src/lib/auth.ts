@@ -48,7 +48,8 @@ declare module 'next-auth/jwt' {
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     discord({
-      authorization: 'https://discord.com/api/oauth2/authorize?scope=identify+guilds',
+      authorization:
+        'https://discord.com/api/oauth2/authorize?scope=identify+guilds+guilds.members.read',
       profile: (profile: DiscordProfile) => {
         if (profile.avatar === null) {
           const defaultAvatarNumber =
