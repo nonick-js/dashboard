@@ -66,6 +66,15 @@ export async function getMutualManagedGuilds(withCounts = false) {
 }
 
 /**
+ * ログイン中のユーザーが特定のサーバーに参加しているか確認
+ * @param guildId サーバーID
+ */
+export async function isUserJoinedGuild(guildId: string) {
+  const userGuilds = await getUserGuilds();
+  return userGuilds.some((guild) => guild.id === guildId);
+}
+
+/**
  * Discordサーバーを取得
  * @param guildId サーバーID
  * @param withCounts `true`の場合、サーバーのおおよそのメンバー数が{@link APIGuild}に含まれるようになります
