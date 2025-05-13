@@ -1,11 +1,7 @@
 ﻿'use client';
 
 import { Icon } from '@/components/icon';
-import type {
-  actionTypeEnumSchema,
-  auditLogSelectSchema,
-  targetNameEnumSchema,
-} from '@/lib/database/src/schema/audit-log';
+import type { auditLog } from '@/lib/database/src/schema/audit-log';
 import { DiscordEndPoints } from '@/lib/discord/constants';
 import {
   Avatar,
@@ -16,6 +12,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Pagination,
+  ScrollShadow,
   Table,
   TableBody,
   TableCell,
@@ -24,11 +21,9 @@ import {
   TableRow,
 } from '@heroui/react';
 import type { APIUser } from 'discord-api-types/v10';
-import { useEffect, useMemo, useState } from 'react';
-import type { z } from 'zod';
-
-type ActionType = z.infer<typeof actionTypeEnumSchema>;
-type TargetName = z.infer<typeof targetNameEnumSchema>;
+import { useMemo, useState } from 'react';
+import type { AuditLogActionType } from './constants';
+import { TableRowAuthor, TableRowCreatedAt, TableRowLogContent } from './table-row-content';
 
 const columns = [
   {
@@ -45,36 +40,14 @@ const columns = [
   },
 ];
 
-const translateTargetName = (targetName: TargetName): string => {
-  const targetMap: Record<TargetName, string> = {
-    join_message: '入室メッセージ',
-    leave_message: '退室メッセージ',
-    report: 'サーバー内通報',
-    timeout_log: 'タイムアウトログ',
-    kick_log: 'キックログ',
-    ban_log: 'BANログ',
-    voice_log: 'ボイスチャンネルログ',
-    message_delete_log: 'メッセージ削除ログ',
-    message_edit_log: 'メッセージ編集ログ',
-    message_expand: 'メッセージURL展開',
-    auto_change_verify_level: '自動認証レベル変更',
-    auto_public: '自動アナウンス公開',
-    auto_create_thread: '自動スレッド作成',
-    auto_mod: 'AutoMod Plus',
-    guild: 'サーバー',
-  };
-
-  return targetMap[targetName] || targetName;
-};
-
 export function AuditLogTable({
   auditLogs,
   authors,
-}: { auditLogs: z.infer<typeof auditLogSelectSchema.db>[]; authors: APIUser[] }) {
+}: { auditLogs: (typeof auditLog.$inferSelect)[]; authors: APIUser[] }) {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(20);
   const [userIdFilter, setUserIdFilter] = useState<string | null>(null);
-  const [actionTypeFilter, setActionTypeFilter] = useState<ActionType | null>(null);
+  const [actionTypeFilter, setActionTypeFilter] = useState<AuditLogActionType | null>(null);
 
   const filteredItems = useMemo(() => {
     let filteredAuditLog = [...auditLogs];
@@ -98,14 +71,14 @@ export function AuditLogTable({
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
 
-  const renderCell = (entry: z.infer<typeof auditLogSelectSchema.db>, columnKey: React.Key) => {
+  const renderCell = (entry: typeof auditLog.$inferSelect, columnKey: React.Key) => {
     switch (columnKey) {
       case 'user':
-        return <TableRowUser authors={authors} authorId={entry.authorId} />;
+        return <TableRowAuthor authors={authors} authorId={entry.authorId} />;
       case 'content':
-        return <TableRowContent actionType={entry.actionType} targetName={entry.targetName} />;
+        return <TableRowLogContent actionType={entry.actionType} targetName={entry.targetName} />;
       case 'time':
-        return <TableRowTime time={entry.createdAt} />;
+        return <TableRowCreatedAt time={entry.createdAt} />;
       default:
         return <span className='text-default-500'>unknown</span>;
     }
@@ -113,7 +86,7 @@ export function AuditLogTable({
 
   return (
     <div className='flex flex-col gap-6 pb-6'>
-      <div className='flex w-full justify-end items-center gap-3'>
+      <div className='flex max-sm:justify-center gap-3'>
         <Dropdown>
           <DropdownTrigger>
             <Button
@@ -184,7 +157,9 @@ export function AuditLogTable({
             aria-label='Single selection example'
             selectedKeys={actionTypeFilter ? [actionTypeFilter] : []}
             onSelectionChange={(keys) =>
-              setActionTypeFilter(Array.from(keys)[0] ? (Array.from(keys)[0] as ActionType) : null)
+              setActionTypeFilter(
+                Array.from(keys)[0] ? (Array.from(keys)[0] as AuditLogActionType) : null,
+              )
             }
             selectionMode='single'
             variant='flat'
@@ -198,18 +173,20 @@ export function AuditLogTable({
           </DropdownMenu>
         </Dropdown>
       </div>
-      <Table aria-label='auditlog table'>
-        <TableHeader columns={columns}>
-          {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-        </TableHeader>
-        <TableBody emptyContent='表示する監査ログがありません' items={items}>
-          {(entry) => (
-            <TableRow key={entry.id}>
-              {(columnKey) => <TableCell>{renderCell(entry, columnKey)}</TableCell>}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+      <ScrollShadow className='w-full' orientation='horizontal'>
+        <Table className='min-w-[600px]' aria-label='auditlog table'>
+          <TableHeader columns={columns}>
+            {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+          </TableHeader>
+          <TableBody emptyContent='表示する監査ログがありません' items={items}>
+            {(entry) => (
+              <TableRow key={entry.id}>
+                {(columnKey) => <TableCell>{renderCell(entry, columnKey)}</TableCell>}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </ScrollShadow>
       <div className='flex w-full justify-between items-center gap-6'>
         <div className='flex gap-3 items-center'>
           <Dropdown>
@@ -251,61 +228,4 @@ export function AuditLogTable({
       </div>
     </div>
   );
-}
-
-function TableRowUser({ authors, authorId }: { authors: APIUser[]; authorId: string }) {
-  const user = authors.find((author) => author.id === authorId);
-
-  return (
-    <div className='flex items-center gap-4'>
-      <Avatar
-        size='sm'
-        src={`${DiscordEndPoints.CDN}/avatars/${user?.id}/${user?.avatar}.webp`}
-        name={user?.username}
-      />
-      <div className='max-sm:hidden'>
-        <p className='text-sm'>{user?.username || 'Unknown User'}</p>
-      </div>
-    </div>
-  );
-}
-
-function TableRowContent({
-  actionType,
-  targetName,
-}: {
-  actionType: ActionType;
-  targetName: TargetName;
-}) {
-  if (actionType === 'update_guild_setting') {
-    return (
-      <div className='flex gap-3 items-center text-default-500'>
-        <Icon icon='solar:settings-outline' className='text-xl text-warning' />
-        <p>
-          <span className='text-foreground'>{translateTargetName(targetName)} </span>
-          に変更を加えました
-        </p>
-      </div>
-    );
-  }
-  return <span className='text-default-500'>不明なアクション</span>;
-}
-
-function TableRowTime({ time }: { time: Date }) {
-  const [formattedTime, setFormattedTime] = useState<string | null>(null);
-
-  useEffect(() => {
-    const formatTime = (date: Date) => {
-      const yy = date.getFullYear().toString();
-      const mm = String(date.getMonth() + 1).padStart(2, '0');
-      const dd = String(date.getDate()).padStart(2, '0');
-      const hh = String(date.getHours()).padStart(2, '0');
-      const min = String(date.getMinutes()).padStart(2, '0');
-      return `${yy}/${mm}/${dd} ${hh}:${min}`;
-    };
-
-    setFormattedTime(formatTime(time));
-  }, [time]);
-
-  return <p className='text-default-500'>{formattedTime}</p>;
 }
