@@ -7,7 +7,7 @@ import { FormDevTool } from '@/components/react-hook-form/devtool';
 import { RoleSelect } from '@/components/react-hook-form/role-select';
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { reportSettingSchema } from '@/lib/database/src/schema/setting';
+import type { z } from '@/lib/database/src/lib/i18n';
 import { filterValidIds } from '@/lib/discord/utils';
 import { Alert, addToast } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,11 +20,11 @@ import {
 import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
-import type { z } from 'zod';
 import { updateReportSettingAction } from './action';
+import { reportSettingFormSchema } from './schema';
 
-type InputSetting = z.input<typeof reportSettingSchema.form>;
-type OutputSetting = z.output<typeof reportSettingSchema.form>;
+type InputSetting = z.input<typeof reportSettingFormSchema>;
+type OutputSetting = z.output<typeof reportSettingFormSchema>;
 
 type Props = {
   channels: APIGuildChannel<GuildChannelType>[];
@@ -41,10 +41,9 @@ export function SettingForm({ setting, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(reportSettingSchema.form),
+    resolver: zodResolver(reportSettingFormSchema),
     defaultValues: {
-      channel: setting?.channel ?? '',
-      showProgressButton: setting?.showProgressButton ?? true,
+      channel: setting?.channel,
       includeModerator: setting?.includeModerator ?? false,
       enableMention: setting?.enableMention ?? false,
       mentionRoles: filterValidIds(setting?.mentionRoles, props.roles),
@@ -113,12 +112,12 @@ function GeneralSetting() {
         label='モデレーターも通報の対象にする'
         description='有効にすると、「メンバー管理」権限を持つユーザーをメンバーが通報できるようになります。'
       />
-      <ControlledSwitch
+      {/* <ControlledSwitch
         control={control}
         name='showProgressButton'
         label='進捗ボタンを表示する'
         description='送られた通報に「対処済み」「無視」などの、通報のステータスを管理できるボタンを表示します。'
-      />
+      /> */}
     </FormCard>
   );
 }
