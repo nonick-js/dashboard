@@ -89,8 +89,8 @@ export const sectionItems: SidebarItem<{ guildId: string }>[] = [
         icon: 'solar:code-scan-outline',
         title: 'メンバー認証',
         endContent: (
-          <Chip size='sm' color='secondary' variant='flat'>
-            Beta
+          <Chip size='sm' color='primary' variant='flat'>
+            New
           </Chip>
         ),
       },
