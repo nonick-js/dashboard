@@ -7,8 +7,7 @@ import { RoleSelect } from '@/components/react-hook-form/role-select';
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledRadioGroup } from '@/components/react-hook-form/ui/radio';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { Links } from '@/lib/constants';
-import { Alert, Link, Radio, type RadioProps, addToast, cn } from '@heroui/react';
+import { Radio, type RadioProps, addToast, cn } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { APIRole } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
@@ -74,20 +73,6 @@ function EnableSetting() {
   return (
     <FormCard bodyClass='gap-6'>
       <ControlledSwitch control={control} name='enabled' label='メンバー認証を有効にする' />
-      <Alert
-        color='warning'
-        variant='faded'
-        title='この機能はベータ版です。'
-        description={
-          <span>
-            予告なく仕様が変更される場合があります。
-            <Link href={Links.Discord} size='sm' isExternal showAnchorIcon color='warning'>
-              サポートサーバー
-            </Link>
-            で是非フィードバックを送信してください！
-          </span>
-        }
-      />
     </FormCard>
   );
 }
