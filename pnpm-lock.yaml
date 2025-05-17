@@ -89,6 +89,9 @@ importers:
       react-hook-form:
         specifier: ^7.55.0
         version: 7.56.1(react@19.1.0)
+      react-use-wizard:
+        specifier: ^2.3.0
+        version: 2.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       server-only:
         specifier: ^0.0.1
         version: 0.0.1
@@ -2895,6 +2898,13 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  react-use-wizard@2.3.0:
+    resolution: {integrity: sha512-z06pQNZ18FvoK+ZDW50hOf0uOySo0Hhd7H4y0MLyk/tBCwpUKGBeULosORBVhipUaWihNLpLJxwH5f+85Qt5XA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
 
   react@19.1.0:
     resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
@@ -6643,6 +6653,11 @@ snapshots:
       use-latest: 1.3.0(@types/react@19.1.1)(react@19.1.0)
     transitivePeerDependencies:
       - '@types/react'
+
+  react-use-wizard@2.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   react@19.1.0: {}
 

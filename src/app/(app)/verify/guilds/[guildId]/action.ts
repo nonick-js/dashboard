@@ -1,10 +1,10 @@
 ﻿'use server';
 
-import { getGuild, isUserJoinedGuild } from '@/lib/discord/api';
+import { addGuildMemberRole, getGuild, isUserJoinedGuild } from '@/lib/discord/api';
 import { db } from '@/lib/drizzle';
 import { userActionClient } from '@/lib/safe-action/client';
 import { verifyTurnstileToken } from '@/lib/turnstile';
-import { captchaFormSchema } from './form-schema';
+import { captchaFormSchema } from './schema';
 
 export const verifyAction = userActionClient
   .schema(async (prevSchema) => prevSchema.and(captchaFormSchema))
@@ -20,8 +20,7 @@ export const verifyAction = userActionClient
       if (!(await isUserJoinedGuild(guild.id))) throw new Error('User Not Joined Guild');
 
       await verifyTurnstileToken(turnstileToken);
-
-      // ロールの追加処理を記述すること
+      await addGuildMemberRole(guild.id, setting.role, ctx.session?.user.id as string);
     } catch (e: unknown) {
       if (e instanceof Error) {
         console.error(e);

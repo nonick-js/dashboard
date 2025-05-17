@@ -121,3 +121,18 @@ export function getGuildMember(guildId: string, userId: string) {
     throw: true,
   });
 }
+
+/**
+ * メンバーにロールを追加
+ * @param guildId サーバーID
+ * @param roleId ロールID
+ * @param userId ユーザーID
+ * @see https://discord.com/developers/docs/resources/guild#add-guild-member-role
+ */
+export function addGuildMemberRole(guildId: string, roleId: string, userId: string) {
+  // biome-ignore lint/complexity/noBannedTypes: <explanation>
+  return discordBotUserFetch<{}, false>(`/guilds/${guildId}/members/${userId}/roles/${roleId}`, {
+    method: 'PUT',
+    throw: true,
+  });
+}
