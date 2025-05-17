@@ -22,11 +22,13 @@ type OutputSetting = z.output<typeof verificationSettingFormSchema>;
 
 type Props = {
   roles: APIRole[];
+  highestRolePosition: number;
   setting: OutputSetting | null;
 };
 
-const PropsContext = createContext<Omit<Props, 'setting'>>({
+const PropsContext = createContext<Omit<Props, 'setting' | 'highestRole'>>({
   roles: [],
+  highestRolePosition: 0,
 });
 
 export function SettingForm({ setting, ...props }: Props) {
@@ -78,7 +80,7 @@ function EnableSetting() {
 }
 
 function GeneralSetting() {
-  const { roles } = useContext(PropsContext);
+  const { roles, highestRolePosition } = useContext(PropsContext);
   const { control } = useFormContext<InputSetting>();
   const { guildId } = useParams<{ guildId: string }>();
   const isEnabled = useWatch<InputSetting>({ name: 'enabled' });
@@ -90,7 +92,10 @@ function GeneralSetting() {
         name='role'
         roles={roles}
         label='認証成功時に付与するロール'
-        disableItemFilter={(role) => role.managed || role.id === guildId}
+        description='NoNICK.jsが所持しているロールより高い位置にあるロールを選択できます。'
+        disableItemFilter={(role) =>
+          role.managed || role.id === guildId || role.position > highestRolePosition
+        }
         disallowEmptySelection
         isRequired
         isDisabled={!isEnabled}

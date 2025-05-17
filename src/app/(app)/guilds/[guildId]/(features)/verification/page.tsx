@@ -1,5 +1,5 @@
 ﻿import { Header } from '@/components/header';
-import { getRoles } from '@/lib/discord/api';
+import { getRoles, getUserHighestRole } from '@/lib/discord/api';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import { Alert } from '@heroui/alert';
@@ -16,8 +16,9 @@ export default async function ({ params }: SettingPageProps) {
   const { guildId } = await params;
   await requireDashboardAccessPermission(guildId);
 
-  const [roles, setting] = await Promise.all([
+  const [roles, highestRole, setting] = await Promise.all([
     getRoles(guildId),
+    getUserHighestRole(guildId, process.env.AUTH_DISCORD_ID),
     db.query.verificationSetting.findFirst({
       where: (setting, { eq }) => eq(setting.guildId, guildId),
     }),
@@ -36,6 +37,7 @@ export default async function ({ params }: SettingPageProps) {
       )}
       <SettingForm
         roles={roles}
+        highestRolePosition={highestRole.position}
         setting={verificationSettingFormSchema.safeParse(setting).data ?? null}
       />
     </>

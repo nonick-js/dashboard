@@ -122,6 +122,17 @@ export function getGuildMember(guildId: string, userId: string) {
   });
 }
 
+export async function getUserHighestRole(guildId: string, userId: string) {
+  const res = await Promise.all([getRoles(guildId), getGuildMember(guildId, userId)]).catch(
+    () => {},
+  );
+  if (!res) throw new TypeError('failed to get roles and guildmember');
+  const [roles, member] = res;
+
+  const memberRoles = roles.filter((role) => member.roles.includes(role.id));
+  return memberRoles.sort((a, b) => b.position - a.position)[0];
+}
+
 /**
  * メンバーにロールを追加
  * @param guildId サーバーID
