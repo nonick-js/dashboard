@@ -23,6 +23,6 @@ export const updateVerificationSettingAction = guildActionClient
         formSchema: verificationSettingFormSchema,
       }),
     );
-    revalidatePath('/');
+    await revalidatePath('/');
     return { success: true };
   });

@@ -103,7 +103,7 @@ function GeneralSetting() {
         isRequired
       >
         <CustomRadio
-          description='ユーザーは認証サイトにログインし、reCAPTCHA検証を行うことでロールを取得することができます。'
+          description='ユーザーは認証サイトにログインし、Cloudflare Turnstile検証を行うことでロールを取得することができます。'
           value='web'
         >
           Web認証
