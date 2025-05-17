@@ -6,7 +6,7 @@ import { updateGuildSetting } from '@/lib/safe-action/action/update-guild-settin
 import { createGuildDatabaseAdapter } from '@/lib/safe-action/action/utils';
 import { guildActionClient } from '@/lib/safe-action/client';
 import { revalidatePath } from 'next/cache';
-import { verificationSettingFormSchema } from './form-schema';
+import { verificationSettingFormSchema } from './schema';
 
 export const updateVerificationSettingAction = guildActionClient
   .schema(async (prevSchema) => prevSchema.and(verificationSettingFormSchema))

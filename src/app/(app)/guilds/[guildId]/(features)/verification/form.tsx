@@ -16,7 +16,7 @@ import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
 import { updateVerificationSettingAction } from './action';
-import { verificationSettingFormSchema } from './form-schema';
+import { verificationSettingFormSchema } from './schema';
 
 type InputSetting = z.input<typeof verificationSettingFormSchema>;
 type OutputSetting = z.output<typeof verificationSettingFormSchema>;

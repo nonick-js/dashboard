@@ -6,7 +6,7 @@ import { requireDashboardAccessPermission } from '@/lib/permission';
 import type { Metadata } from 'next';
 import type { SettingPageProps } from '../../types';
 import { AnimatedPage } from './animated-page';
-import { verificationSettingFormSchema } from './form-schema';
+import { verificationSettingFormSchema } from './schema';
 
 export const metadata: Metadata = {
   title: 'メンバー認証',

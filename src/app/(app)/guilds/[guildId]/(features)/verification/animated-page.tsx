@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import type { z } from 'zod';
 import { SettingForm } from './form';
-import type { verificationSettingFormSchema } from './form-schema';
+import type { verificationSettingFormSchema } from './schema';
 
 type Props = {
   setting: z.output<typeof verificationSettingFormSchema> | null;
