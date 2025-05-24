@@ -90,7 +90,12 @@ function EnableSetting() {
 
   return (
     <FormCard>
-      <ControlledSwitch control={control} name='enabled' label='入室メッセージを有効にする' />
+      <ControlledSwitch
+        control={control}
+        name='enabled'
+        label='入室メッセージを有効にする'
+        description='サーバーにユーザーが参加した際にメッセージを送信します。'
+      />
     </FormCard>
   );
 }

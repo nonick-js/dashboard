@@ -1,5 +1,4 @@
-﻿import { Header } from '@/components/header';
-import { autoModSettingSchema } from '@/lib/database/src/schema/setting';
+﻿import { autoModSettingSchema } from '@/lib/database/src/schema/setting';
 import { getChannels, getRoles } from '@/lib/discord/api';
 import { sortChannels, sortRoles } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
@@ -26,7 +25,6 @@ export default async function ({ params }: SettingPageProps) {
 
   return (
     <>
-      <Header title='AutoMod Plus' description='特定の条件を満たすメッセージを自動で削除します。' />
       <SettingForm
         channels={sortChannels(channels)}
         roles={sortRoles(roles)}

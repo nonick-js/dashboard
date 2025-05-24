@@ -1,5 +1,4 @@
-﻿import { Header } from '@/components/header';
-import { getChannels, getRoles } from '@/lib/discord/api';
+﻿import { getChannels, getRoles } from '@/lib/discord/api';
 import { sortChannels, sortRoles } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
@@ -26,10 +25,6 @@ export default async function ({ params }: SettingPageProps) {
 
   return (
     <>
-      <Header
-        title='サーバー内通報'
-        description='不適切なメッセージやユーザーをメンバーが通報できるようにします。'
-      />
       <SettingForm
         channels={sortChannels(channels)}
         roles={sortRoles(roles)}

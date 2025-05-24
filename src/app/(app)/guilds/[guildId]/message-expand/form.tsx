@@ -78,7 +78,12 @@ function EnableSetting() {
 
   return (
     <FormCard>
-      <ControlledSwitch control={control} name='enabled' label='メッセージURL展開を有効にする' />
+      <ControlledSwitch
+        control={control}
+        name='enabled'
+        label='メッセージURL展開を有効にする'
+        description='DiscordのメッセージURLが送信された際に、そのメッセージの内容を追加で送信します。'
+      />
     </FormCard>
   );
 }

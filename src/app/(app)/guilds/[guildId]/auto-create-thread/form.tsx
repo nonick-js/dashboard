@@ -9,12 +9,7 @@ import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
 import { autoCreateThreadSettingSchema } from '@/lib/database/src/schema/setting';
 import { addToast } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  type APIGuildChannel,
-  type APIRole,
-  ChannelType,
-  type GuildChannelType,
-} from 'discord-api-types/v10';
+import { type APIGuildChannel, ChannelType, type GuildChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
@@ -75,7 +70,12 @@ function EnableSetting() {
 
   return (
     <FormCard>
-      <ControlledSwitch control={control} name='enabled' label='自動スレッド作成を有効にする' />
+      <ControlledSwitch
+        control={control}
+        name='enabled'
+        label='自動スレッド作成を有効にする'
+        description='指定したチャンネルにメッセージが投稿された際、自動でスレッドを作成します。'
+      />
     </FormCard>
   );
 }

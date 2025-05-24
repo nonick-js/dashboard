@@ -1,5 +1,4 @@
-﻿import { Header } from '@/components/header';
-import { getChannels } from '@/lib/discord/api';
+﻿import { getChannels } from '@/lib/discord/api';
 import { sortChannels } from '@/lib/discord/utils';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import type { Metadata } from 'next';
@@ -19,10 +18,6 @@ export default async function ({ params }: SettingPageProps) {
 
   return (
     <>
-      <Header
-        title='イベントログ'
-        description='サーバー内で起こった特定イベントのログを送信します。'
-      />
       <FormContainer channels={sortChannels(channels)} settings={settings} />
     </>
   );

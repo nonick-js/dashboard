@@ -74,7 +74,12 @@ function EnableSetting() {
 
   return (
     <FormCard bodyClass='gap-6'>
-      <ControlledSwitch control={control} name='enabled' label='メンバー認証を有効にする' />
+      <ControlledSwitch
+        control={control}
+        name='enabled'
+        label='メンバー認証を有効にする'
+        description='特定の認証を行ったユーザーにロールを付与します。'
+      />
     </FormCard>
   );
 }

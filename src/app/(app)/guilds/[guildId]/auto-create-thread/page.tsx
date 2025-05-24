@@ -1,5 +1,4 @@
-﻿import { Header } from '@/components/header';
-import { autoCreateThreadSettingSchema } from '@/lib/database/src/schema/setting';
+﻿import { autoCreateThreadSettingSchema } from '@/lib/database/src/schema/setting';
 import { getChannels } from '@/lib/discord/api';
 import { sortChannels } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
@@ -25,10 +24,6 @@ export default async function ({ params }: SettingPageProps) {
 
   return (
     <>
-      <Header
-        title='自動スレッド公開'
-        description='指定したチャンネルにメッセージが投稿された際、自動でスレッドを作成します。'
-      />
       <SettingForm
         channels={sortChannels(channels)}
         setting={autoCreateThreadSettingSchema.form.safeParse(setting).data ?? null}

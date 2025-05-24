@@ -70,7 +70,12 @@ function EnableSetting() {
 
   return (
     <FormCard>
-      <ControlledSwitch control={control} name='enabled' label='自動アナウンス公開を有効にする' />
+      <ControlledSwitch
+        control={control}
+        name='enabled'
+        label='自動アナウンス公開を有効にする'
+        description='アナウンスチャンネルに投稿されたメッセージを自動で公開します。'
+      />
     </FormCard>
   );
 }

@@ -1,5 +1,4 @@
-﻿import { Header } from '@/components/header';
-import { autoChangeVerifyLevelSettingSchema } from '@/lib/database/src/schema/setting';
+﻿import { autoChangeVerifyLevelSettingSchema } from '@/lib/database/src/schema/setting';
 import { getChannels } from '@/lib/discord/api';
 import { sortChannels } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
@@ -25,10 +24,6 @@ export default async function ({ params }: SettingPageProps) {
 
   return (
     <>
-      <Header
-        title='自動認証レベル変更'
-        description='サーバーの認証レベルを特定の時間帯だけ変更します。'
-      />
       <SettingForm
         channels={sortChannels(channels)}
         setting={autoChangeVerifyLevelSettingSchema.form.safeParse(setting).data ?? null}

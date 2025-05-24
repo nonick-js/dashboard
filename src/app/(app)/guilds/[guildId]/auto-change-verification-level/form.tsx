@@ -82,7 +82,12 @@ function EnableSetting() {
 
   return (
     <FormCard>
-      <ControlledSwitch control={control} name='enabled' label='自動認証レベル変更を有効にする' />
+      <ControlledSwitch
+        control={control}
+        name='enabled'
+        label='自動認証レベル変更を有効にする'
+        description='サーバーの認証レベルを特定の時間帯だけ変更します。'
+      />
     </FormCard>
   );
 }

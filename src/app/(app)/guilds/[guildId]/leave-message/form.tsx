@@ -77,7 +77,12 @@ function EnableSetting() {
 
   return (
     <FormCard>
-      <ControlledSwitch control={control} name='enabled' label='退室メッセージを有効にする' />
+      <ControlledSwitch
+        control={control}
+        name='enabled'
+        label='退室メッセージを有効にする'
+        description='サーバーからユーザーが退室した際にメッセージを送信します。'
+      />
     </FormCard>
   );
 }

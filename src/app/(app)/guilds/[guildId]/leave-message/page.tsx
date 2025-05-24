@@ -1,5 +1,4 @@
-﻿import { Header } from '@/components/header';
-import { leaveMessageSettingSchema } from '@/lib/database/src/schema/setting';
+﻿import { leaveMessageSettingSchema } from '@/lib/database/src/schema/setting';
 import { getChannels } from '@/lib/discord/api';
 import { sortChannels } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
@@ -25,10 +24,6 @@ export default async function ({ params }: SettingPageProps) {
 
   return (
     <>
-      <Header
-        title='退室メッセージ'
-        description='サーバーからユーザーが退室した際にメッセージを送信します。'
-      />
       <SettingForm
         channels={sortChannels(channels)}
         setting={leaveMessageSettingSchema.form.safeParse(setting).data ?? null}

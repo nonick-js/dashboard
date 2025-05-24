@@ -1,5 +1,4 @@
-﻿import { Header } from '@/components/header';
-import { getUser } from '@/lib/discord/api';
+﻿import { getUser } from '@/lib/discord/api';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import type { Metadata } from 'next';
@@ -26,10 +25,6 @@ export default async function Page({ params }: SettingPageProps) {
 
   return (
     <>
-      <Header
-        title='監査ログ'
-        description='ユーザーがダッシュボードで加えた変更を閲覧することができます。'
-      />
       <AuditLogTable auditLogs={auditLogs} authors={authors} />
     </>
   );

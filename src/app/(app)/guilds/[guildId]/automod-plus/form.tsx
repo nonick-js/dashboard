@@ -89,7 +89,12 @@ function EnableSetting() {
 
   return (
     <FormCard>
-      <ControlledSwitch control={control} name='enabled' label='AutoMod Plusを有効にする' />
+      <ControlledSwitch
+        control={control}
+        name='enabled'
+        label='AutoMod Plusを有効にする'
+        description='特定の条件を満たすメッセージを自動で削除します。'
+      />
     </FormCard>
   );
 }

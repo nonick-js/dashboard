@@ -1,5 +1,4 @@
-﻿import { Header } from '@/components/header';
-import { getRoles, getUserHighestRole } from '@/lib/discord/api';
+﻿import { getRoles, getUserHighestRole } from '@/lib/discord/api';
 import { sortRoles } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
@@ -27,7 +26,6 @@ export default async function ({ params }: SettingPageProps) {
 
   return (
     <>
-      <Header title='メンバー認証' description='特定の認証を行ったユーザーにロールを付与します。' />
       {setting?.enabled && (
         <Alert
           color='success'
