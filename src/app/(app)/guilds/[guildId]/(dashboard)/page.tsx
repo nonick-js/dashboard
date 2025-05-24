@@ -5,7 +5,7 @@ import { Alert } from '@heroui/alert';
 import { Link } from '@heroui/link';
 import { type Snowflake, getDate } from 'discord-snowflake';
 import type { Metadata } from 'next';
-import type { SettingPageProps } from '../../types';
+import type { SettingPageProps } from '../types';
 import { GuildCard } from './guild-card';
 import { StatsCard } from './stats-card';
 

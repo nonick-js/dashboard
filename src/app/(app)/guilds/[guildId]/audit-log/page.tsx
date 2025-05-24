@@ -3,7 +3,7 @@ import { getUser } from '@/lib/discord/api';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import type { Metadata } from 'next';
-import type { SettingPageProps } from '../../types';
+import type { SettingPageProps } from '../types';
 import { AuditLogTable } from './table';
 
 export const metadata: Metadata = {

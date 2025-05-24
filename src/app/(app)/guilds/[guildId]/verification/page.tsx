@@ -5,7 +5,7 @@ import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import { Alert } from '@heroui/alert';
 import type { Metadata } from 'next';
-import type { SettingPageProps } from '../../types';
+import type { SettingPageProps } from '../types';
 import { SettingForm } from './form';
 import { verificationSettingFormSchema } from './schema';
 

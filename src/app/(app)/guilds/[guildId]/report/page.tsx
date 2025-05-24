@@ -1,24 +1,25 @@
 ﻿import { Header } from '@/components/header';
-import { leaveMessageSettingSchema } from '@/lib/database/src/schema/setting';
-import { getChannels } from '@/lib/discord/api';
-import { sortChannels } from '@/lib/discord/utils';
+import { getChannels, getRoles } from '@/lib/discord/api';
+import { sortChannels, sortRoles } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import type { Metadata } from 'next';
-import type { SettingPageProps } from '../../types';
+import type { SettingPageProps } from '../types';
 import { SettingForm } from './form';
+import { reportSettingFormSchema } from './schema';
 
 export const metadata: Metadata = {
-  title: '退室メッセージ',
+  title: 'サーバー内通報',
 };
 
 export default async function ({ params }: SettingPageProps) {
   const { guildId } = await params;
   await requireDashboardAccessPermission(guildId);
 
-  const [channels, setting] = await Promise.all([
+  const [channels, roles, setting] = await Promise.all([
     getChannels(guildId),
-    db.query.leaveMessageSetting.findFirst({
+    getRoles(guildId),
+    db.query.reportSetting.findFirst({
       where: (setting, { eq }) => eq(setting.guildId, guildId),
     }),
   ]);
@@ -26,12 +27,13 @@ export default async function ({ params }: SettingPageProps) {
   return (
     <>
       <Header
-        title='退室メッセージ'
-        description='サーバーからユーザーが退室した際にメッセージを送信します。'
+        title='サーバー内通報'
+        description='不適切なメッセージやユーザーをメンバーが通報できるようにします。'
       />
       <SettingForm
         channels={sortChannels(channels)}
-        setting={leaveMessageSettingSchema.form.safeParse(setting).data ?? null}
+        roles={sortRoles(roles)}
+        setting={reportSettingFormSchema.safeParse(setting).data ?? null}
       />
     </>
   );

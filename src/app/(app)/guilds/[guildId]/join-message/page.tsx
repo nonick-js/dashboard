@@ -1,36 +1,37 @@
 ﻿import { Header } from '@/components/header';
-import { autoModSettingSchema } from '@/lib/database/src/schema/setting';
-import { getChannels, getRoles } from '@/lib/discord/api';
-import { sortChannels, sortRoles } from '@/lib/discord/utils';
+import { joinMessageSettingSchema } from '@/lib/database/src/schema/setting';
+import { getChannels } from '@/lib/discord/api';
+import { sortChannels } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import type { Metadata } from 'next';
-import type { SettingPageProps } from '../../types';
+import type { SettingPageProps } from '../types';
 import { SettingForm } from './form';
 
 export const metadata: Metadata = {
-  title: 'AutoMod Plus',
+  title: '入室メッセージ',
 };
 
 export default async function ({ params }: SettingPageProps) {
   const { guildId } = await params;
   await requireDashboardAccessPermission(guildId);
 
-  const [channels, roles, setting] = await Promise.all([
+  const [channels, setting] = await Promise.all([
     getChannels(guildId),
-    getRoles(guildId),
-    db.query.autoModSetting.findFirst({
+    db.query.joinMessageSetting.findFirst({
       where: (setting, { eq }) => eq(setting.guildId, guildId),
     }),
   ]);
 
   return (
     <>
-      <Header title='AutoMod Plus' description='特定の条件を満たすメッセージを自動で削除します。' />
+      <Header
+        title='入室メッセージ'
+        description='サーバーにユーザーが参加した際にメッセージを送信します。'
+      />
       <SettingForm
         channels={sortChannels(channels)}
-        roles={sortRoles(roles)}
-        setting={autoModSettingSchema.form.safeParse(setting).data ?? null}
+        setting={joinMessageSettingSchema.form.safeParse(setting).data ?? null}
       />
     </>
   );

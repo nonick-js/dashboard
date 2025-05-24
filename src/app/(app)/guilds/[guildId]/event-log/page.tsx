@@ -3,7 +3,7 @@ import { getChannels } from '@/lib/discord/api';
 import { sortChannels } from '@/lib/discord/utils';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import type { Metadata } from 'next';
-import type { SettingPageProps } from '../../types';
+import type { SettingPageProps } from '../types';
 import { FormContainer } from './form-container';
 import { getLogSettings } from './lib';
 
