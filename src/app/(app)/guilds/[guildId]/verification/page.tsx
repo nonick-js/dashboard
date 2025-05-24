@@ -1,4 +1,5 @@
-﻿import { getRoles, getUserHighestRole } from '@/lib/discord/api';
+﻿import { FadeInUp } from '@/components/animation';
+import { getRoles, getUserHighestRole } from '@/lib/discord/api';
 import { sortRoles } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
@@ -25,7 +26,7 @@ export default async function ({ params }: SettingPageProps) {
   ]);
 
   return (
-    <>
+    <FadeInUp className='flex flex-col gap-6'>
       {setting?.enabled && (
         <Alert
           color='success'
@@ -39,6 +40,6 @@ export default async function ({ params }: SettingPageProps) {
         highestRolePosition={highestRole.position}
         setting={verificationSettingFormSchema.safeParse(setting).data ?? null}
       />
-    </>
+    </FadeInUp>
   );
 }

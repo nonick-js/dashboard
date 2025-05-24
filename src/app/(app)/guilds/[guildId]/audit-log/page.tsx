@@ -1,4 +1,5 @@
-﻿import { getUser } from '@/lib/discord/api';
+﻿import { FadeInUp } from '@/components/animation';
+import { getUser } from '@/lib/discord/api';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import type { Metadata } from 'next';
@@ -24,8 +25,8 @@ export default async function Page({ params }: SettingPageProps) {
   const authors = await Promise.all(uniqueAuthorIds.map((authorId) => getUser(authorId)));
 
   return (
-    <>
+    <FadeInUp>
       <AuditLogTable auditLogs={auditLogs} authors={authors} />
-    </>
+    </FadeInUp>
   );
 }

@@ -1,4 +1,5 @@
-﻿import { getChannels, getRoles } from '@/lib/discord/api';
+﻿import { FadeInUp } from '@/components/animation';
+import { getChannels, getRoles } from '@/lib/discord/api';
 import { sortChannels, sortRoles } from '@/lib/discord/utils';
 import { db } from '@/lib/drizzle';
 import { requireDashboardAccessPermission } from '@/lib/permission';
@@ -24,12 +25,12 @@ export default async function ({ params }: SettingPageProps) {
   ]);
 
   return (
-    <>
+    <FadeInUp>
       <SettingForm
         channels={sortChannels(channels)}
         roles={sortRoles(roles)}
         setting={reportSettingFormSchema.safeParse(setting).data ?? null}
       />
-    </>
+    </FadeInUp>
   );
 }

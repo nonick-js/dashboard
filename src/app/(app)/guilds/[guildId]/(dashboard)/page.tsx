@@ -1,4 +1,5 @@
-﻿import { Links } from '@/lib/constants';
+﻿import { FadeInUp } from '@/components/animation';
+import { Links } from '@/lib/constants';
 import { getGuild } from '@/lib/discord/api';
 import { requireDashboardAccessPermission } from '@/lib/permission';
 import { Alert } from '@heroui/alert';
@@ -21,7 +22,7 @@ export default async function Page({ params }: SettingPageProps) {
   const createAt = getDate(guild.id as Snowflake);
 
   return (
-    <>
+    <FadeInUp className='flex flex-col gap-6'>
       <GuildCard guild={guild} />
       <div className='grid max-sm:grid-cols-1 max-md:grid-cols-2 grid-cols-3 gap-4'>
         <StatsCard
@@ -55,6 +56,6 @@ export default async function Page({ params }: SettingPageProps) {
           </span>
         }
       />
-    </>
+    </FadeInUp>
   );
 }
