@@ -13,7 +13,7 @@ import { useParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateMsgDeleteLogSettingAction } from '../actions';
+import { updateSettingAction } from '../actions/message-delete';
 import { PropsContext } from '../form-container';
 
 type InputSetting = z.input<typeof msgDeleteLogSettingSchema.form>;
@@ -26,6 +26,7 @@ type Props = {
 
 export function MsgDeleteLogSettingForm({ setting, onFormChange }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
     resolver: zodResolver(msgDeleteLogSettingSchema.form),
@@ -40,10 +41,8 @@ export function MsgDeleteLogSettingForm({ setting, onFormChange }: Props) {
   }, [form.formState.isDirty, onFormChange]);
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateMsgDeleteLogSettingAction({ guildId, ...values });
-    const error = !res?.data?.success;
-
-    if (error) {
+    const res = await bindAction(values);
+    if (res.data?.error) {
       return addToast({
         title: '送信中に問題が発生しました',
         description: '時間を置いてもう一度送信してください。',

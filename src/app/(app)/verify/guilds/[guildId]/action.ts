@@ -7,10 +7,10 @@ import { verifyTurnstileToken } from '@/lib/turnstile';
 import { captchaFormSchema } from './schema';
 
 export const verifyAction = userActionClient
-  .schema(async (prevSchema) => prevSchema.and(captchaFormSchema))
-  .action(async ({ parsedInput: { guildId, turnstileToken }, ctx }) => {
+  .inputSchema(captchaFormSchema)
+  .action(async ({ parsedInput: { turnstileToken }, bindArgsParsedInputs, ctx }) => {
     try {
-      const guild = await getGuild(guildId);
+      const guild = await getGuild(bindArgsParsedInputs[0]);
       const setting = await db.query.verificationSetting.findFirst({
         where: (setting, { eq }) => eq(setting.guildId, guild.id),
       });
@@ -21,7 +21,7 @@ export const verifyAction = userActionClient
 
       await verifyTurnstileToken(turnstileToken);
       await addGuildMemberRole(guild.id, setting.role, ctx.session?.user.id as string);
-    } catch (e: unknown) {
+    } catch (e) {
       if (e instanceof Error) {
         console.error(e);
         return {

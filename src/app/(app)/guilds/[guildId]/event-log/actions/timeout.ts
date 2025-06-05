@@ -1,33 +1,32 @@
 ﻿'use server';
 
 import { auditLog } from '@/lib/database/src/schema/audit-log';
-import { verificationSetting } from '@/lib/database/src/schema/setting';
+import { timeoutLogSetting, timeoutLogSettingSchema } from '@/lib/database/src/schema/setting';
 import { db } from '@/lib/drizzle';
 import { guildActionClient } from '@/lib/safe-action/client';
 import { revalidatePath } from 'next/cache';
-import { verificationSettingFormSchema } from './schema';
 
 export const updateSettingAction = guildActionClient
-  .inputSchema(verificationSettingFormSchema)
+  .inputSchema(timeoutLogSettingSchema.form)
   .action(async ({ parsedInput, bindArgsParsedInputs, ctx }) => {
     try {
       if (!ctx.session) throw new Error('Unauthorized');
       const guildId = bindArgsParsedInputs[0];
 
-      const oldValue = await db.query.verificationSetting.findFirst({
+      const oldValue = await db.query.timeoutLogSetting.findFirst({
         where: (setting, { eq }) => eq(setting.guildId, guildId),
       });
 
       const [newValue] = await db
-        .insert(verificationSetting)
+        .insert(timeoutLogSetting)
         .values({ guildId, ...parsedInput })
-        .onConflictDoUpdate({ target: verificationSetting.guildId, set: parsedInput })
+        .onConflictDoUpdate({ target: timeoutLogSetting.guildId, set: parsedInput })
         .returning();
 
       await db.insert(auditLog).values({
         guildId: guildId,
         authorId: ctx.session.user.id,
-        targetName: 'verification',
+        targetName: 'timeout_log',
         actionType: 'update_guild_setting',
         oldValue,
         newValue,
