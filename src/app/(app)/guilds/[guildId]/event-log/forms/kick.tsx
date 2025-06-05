@@ -13,7 +13,7 @@ import { useParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateKickLogSettingAction } from '../actions';
+import { updateSettingAction } from '../actions/kick';
 import { PropsContext } from '../form-container';
 
 type InputSetting = z.input<typeof kickLogSettingSchema.form>;
@@ -26,6 +26,7 @@ type Props = {
 
 export function KickLogSettingForm({ setting, onFormChange }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
     resolver: zodResolver(kickLogSettingSchema.form),
@@ -40,7 +41,7 @@ export function KickLogSettingForm({ setting, onFormChange }: Props) {
   }, [form.formState.isDirty, onFormChange]);
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateKickLogSettingAction({ guildId, ...values });
+    const res = await bindAction(values);
     const error = !res?.data?.success;
 
     if (error) {

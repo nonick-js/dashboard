@@ -89,13 +89,14 @@ function VerificationStatusStep({ guild, isVerified }: { guild: APIGuild; isVeri
 function CaptchaStep() {
   const { guildId } = useParams<{ guildId: string }>();
   const { goToStep, nextStep } = useWizard();
+  const bindAction = verifyAction.bind(null, guildId);
 
   const form = useForm<FormInputSchema, unknown, FormOutputSchema>({
     resolver: zodResolver(captchaFormSchema),
   });
 
   const onSubmit: SubmitHandler<FormOutputSchema> = async (values) => {
-    const res = await verifyAction({ guildId, ...values });
+    const res = await bindAction(values);
 
     if (res?.data?.error) {
       goToStep(0);

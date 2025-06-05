@@ -1,24 +1,37 @@
 ﻿'use server';
 
+import { auditLog } from '@/lib/database/src/schema/audit-log';
 import { autoPublicSetting, autoPublicSettingSchema } from '@/lib/database/src/schema/setting';
-import { updateGuildSetting } from '@/lib/safe-action/action/update-guild-setting';
-import { createGuildDatabaseAdapter } from '@/lib/safe-action/action/utils';
+import { db } from '@/lib/drizzle';
 import { guildActionClient } from '@/lib/safe-action/client';
 
-export const updateAutoPublicSettingAction = guildActionClient
-  .schema(async (prevSchema) => prevSchema.and(autoPublicSettingSchema.form))
-  .action(async ({ parsedInput: { guildId, ...input }, ctx }) => {
-    await updateGuildSetting(
-      guildId,
-      input,
-      ctx,
-      createGuildDatabaseAdapter({
-        metadata: { targetName: 'auto_public' },
-        table: autoPublicSetting,
-        guildIdColumn: autoPublicSetting.guildId,
-        dbSchema: autoPublicSettingSchema.db,
-        formSchema: autoPublicSettingSchema.form,
-      }),
-    );
-    return { success: true };
+export const updateSettingAction = guildActionClient
+  .inputSchema(autoPublicSettingSchema.form)
+  .action(async ({ parsedInput, bindArgsParsedInputs, ctx }) => {
+    try {
+      if (!ctx.session) throw new Error('Unauthorized');
+      const guildId = bindArgsParsedInputs[0];
+
+      const oldValue = await db.query.autoPublicSetting.findFirst({
+        where: (setting, { eq }) => eq(setting.guildId, guildId),
+      });
+
+      const [newValue] = await db
+        .insert(autoPublicSetting)
+        .values({ guildId, ...parsedInput })
+        .onConflictDoUpdate({ target: autoPublicSetting.guildId, set: parsedInput })
+        .returning();
+
+      await db.insert(auditLog).values({
+        guildId: guildId,
+        authorId: ctx.session.user.id,
+        targetName: 'auto_public',
+        actionType: 'update_guild_setting',
+        oldValue,
+        newValue,
+      });
+      return { success: true };
+    } catch {
+      return { success: false };
+    }
   });

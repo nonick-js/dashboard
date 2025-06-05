@@ -1,35 +1,39 @@
 ﻿'use server';
 
 import { auditLog } from '@/lib/database/src/schema/audit-log';
-import { autoModSetting, autoModSettingSchema } from '@/lib/database/src/schema/setting';
+import { kickLogSetting, kickLogSettingSchema } from '@/lib/database/src/schema/setting';
 import { db } from '@/lib/drizzle';
 import { guildActionClient } from '@/lib/safe-action/client';
+import { revalidatePath } from 'next/cache';
 
 export const updateSettingAction = guildActionClient
-  .inputSchema(autoModSettingSchema.form)
+  .inputSchema(kickLogSettingSchema.form)
   .action(async ({ parsedInput, bindArgsParsedInputs, ctx }) => {
     try {
       if (!ctx.session) throw new Error('Unauthorized');
       const guildId = bindArgsParsedInputs[0];
 
-      const oldValue = await db.query.autoModSetting.findFirst({
+      const oldValue = await db.query.kickLogSetting.findFirst({
         where: (setting, { eq }) => eq(setting.guildId, guildId),
       });
 
       const [newValue] = await db
-        .insert(autoModSetting)
+        .insert(kickLogSetting)
         .values({ guildId, ...parsedInput })
-        .onConflictDoUpdate({ target: autoModSetting.guildId, set: parsedInput })
+        .onConflictDoUpdate({ target: kickLogSetting.guildId, set: parsedInput })
         .returning();
 
       await db.insert(auditLog).values({
         guildId: guildId,
         authorId: ctx.session.user.id,
-        targetName: 'auto_mod',
+        targetName: 'kick_log',
         actionType: 'update_guild_setting',
         oldValue,
         newValue,
       });
+
+      revalidatePath('/');
+
       return { success: true };
     } catch {
       return { success: false };

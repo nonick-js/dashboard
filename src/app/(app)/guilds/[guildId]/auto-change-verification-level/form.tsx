@@ -20,7 +20,7 @@ import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateAutoChangeVerifyLevelSettingAction } from './action';
+import { updateSettingAction } from './action';
 import { ControlledHourInput } from './hour-input';
 
 type InputSetting = z.input<typeof autoChangeVerifyLevelSettingSchema.form>;
@@ -37,6 +37,7 @@ const PropsContext = createContext<Omit<Props, 'setting'>>({
 
 export function SettingForm({ setting, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindUpdateSettingAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
     resolver: zodResolver(autoChangeVerifyLevelSettingSchema.form),
@@ -51,7 +52,7 @@ export function SettingForm({ setting, ...props }: Props) {
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateAutoChangeVerifyLevelSettingAction({ guildId, ...values });
+    const res = await bindUpdateSettingAction(values);
     const error = !res?.data?.success;
 
     if (error) {

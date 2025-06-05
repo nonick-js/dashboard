@@ -14,7 +14,7 @@ import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateVerificationSettingAction } from './action';
+import { updateSettingAction } from './action';
 import { verificationSettingFormSchema } from './schema';
 
 type InputSetting = z.input<typeof verificationSettingFormSchema>;
@@ -33,6 +33,7 @@ const PropsContext = createContext<Omit<Props, 'setting' | 'highestRole'>>({
 
 export function SettingForm({ setting, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
     resolver: zodResolver(verificationSettingFormSchema),
@@ -44,7 +45,7 @@ export function SettingForm({ setting, ...props }: Props) {
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateVerificationSettingAction({ guildId, ...values });
+    const res = await bindAction(values);
     const error = !res?.data?.success;
 
     if (error) {

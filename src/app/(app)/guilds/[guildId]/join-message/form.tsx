@@ -23,7 +23,7 @@ import {
   useWatch,
 } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateJoinMessageSettingAction } from './action';
+import { updateSettingAction } from './action';
 
 type InputSetting = z.input<typeof joinMessageSettingSchema.form>;
 type OutputSetting = z.output<typeof joinMessageSettingSchema.form>;
@@ -39,6 +39,7 @@ const PropsContext = createContext<Omit<Props, 'setting'>>({
 
 export function SettingForm({ setting, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
     resolver: zodResolver(joinMessageSettingSchema.form),
@@ -59,7 +60,7 @@ export function SettingForm({ setting, ...props }: Props) {
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateJoinMessageSettingAction({ guildId, ...values });
+    const res = await bindAction(values);
     const error = !res?.data?.success;
 
     if (error) {

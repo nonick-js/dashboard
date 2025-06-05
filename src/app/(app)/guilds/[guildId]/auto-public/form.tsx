@@ -14,7 +14,7 @@ import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateAutoPublicSettingAction } from './action';
+import { updateSettingAction } from './action';
 
 type InputSetting = z.input<typeof autoPublicSettingSchema.form>;
 type OutputSetting = z.output<typeof autoPublicSettingSchema.form>;
@@ -30,6 +30,7 @@ const PropsContext = createContext<Omit<Props, 'setting'>>({
 
 export function SettingForm({ setting, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
     resolver: zodResolver(autoPublicSettingSchema.form),
@@ -40,7 +41,7 @@ export function SettingForm({ setting, ...props }: Props) {
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateAutoPublicSettingAction({ guildId, ...values });
+    const res = await bindAction(values);
     const error = !res?.data?.success;
 
     if (error) {

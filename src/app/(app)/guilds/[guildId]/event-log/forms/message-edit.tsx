@@ -13,7 +13,7 @@ import { useParams } from 'next/navigation';
 import { useContext, useEffect } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateMsgEditLogSettingAction } from '../actions';
+import { updateSettingAction } from '../actions/message-edit';
 import { PropsContext } from '../form-container';
 
 type InputSetting = z.input<typeof msgEditLogSettingSchema.form>;
@@ -26,6 +26,7 @@ type Props = {
 
 export function MsgEditLogSettingForm({ setting, onFormChange }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
     resolver: zodResolver(msgEditLogSettingSchema.form),
@@ -40,7 +41,7 @@ export function MsgEditLogSettingForm({ setting, onFormChange }: Props) {
   }, [form.formState.isDirty, onFormChange]);
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateMsgEditLogSettingAction({ guildId, ...values });
+    const res = await bindAction(values);
     const error = !res?.data?.success;
 
     if (error) {

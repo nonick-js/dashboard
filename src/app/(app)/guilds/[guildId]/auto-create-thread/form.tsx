@@ -14,7 +14,7 @@ import { useParams } from 'next/navigation';
 import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
-import { updateAutoCreateThreadSettingAction } from './action';
+import { updateSettingAction } from './action';
 
 type InputSetting = z.input<typeof autoCreateThreadSettingSchema.form>;
 type OutputSetting = z.output<typeof autoCreateThreadSettingSchema.form>;
@@ -30,6 +30,7 @@ const PropsContext = createContext<Omit<Props, 'setting'>>({
 
 export function SettingForm({ setting, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindUpdateSettingAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
     resolver: zodResolver(autoCreateThreadSettingSchema.form),
@@ -40,7 +41,7 @@ export function SettingForm({ setting, ...props }: Props) {
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateAutoCreateThreadSettingAction({ guildId, ...values });
+    const res = await bindUpdateSettingAction(values);
     const error = !res?.data?.success;
 
     if (error) {

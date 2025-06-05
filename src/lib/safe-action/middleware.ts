@@ -44,13 +44,11 @@ export const authMiddleware = createMiddleware<{ ctx: { session?: Session | null
 
 export const guildPermissionMiddleware = createMiddleware<{
   ctx: { session: Session | null };
-}>().define(async ({ next, ctx, clientInput }) => {
-  const { guildId } = clientInput as { guildId: string };
+}>().define(async ({ next, ctx, bindArgsClientInputs }) => {
+  const [guildId] = bindArgsClientInputs;
+  if (!snowflake.safeParse(guildId).success) throw new ActionClientError('Invalid Guild ID');
 
-  const parsedGuildid = snowflake.safeParse(guildId).data;
-  if (!parsedGuildid) throw new ActionClientError('Invalid Guild ID');
-
-  const hasPermission = await hasDashboardAccessPermission(guildId, ctx.session);
+  const hasPermission = await hasDashboardAccessPermission(guildId as string, ctx.session);
   if (!hasPermission) throw new ActionClientError('Missing Permission');
 
   return next({ ctx });

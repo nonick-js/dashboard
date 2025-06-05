@@ -23,7 +23,7 @@ import {
 import { useParams } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
-import { updateReportSettingAction } from './action';
+import { updateSettingAction } from './action';
 import { reportSettingFormSchema } from './schema';
 
 type InputSetting = z.input<typeof reportSettingFormSchema>;
@@ -42,6 +42,7 @@ const PropsContext = createContext<Omit<Props, 'setting'>>({
 
 export function SettingForm({ setting, ...props }: Props) {
   const { guildId } = useParams<{ guildId: string }>();
+  const bindUpdateSettingAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
     resolver: zodResolver(reportSettingFormSchema),
@@ -62,7 +63,7 @@ export function SettingForm({ setting, ...props }: Props) {
   });
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
-    const res = await updateReportSettingAction({ guildId, ...values });
+    const res = await bindUpdateSettingAction(values);
     const error = !res?.data?.success;
 
     if (error) {
