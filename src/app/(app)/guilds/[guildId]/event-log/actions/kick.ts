@@ -33,9 +33,12 @@ export const updateSettingAction = guildActionClient
       });
 
       revalidatePath('/');
-
-      return { success: true };
-    } catch {
-      return { success: false };
+    } catch (e) {
+      if (e instanceof Error) {
+        console.error(e);
+        return {
+          error: e.message,
+        };
+      }
     }
   });

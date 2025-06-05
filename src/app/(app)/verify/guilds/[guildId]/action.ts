@@ -21,7 +21,7 @@ export const verifyAction = userActionClient
 
       await verifyTurnstileToken(turnstileToken);
       await addGuildMemberRole(guild.id, setting.role, ctx.session?.user.id as string);
-    } catch (e: unknown) {
+    } catch (e) {
       if (e instanceof Error) {
         console.error(e);
         return {
