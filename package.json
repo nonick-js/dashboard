@@ -23,7 +23,7 @@
     "discord-snowflake": "^2.0.0",
     "drizzle-kit": "^0.31.0",
     "drizzle-orm": "^0.41.0",
-    "drizzle-zod": "^0.7.1",
+    "drizzle-zod": "^0.8.2",
     "framer-motion": "^12.6.3",
     "i18next": "^24.2.3",
     "lru-cache": "^11.1.0",
@@ -40,7 +40,7 @@
     "react-hook-form": "^7.55.0",
     "react-use-wizard": "^2.3.0",
     "server-only": "^0.0.1",
-    "zod": "^3.24.2",
+    "zod": "^3.25.32",
     "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
