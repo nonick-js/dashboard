@@ -8,7 +8,6 @@ import { ForumTagsSelect } from '@/components/react-hook-form/forum-tag-select';
 import { RoleSelect } from '@/components/react-hook-form/role-select';
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import type { z } from '@/lib/database/src/lib/i18n';
 import { filterValidIds } from '@/lib/discord/utils';
 import { Alert, addToast, cn } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -23,6 +22,7 @@ import {
 import { useParams } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
+import type { z } from 'zod';
 import { updateSettingAction } from './action';
 import { settingFormSchema } from './schema';
 

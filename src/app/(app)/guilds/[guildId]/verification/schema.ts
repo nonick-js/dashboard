@@ -1,6 +1,6 @@
-﻿import { createInsertSchema } from '@/lib/database/src/lib/drizzle';
-import { verificationSetting } from '@/lib/database/src/schema/setting';
-import { snowflakeRegex } from '@/lib/database/src/utils/zod/discord';
+﻿import { verificationSetting } from '@/lib/database/src/schema/setting';
+import { snowflakeRegex } from '@/lib/zod/discord/constants';
+import { createInsertSchema } from '@/lib/zod/drizzle';
 import { z } from 'zod';
 
 export const settingFormSchema = createInsertSchema(verificationSetting, {
