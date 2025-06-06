@@ -10,36 +10,27 @@ import { settingFormSchema } from '../schemas/message-edit';
 export const updateSettingAction = guildActionClient
   .inputSchema(settingFormSchema)
   .action(async ({ parsedInput, bindArgsParsedInputs, ctx }) => {
-    try {
-      if (!ctx.session) throw new Error('Unauthorized');
-      const guildId = bindArgsParsedInputs[0];
+    if (!ctx.session) throw new Error('Unauthorized');
+    const guildId = bindArgsParsedInputs[0];
 
-      const oldValue = await db.query.msgEditLogSetting.findFirst({
-        where: (setting, { eq }) => eq(setting.guildId, guildId),
-      });
+    const oldValue = await db.query.msgEditLogSetting.findFirst({
+      where: (setting, { eq }) => eq(setting.guildId, guildId),
+    });
 
-      const [newValue] = await db
-        .insert(msgEditLogSetting)
-        .values({ guildId, ...parsedInput })
-        .onConflictDoUpdate({ target: msgEditLogSetting.guildId, set: parsedInput })
-        .returning();
+    const [newValue] = await db
+      .insert(msgEditLogSetting)
+      .values({ guildId, ...parsedInput })
+      .onConflictDoUpdate({ target: msgEditLogSetting.guildId, set: parsedInput })
+      .returning();
 
-      await db.insert(auditLog).values({
-        guildId: guildId,
-        authorId: ctx.session.user.id,
-        targetName: 'message_edit_log',
-        actionType: 'update_guild_setting',
-        oldValue,
-        newValue,
-      });
+    await db.insert(auditLog).values({
+      guildId: guildId,
+      authorId: ctx.session.user.id,
+      targetName: 'message_edit_log',
+      actionType: 'update_guild_setting',
+      oldValue,
+      newValue,
+    });
 
-      revalidatePath('/');
-    } catch (e) {
-      if (e instanceof Error) {
-        console.error(e);
-        return {
-          error: e.message,
-        };
-      }
-    }
+    revalidatePath('/');
   });

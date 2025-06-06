@@ -97,8 +97,7 @@ function CaptchaStep() {
 
   const onSubmit: SubmitHandler<FormOutputSchema> = async (values) => {
     const res = await bindAction(values);
-
-    if (res.data?.error) {
+    if (res.serverError || res.validationErrors) {
       goToStep(0);
       return addToast({
         title: '認証中に問題が発生しました',

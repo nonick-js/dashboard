@@ -42,7 +42,7 @@ export function VoiceLogSettingForm({ setting, onFormChange }: Props) {
 
   const onSubmit: SubmitHandler<OutputSetting> = async (values) => {
     const res = await bindAction(values);
-    if (res.data?.error) {
+    if (res.serverError || res.validationErrors) {
       return addToast({
         title: '送信中に問題が発生しました',
         description: '時間を置いてもう一度送信してください。',
