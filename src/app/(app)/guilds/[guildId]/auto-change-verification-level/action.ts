@@ -9,34 +9,25 @@ import { settingFormSchema } from './schema';
 export const updateSettingAction = guildActionClient
   .inputSchema(settingFormSchema)
   .action(async ({ parsedInput, bindArgsParsedInputs, ctx }) => {
-    try {
-      if (!ctx.session) throw new Error('Unauthorized');
-      const guildId = bindArgsParsedInputs[0];
+    if (!ctx.session) throw new Error('Unauthorized');
+    const guildId = bindArgsParsedInputs[0];
 
-      const oldValue = await db.query.autoChangeVerifyLevelSetting.findFirst({
-        where: (setting, { eq }) => eq(setting.guildId, guildId),
-      });
+    const oldValue = await db.query.autoChangeVerifyLevelSetting.findFirst({
+      where: (setting, { eq }) => eq(setting.guildId, guildId),
+    });
 
-      const [newValue] = await db
-        .insert(autoChangeVerifyLevelSetting)
-        .values({ guildId, ...parsedInput })
-        .onConflictDoUpdate({ target: autoChangeVerifyLevelSetting.guildId, set: parsedInput })
-        .returning();
+    const [newValue] = await db
+      .insert(autoChangeVerifyLevelSetting)
+      .values({ guildId, ...parsedInput })
+      .onConflictDoUpdate({ target: autoChangeVerifyLevelSetting.guildId, set: parsedInput })
+      .returning();
 
-      await db.insert(auditLog).values({
-        guildId: guildId,
-        authorId: ctx.session.user.id,
-        targetName: 'auto_change_verify_level',
-        actionType: 'update_guild_setting',
-        oldValue,
-        newValue,
-      });
-    } catch (e) {
-      if (e instanceof Error) {
-        console.error(e);
-        return {
-          error: e.message,
-        };
-      }
-    }
+    await db.insert(auditLog).values({
+      guildId: guildId,
+      authorId: ctx.session.user.id,
+      targetName: 'auto_change_verify_level',
+      actionType: 'update_guild_setting',
+      oldValue,
+      newValue,
+    });
   });
