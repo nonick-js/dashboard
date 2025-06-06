@@ -1,13 +1,14 @@
 ﻿'use server';
 
 import { auditLog } from '@/lib/database/src/schema/audit-log';
-import { msgEditLogSetting, msgEditLogSettingSchema } from '@/lib/database/src/schema/setting';
+import { msgEditLogSetting } from '@/lib/database/src/schema/setting';
 import { db } from '@/lib/drizzle';
 import { guildActionClient } from '@/lib/safe-action/client';
 import { revalidatePath } from 'next/cache';
+import { settingFormSchema } from '../schemas/message-edit';
 
 export const updateSettingAction = guildActionClient
-  .inputSchema(msgEditLogSettingSchema.form)
+  .inputSchema(settingFormSchema)
   .action(async ({ parsedInput, bindArgsParsedInputs, ctx }) => {
     try {
       if (!ctx.session) throw new Error('Unauthorized');

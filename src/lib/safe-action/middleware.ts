@@ -4,9 +4,9 @@ import type { Session } from 'next-auth';
 import { createMiddleware } from 'next-safe-action';
 import pc from 'picocolors';
 import { auth } from '../auth';
-import { snowflake } from '../database/src/utils/zod/discord';
 import { hasDashboardAccessPermission } from '../permission';
 import rateLimit from '../rate-limit';
+import { snowflake } from '../zod/discord';
 import { ActionClientError } from './client';
 
 const limiter = rateLimit({

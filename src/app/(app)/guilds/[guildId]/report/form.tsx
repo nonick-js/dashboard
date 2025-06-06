@@ -24,10 +24,10 @@ import { useParams } from 'next/navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import { updateSettingAction } from './action';
-import { reportSettingFormSchema } from './schema';
+import { settingFormSchema } from './schema';
 
-type InputSetting = z.input<typeof reportSettingFormSchema>;
-type OutputSetting = z.output<typeof reportSettingFormSchema>;
+type InputSetting = z.input<typeof settingFormSchema>;
+type OutputSetting = z.output<typeof settingFormSchema>;
 
 type Props = {
   channels: APIGuildChannel<GuildChannelType>[];
@@ -45,7 +45,7 @@ export function SettingForm({ setting, ...props }: Props) {
   const bindUpdateSettingAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(reportSettingFormSchema),
+    resolver: zodResolver(settingFormSchema),
     defaultValues: setting
       ? {
           ...setting,

@@ -1,13 +1,14 @@
 ﻿'use server';
 
 import { auditLog } from '@/lib/database/src/schema/audit-log';
-import { banLogSetting, banLogSettingSchema } from '@/lib/database/src/schema/setting';
+import { banLogSetting } from '@/lib/database/src/schema/setting';
 import { db } from '@/lib/drizzle';
 import { guildActionClient } from '@/lib/safe-action/client';
 import { revalidatePath } from 'next/cache';
+import { settingFormSchema } from '../schemas/ban';
 
 export const updateSettingAction = guildActionClient
-  .inputSchema(banLogSettingSchema.form)
+  .inputSchema(settingFormSchema)
   .action(async ({ parsedInput, bindArgsParsedInputs, ctx }) => {
     try {
       if (!ctx.session) throw new Error('Unauthorized');

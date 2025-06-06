@@ -8,7 +8,6 @@ import { AuthorWrapper } from '@/components/react-hook-form/discord-message';
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
 import { ControlledTextarea } from '@/components/react-hook-form/ui/textarea';
-import { leaveMessageSettingSchema } from '@/lib/database/src/schema/setting';
 import { Alert, Card, Link, addToast, cn } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type APIGuildChannel, ChannelType, type GuildChannelType } from 'discord-api-types/v10';
@@ -17,9 +16,10 @@ import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
 import { updateSettingAction } from './action';
+import { settingFormSchema } from './schema';
 
-type InputSetting = z.input<typeof leaveMessageSettingSchema.form>;
-type OutputSetting = z.output<typeof leaveMessageSettingSchema.form>;
+type InputSetting = z.input<typeof settingFormSchema>;
+type OutputSetting = z.output<typeof settingFormSchema>;
 
 type Props = {
   channels: APIGuildChannel<GuildChannelType>[];
@@ -35,7 +35,7 @@ export function SettingForm({ setting, ...props }: Props) {
   const bindAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(leaveMessageSettingSchema.form),
+    resolver: zodResolver(settingFormSchema),
     defaultValues: {
       enabled: setting?.enabled ?? false,
       ignoreBot: setting?.ignoreBot ?? false,

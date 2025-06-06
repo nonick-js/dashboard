@@ -2,7 +2,8 @@
 
 import { DEFAULT_SERVER_ERROR_MESSAGE, createSafeActionClient } from 'next-safe-action';
 import pc from 'picocolors';
-import { type ZodString, z } from 'zod';
+import type { ZodString } from 'zod';
+import { snowflake } from '../zod/discord';
 import { authMiddleware, guildPermissionMiddleware, logMiddleware } from './middleware';
 
 export class ActionClientError extends Error {}
@@ -14,7 +15,7 @@ export const guildActionClient = createSafeActionClient({
     return DEFAULT_SERVER_ERROR_MESSAGE;
   },
 })
-  .bindArgsSchemas<[guildId: ZodString]>([z.string()])
+  .bindArgsSchemas<[guildId: ZodString]>([snowflake])
   .use(logMiddleware)
   .use(authMiddleware)
   .use(guildPermissionMiddleware);
@@ -26,6 +27,6 @@ export const userActionClient = createSafeActionClient({
     return DEFAULT_SERVER_ERROR_MESSAGE;
   },
 })
-  .bindArgsSchemas<[guildId: ZodString]>([z.string()])
+  .bindArgsSchemas<[guildId: ZodString]>([snowflake])
   .use(logMiddleware)
   .use(authMiddleware);

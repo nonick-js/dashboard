@@ -15,10 +15,10 @@ import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
 import { updateSettingAction } from './action';
-import { verificationSettingFormSchema } from './schema';
+import { settingFormSchema } from './schema';
 
-type InputSetting = z.input<typeof verificationSettingFormSchema>;
-type OutputSetting = z.output<typeof verificationSettingFormSchema>;
+type InputSetting = z.input<typeof settingFormSchema>;
+type OutputSetting = z.output<typeof settingFormSchema>;
 
 type Props = {
   roles: APIRole[];
@@ -36,7 +36,7 @@ export function SettingForm({ setting, ...props }: Props) {
   const bindAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(verificationSettingFormSchema),
+    resolver: zodResolver(settingFormSchema),
     defaultValues: {
       enabled: !!setting?.enabled,
       role: setting?.role ?? null,

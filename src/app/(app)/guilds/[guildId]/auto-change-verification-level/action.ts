@@ -1,15 +1,13 @@
 ﻿'use server';
 
 import { auditLog } from '@/lib/database/src/schema/audit-log';
-import {
-  autoChangeVerifyLevelSetting,
-  autoChangeVerifyLevelSettingSchema,
-} from '@/lib/database/src/schema/setting';
+import { autoChangeVerifyLevelSetting } from '@/lib/database/src/schema/setting';
 import { db } from '@/lib/drizzle';
 import { guildActionClient } from '@/lib/safe-action/client';
+import { settingFormSchema } from './schema';
 
 export const updateSettingAction = guildActionClient
-  .inputSchema(autoChangeVerifyLevelSettingSchema.form)
+  .inputSchema(settingFormSchema)
   .action(async ({ parsedInput, bindArgsParsedInputs, ctx }) => {
     try {
       if (!ctx.session) throw new Error('Unauthorized');

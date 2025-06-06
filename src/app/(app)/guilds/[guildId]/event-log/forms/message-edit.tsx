@@ -5,7 +5,6 @@ import { ChannelSelect } from '@/components/react-hook-form/channel-select';
 import { FormDevTool } from '@/components/react-hook-form/devtool';
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { msgEditLogSettingSchema } from '@/lib/database/src/schema/setting';
 import { addToast } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChannelType } from 'discord-api-types/v10';
@@ -15,9 +14,10 @@ import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hoo
 import type { z } from 'zod';
 import { updateSettingAction } from '../actions/message-edit';
 import { PropsContext } from '../form-container';
+import { settingFormSchema } from '../schemas/message-edit';
 
-type InputSetting = z.input<typeof msgEditLogSettingSchema.form>;
-type OutputSetting = z.output<typeof msgEditLogSettingSchema.form>;
+type InputSetting = z.input<typeof settingFormSchema>;
+type OutputSetting = z.output<typeof settingFormSchema>;
 
 type Props = {
   setting: OutputSetting | null;
@@ -29,7 +29,7 @@ export function MsgEditLogSettingForm({ setting, onFormChange }: Props) {
   const bindAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(msgEditLogSettingSchema.form),
+    resolver: zodResolver(settingFormSchema),
     defaultValues: {
       enabled: setting?.enabled ?? false,
       channel: setting?.channel ?? null,

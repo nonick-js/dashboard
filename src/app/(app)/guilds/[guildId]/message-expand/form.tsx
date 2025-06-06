@@ -8,7 +8,6 @@ import { ControlledCheckboxGroup } from '@/components/react-hook-form/ui/checkbo
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSelect } from '@/components/react-hook-form/ui/select';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { ignorePrefixes, msgExpandSettingSchema } from '@/lib/database/src/schema/setting';
 import { filterValidIds } from '@/lib/discord/utils';
 import { Chip, SelectItem, addToast } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,9 +18,10 @@ import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hoo
 import type { z } from 'zod';
 import { updateSettingAction } from './action';
 import { CustomCheckbox } from './custom-checkbox';
+import { ignorePrefixes, settingFormSchema } from './schema';
 
-type InputSetting = z.input<typeof msgExpandSettingSchema.form>;
-type OutputSetting = z.output<typeof msgExpandSettingSchema.form>;
+type InputSetting = z.input<typeof settingFormSchema>;
+type OutputSetting = z.output<typeof settingFormSchema>;
 
 type Props = {
   channels: APIGuildChannel<GuildChannelType>[];
@@ -37,7 +37,7 @@ export function SettingForm({ setting, ...props }: Props) {
   const bindUpdateSettingAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(msgExpandSettingSchema.form),
+    resolver: zodResolver(settingFormSchema),
     defaultValues: {
       enabled: setting?.enabled ?? false,
       allowExternalGuild: setting?.allowExternalGuild ?? false,

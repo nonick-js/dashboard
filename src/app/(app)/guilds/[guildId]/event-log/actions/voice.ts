@@ -1,13 +1,14 @@
 ﻿'use server';
 
 import { auditLog } from '@/lib/database/src/schema/audit-log';
-import { voiceLogSetting, voiceLogSettingSchema } from '@/lib/database/src/schema/setting';
+import { voiceLogSetting } from '@/lib/database/src/schema/setting';
 import { db } from '@/lib/drizzle';
 import { guildActionClient } from '@/lib/safe-action/client';
 import { revalidatePath } from 'next/cache';
+import { settingFormSchema } from '../schemas/voice';
 
 export const updateSettingAction = guildActionClient
-  .inputSchema(voiceLogSettingSchema.form)
+  .inputSchema(settingFormSchema)
   .action(async ({ parsedInput, bindArgsParsedInputs, ctx }) => {
     try {
       if (!ctx.session) throw new Error('Unauthorized');

@@ -8,7 +8,6 @@ import { RoleSelect } from '@/components/react-hook-form/role-select';
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
 import { ControlledArrayTextarea } from '@/components/react-hook-form/ui/textarea';
-import { autoModSettingSchema } from '@/lib/database/src/schema/setting';
 import { filterValidIds } from '@/lib/discord/utils';
 import { Alert, addToast, cn } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -23,9 +22,10 @@ import { createContext, useContext } from 'react';
 import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hook-form';
 import type { z } from 'zod';
 import { updateSettingAction } from './action';
+import { settingFormSchema } from './schema';
 
-type InputSetting = z.input<typeof autoModSettingSchema.form>;
-type OutputSetting = z.output<typeof autoModSettingSchema.form>;
+type InputSetting = z.input<typeof settingFormSchema>;
+type OutputSetting = z.output<typeof settingFormSchema>;
 
 type Props = {
   channels: APIGuildChannel<GuildChannelType>[];
@@ -43,7 +43,7 @@ export function SettingForm({ setting, ...props }: Props) {
   const bindAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(autoModSettingSchema.form),
+    resolver: zodResolver(settingFormSchema),
     defaultValues: {
       enabled: setting?.enabled ?? false,
       enableInviteUrlFilter: setting?.enableInviteUrlFilter ?? false,

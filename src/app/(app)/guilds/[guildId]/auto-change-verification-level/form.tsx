@@ -7,7 +7,6 @@ import { FormDevTool } from '@/components/react-hook-form/devtool';
 import { ControlledForm } from '@/components/react-hook-form/ui/form';
 import { ControlledRadioGroup } from '@/components/react-hook-form/ui/radio';
 import { ControlledSwitch } from '@/components/react-hook-form/ui/switch';
-import { autoChangeVerifyLevelSettingSchema } from '@/lib/database/src/schema/setting';
 import { Radio, type RadioProps, addToast, cn } from '@heroui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -22,9 +21,10 @@ import { type SubmitHandler, useForm, useFormContext, useWatch } from 'react-hoo
 import type { z } from 'zod';
 import { updateSettingAction } from './action';
 import { ControlledHourInput } from './hour-input';
+import { settingFormSchema } from './schema';
 
-type InputSetting = z.input<typeof autoChangeVerifyLevelSettingSchema.form>;
-type OutputSetting = z.output<typeof autoChangeVerifyLevelSettingSchema.form>;
+type InputSetting = z.input<typeof settingFormSchema>;
+type OutputSetting = z.output<typeof settingFormSchema>;
 
 type Props = {
   channels: APIGuildChannel<GuildChannelType>[];
@@ -40,7 +40,7 @@ export function SettingForm({ setting, ...props }: Props) {
   const bindUpdateSettingAction = updateSettingAction.bind(null, guildId);
 
   const form = useForm<InputSetting, unknown, OutputSetting>({
-    resolver: zodResolver(autoChangeVerifyLevelSettingSchema.form),
+    resolver: zodResolver(settingFormSchema),
     defaultValues: {
       enabled: setting?.enabled ?? false,
       level: String(setting?.level ? setting.level : GuildVerificationLevel.Low),
