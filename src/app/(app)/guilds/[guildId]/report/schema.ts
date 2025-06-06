@@ -1,8 +1,8 @@
-﻿import { createInsertSchema } from '@/lib/database/src/lib/drizzle';
-import { reportSetting } from '@/lib/database/src/schema/setting';
-import { isUniqueArray } from '@/lib/database/src/utils/zod';
-import { snowflakeRegex } from '@/lib/database/src/utils/zod/discord';
+﻿import { reportSetting } from '@/lib/database/src/schema/setting';
+import { snowflakeRegex } from '@/lib/zod/discord/constants';
+import { createInsertSchema } from '@/lib/zod/drizzle';
 import { z } from '@/lib/zod/i18n';
+import { isUniqueArray } from '@/lib/zod/utils';
 
 export const settingFormSchema = createInsertSchema(reportSetting, {
   channel: (schema) => schema.regex(snowflakeRegex),
